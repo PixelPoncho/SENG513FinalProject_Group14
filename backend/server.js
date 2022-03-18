@@ -4,26 +4,54 @@ const app = express();
 const { createServer } = require("http");
 const server = createServer(app);
 
+const classRooms = [
+    {
+        id_: "room1",
+        name: "Science10",
+        teacher: "jane@school.com" 
+    },
+    {
+        id_: "room2",
+        name: "Science20",
+        teacher: "jane@school.com" 
+    },
+    {
+        id_: "room3",
+        name: "Science30",
+        teacher: "jane@school.com" 
+    }
+];
+
 const { instantiateClassRoom } = require("./utils/setupFunctions.js");
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const gameServer = new Server({
     server,
 });
 
 app.get('/', (req, res) => {
-    // const reservation = instantiateClassRoom({ 
-    //     className: "Science10", 
-    //     teacher: "TestTeacher", 
-    //     classId: "testclassid" 
-    // });
-    res.sendFile(__dirname, "/public/index.html");
+    res.send("Hello World!");
 });
 
-server.listen(3000, () => {
-    console.log('listening on http://localhost:3000');
+app.get('/login', (req, res) => {
+    res.sendFile(__dirname+"/public/fakeLogin/index.html");
 });
 
-gameServer.listen(3001);
-console.log("Listening on ws://localhost:3001");
+app.get('/join', (req, res) => {
+    res.sendFile(__dirname+"/public/fakeJoin/index.html");
+});
+
+app.get('/room/:roomId', (req, res) => {
+    res.sendFile(__dirname+"/public/fakeClassroom/index.html");
+});
+
+app.post('/startClassRoom/:roomId', (req, res) => {
+    const roomId = req.params.id;
+    instantiateClassRoom(roomId);
+    res.redirect(`/rooms/${roomId}`);
+});
+
+gameServer.listen(3000);
+console.log("Listening on http://localhost:3000");
