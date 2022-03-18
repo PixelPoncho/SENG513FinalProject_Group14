@@ -1,6 +1,5 @@
 import typeorm from "typeorm";
 import sqlite3 from "sqlite3";
-import User from "./models/User.mjs";
 
 const DataSource = new typeorm.DataSource({
     type: "sqlite",
