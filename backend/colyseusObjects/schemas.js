@@ -3,10 +3,7 @@ import { Room, Client } from "colyseus";
 import { Schema, MapSchema } from "@colyseus/schema";
 
 export class User extends Schema {
-    x: number;
-    y: number;
-    name: string;
-    constructor(name: string, x: number = 0, y: number = 0) {
+    constructor(name, x = 0, y = 0) {
         super();
         this.x = x;
         this.y = y;
@@ -15,35 +12,36 @@ export class User extends Schema {
 }
 
 export class State extends Schema {
-    users: MapSchema<User>;
     constructor() {
         super();
         this.users = new MapSchema<User>();
     }
 
-    addUser(sessionId: string, name: string) {
+    addUser(sessionId, name) {
         this.users.set(sessionId, new User(name));
     }
     
-    removeUser(sessionId: string) {
+    removeUser(sessionId) {
         this.users.delete(sessionId);
     }
 
-    moveUser(sessionId: string, x: number, y: number) {
+    moveUser(sessionId, x, y) {
         const user = this.users.get(sessionId);
         user.x = x;
         user.y = y
     }
 }
 
-export class ClassRoom extends Room<State> {
+export class ClassRoom extends Room {
     maxClients = 20;
 
-    onCreate(options: any) {
+    onCreate(options) {
         console.log("ClassRoom created ", options);
-        this.setMetadata({ teacher: "TestTeacher"});
+        const { className, teacher, classId } = options;
+        // consider just passing in options
+        this.setMetadata({ className, teacher, classId });
         this.setState(new State());
-
+        console.log(this.metadata);
         this.onMessage("chat", (client, message) => {
             console.log(`chat from ${client.sessionId} saying ${message}`);
         });
@@ -51,23 +49,23 @@ export class ClassRoom extends Room<State> {
         // this.setSimulationInterval((deltaTime) => this.update(deltaTime));
     }
 
-    // update(deltaTime: number) {
+    // update(deltaTime) {
     //     // implement your physics or world updates here!
     //     // this is a good place to update the room state
     // }
 
     // use this to validate that the client is selecting something
     // that it should actually have access to
-    onAuth(client: Client, options: any, req: http.IncomingMessage) {
+    onAuth(client, options, req) {
         return true;
     }
 
-    onJoin(client: Client, options: any, auth: any) {
+    onJoin(client, options, auth) {
         const { name } = options;
         this.state.addUser(client.sessionId, name);
     }
 
-    onLeave(client: Client) {
+    onLeave(client) {
         this.state.removeUser(client.sessionId);
     }
 
