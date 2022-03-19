@@ -19,7 +19,14 @@ const UserRepoPromise = new Promise(async resolve => {
    resolve(repo);
 });
 
+const ClassroomRepoPromise = new Promise(async resolve => {
+   const connection = await db;
+   const repo = connection.getRepository("Classroom");
+   resolve(repo);
+});
+
 export {
     db,
-    UserRepoPromise
+    UserRepoPromise,
+    ClassroomRepoPromise
 };
