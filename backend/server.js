@@ -3,26 +3,26 @@ const express = require("express");
 const app = express();
 const { createServer } = require("http");
 const server = createServer(app);
+const { ClassRoom } = require("./colyseusObjects/schemas");
+const { startClassRoom } = require("./colyseusObjects/setupFunctions.js");
 
 const classRooms = [
     {
-        id_: "room1",
-        name: "Science10",
+        classId: "room1",
+        className: "Science10",
         teacher: "jane@school.com" 
     },
     {
-        id_: "room2",
-        name: "Science20",
+        classId: "room2",
+        className: "Science20",
         teacher: "jane@school.com" 
     },
     {
-        id_: "room3",
-        name: "Science30",
+        classId: "room3",
+        className: "Science30",
         teacher: "jane@school.com" 
     }
 ];
-
-const { instantiateClassRoom } = require("./utils/setupFunctions.js");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -30,27 +30,30 @@ app.use(express.urlencoded({ extended: true }));
 const gameServer = new Server({
     server,
 });
+gameServer.define('classroom', ClassRoom).filterBy(['classId']);
+
 
 app.get('/', (req, res) => {
     res.send("Hello World!");
 });
 
 app.get('/login', (req, res) => {
-    res.sendFile(__dirname+"/public/fakeLogin/index.html");
+    res.sendFile(__dirname+"/public/fakeLogin/login.html");
 });
 
 app.get('/join', (req, res) => {
-    res.sendFile(__dirname+"/public/fakeJoin/index.html");
+    res.sendFile(__dirname+"/public/fakeJoin/join.html");
 });
 
 app.get('/room/:roomId', (req, res) => {
-    res.sendFile(__dirname+"/public/fakeClassroom/index.html");
+    res.sendFile(__dirname+"/public/fakeClassroom/classroom.html");
 });
 
 app.post('/startClassRoom/:roomId', (req, res) => {
-    const roomId = req.params.id;
-    instantiateClassRoom(roomId);
-    res.redirect(`/rooms/${roomId}`);
+    const roomId = req.params.roomId;
+    const room = startClassRoom(classRooms.find(classRoom => classRoom.classId === roomId));
+    console.log(`started room ${roomId}: ${room}`);
+    res.redirect(`/room/${roomId}`);
 });
 
 gameServer.listen(3000);

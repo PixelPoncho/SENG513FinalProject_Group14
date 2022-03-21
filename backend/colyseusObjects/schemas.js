@@ -1,8 +1,7 @@
-import http from "http";
-import { Room, Client } from "colyseus";
-import { Schema, MapSchema } from "@colyseus/schema";
+const { Room } = require("colyseus");
+const { Schema, MapSchema } = require("@colyseus/schema");
 
-export class User extends Schema {
+class User extends Schema {
     constructor(name, x = 0, y = 0) {
         super();
         this.x = x;
@@ -11,10 +10,10 @@ export class User extends Schema {
     }
 }
 
-export class State extends Schema {
+class State extends Schema {
     constructor() {
         super();
-        this.users = new MapSchema<User>();
+        this.users = new MapSchema();
     }
 
     addUser(sessionId, name) {
@@ -32,16 +31,14 @@ export class State extends Schema {
     }
 }
 
-export class ClassRoom extends Room {
+class ClassRoom extends Room {
     maxClients = 20;
 
     onCreate(options) {
         console.log("ClassRoom created ", options);
-        const { className, teacher, classId } = options;
-        // consider just passing in options
-        this.setMetadata({ className, teacher, classId });
+        const { classId, className, teacher } = options;
+        this.setMetadata({ classId, className, teacher });
         this.setState(new State());
-        console.log(this.metadata);
         this.onMessage("chat", (client, message) => {
             console.log(`chat from ${client.sessionId} saying ${message}`);
         });
@@ -73,3 +70,5 @@ export class ClassRoom extends Room {
         console.log('Nobody is here, learn to shut this down');
     }
 }
+
+module.exports = { User, State, ClassRoom };
