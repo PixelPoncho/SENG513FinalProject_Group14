@@ -68,3 +68,34 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+# Interacting with the SQLite database
+
+The primary way of interacting with the SQLite database is currently through the ORM "TypeORM". TypeORM models are defined within the `models/` directory. They are currently implemented as javascript modules which is why they have the `.mjs` extension. The file `db.mjs` is the main module you should use to interact with the ORM, it sets up the connection and configuration of the ORM as well as provides simplified access to the repositories for each model which you use to create/search/query the models. Here is some sample code demonstrating the basic usage of TypeORM in our project.
+
+```
+import User from "./models/User.mjs";
+import Classroom from "./models/Classroom.mjs";
+import {UserRepoPromise, ClassroomRepoPromise} from "./db.mjs";
+
+(async function() {
+    const UserRepo = await UserRepoPromise;
+    const ClassroomRepo = await ClassroomRepoPromise;
+
+    const user = {
+        name: "bob",
+        email: "bob@example.net",
+        password: "password"
+    };
+    await UserRepo.save(user);
+
+    const classroom = {
+        name: "seng 513",
+        teacher: user.id
+    }
+
+    await ClassroomRepo.save(classroom);
+    console.log(classroom);
+})();
+
+```
