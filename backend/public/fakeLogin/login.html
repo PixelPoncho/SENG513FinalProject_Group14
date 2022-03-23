@@ -9,19 +9,50 @@
 <body>
     <h1>Test Login</h1>
 
-    <form id="classOne" action="/startClassRoom/room1" method="POST">
+    <form id="classOne" action="/rooms/StartRoom/room1" method="GET">
         <button>Start Classroom One</button>
     </form>
 
-    <form id="classTwo" action="/startClassRoom/room2" method="POST">
+    <form id="classOneJoin" action="/rooms/JoinRoom/room1" method="GET">
+        <button>Join Classroom One</button>
+    </form>
+
+    <!-- <form id="classTwo" action="/startClassRoom/room2" method="POST">
         <button>Start Classroom Two</button>
     </form>
 
     <form id="classThree" action="/startClassRoom/room3" method="POST">
         <button>Start Classroom Three</button>
-    </form>
+    </form> -->
 
     
-    <script src="./login.js"></script>
+    <!-- <script>
+        const formOne = document.getElementById('classOne');
+        const formOneJoin = document.getElementById('classOneJoin');
+
+        const startClassRoom = async (roomId, isNew) => {
+            const host = (window.document.location.host || "localhost").replace(/:.*/, '');
+            const url = 'http://' + host + `:3000/startClassRoom/${roomId}?isNew=${isNew}`;
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+            return response.json();
+        };
+
+        formOne.addEventListener('submit', function(e) {
+            e.preventDefault();
+            // start the next classroom
+            const { reservation } = startClassRoom("room1", "true");
+        });
+
+        formOneJoin.addEventListener('submit', function(e) {
+            e.preventDefault();
+            // start the next classroom
+            const { reservation } = startClassRoom("room1", "false");
+        });
+    </script> -->
 </body>
 </html>

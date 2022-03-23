@@ -1,17 +1,18 @@
-const joinClassRoom = async (classId) => {
-    return await client.join("classroom", { classId });
-};
+// const joinClassRoom = async (classId) => {
+//     return await client.join("classroom", { classId });
+// };
 
-console.log("Hello World");
+// var host = (window.document.location.host || "localhost").replace(/:.*/, '');
+// console.log(host);
+// var classId = window.document.location.href.split("/").at(-1);
+// console.log(classId);
+// var client = new Colyseus.Client('ws://' + host + ':3000');
+// var room = joinClassRoom(classId);
+// console.log(room);
 
-var host = (window.document.location.host || "localhost").replace(/:.*/, '');
-console.log(host);
-var classId = window.document.location.href.split("/").at(-1);
-console.log(classId);
-var client = new Colyseus.Client('ws://' + host + ':3000');
-var room = joinClassRoom(classId);
-console.log(room);
-
+$(window).on("load", function () {
+    console.log("Hello World");
+});
 
 
 // $(window).on("load", function() {

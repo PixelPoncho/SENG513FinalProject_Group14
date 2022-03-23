@@ -36,37 +36,38 @@ class ClassRoom extends Room {
 
     onCreate(options) {
         console.log("ClassRoom created ", options);
-        const { classId, className, teacher } = options;
-        this.setMetadata({ classId, className, teacher });
+        const { classId, className, owner } = options;
+        this.roomId = classId;
+        this.setMetadata({ className, owner });
         this.setState(new State());
         this.onMessage("chat", (client, message) => {
             console.log(`chat from ${client.sessionId} saying ${message}`);
+            this.broadcast("messages", client.name, message);
         });
-
-        // this.setSimulationInterval((deltaTime) => this.update(deltaTime));
     }
 
-    // update(deltaTime) {
-    //     // implement your physics or world updates here!
-    //     // this is a good place to update the room state
-    // }
-
-    // use this to validate that the client is selecting something
-    // that it should actually have access to
     onAuth(client, options, req) {
+        // make sure this user (in req.session.username) is allowed to join this room
+        // this room is specified by this.roomId
+        // or just make sure they arent banned I guess depending on how this is handled
         return true;
     }
 
     onJoin(client, options, auth) {
+        // consider handling this differently
+        // like using req.session in auth and then changing the auth
+        // params to like the options from the database
         const { name } = options;
         this.state.addUser(client.sessionId, name);
     }
 
     onLeave(client) {
+        // save any information we want to make persistent
         this.state.removeUser(client.sessionId);
     }
 
     onDispose() {
+        // this should probably be fine
         console.log('Nobody is here, learn to shut this down');
     }
 }
