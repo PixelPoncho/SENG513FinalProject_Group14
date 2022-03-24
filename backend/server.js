@@ -11,6 +11,7 @@ const { Server } = require("colyseus");
 // custom imports
 const { ClassRoom } = require("./src/colyseus/schemas");
 const catchAsync = require("./src/utils/catchAsync");
+const { UserRepoPromise } = require("../db.js");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -46,21 +47,52 @@ const checkUserLogin = (req, res, next) => {
 	}
 	next();
 };
-app.post("/users/login", (req, res) => {
-	const { username, password } = req.body;
-	if(!username || !password) {
+app.post("/users/login", async (req, res) => {
+	const { email, password } = req.body;
+	if(!email || !password) {
 		res.json({ error: "Specify both username and password" });
+		return;
 	}
-	// validate the user
-	req.session.isLoggedIn = true;
-	req.session.name = username;
-	// more info here
-	res.redirect("/home");
+
+	const UserRepo = await UserRepoPromise;
+	const user = await UserRepo.findOneBy({email});
+
+	// Obviously this isn't meant to be a secure login, we just need something
+	if(user && user.password === password) {
+		// validate the user
+		req.session.isLoggedIn = true;
+		req.session.userId = user.id;
+		req.session.name = user.name;
+		res.json({user});
+	}
+	else {
+		req.session.isLoggedIn = false;
+		req.session.name = null;
+		res.json(null);
+	}
 });
-app.post("/users/createUser", (req, res) => {
-	// create a new user account
-	// make sure the username is unique
-	res.json({ error, response });
+app.post("/users/createUser", async (req, res) => {
+	const {name, email, password} = req.body;
+	const UserRepo = await UserRepoPromise;
+
+	try {
+		const user = await UserRepo.save({name, email, password});
+		res.json({user});
+	}
+	catch(ex) {
+		res.json({user: null});
+	}
+});
+app.get("/user", async (req, res) => {
+	const id = new String(req.session?.userId);
+	const UserRepo = await UserRepoPromise;
+	const user = await UserRepo.find({
+		where: {id},
+		relations: {
+			classrooms: true
+		}
+	});
+	res.json(user);
 });
 
 // handle rooms
