@@ -7,7 +7,7 @@ const DataSource = new typeorm.DataSource({
     driver: sqlite3,
     synchronize: true,
     entities: [
-        "./models/*.mjs"
+        "./models/*.js"
     ]
 });
 
