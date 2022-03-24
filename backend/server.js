@@ -11,7 +11,7 @@ const { Server } = require("colyseus");
 // custom imports
 const { ClassRoom } = require("./src/colyseus/schemas");
 const catchAsync = require("./src/utils/catchAsync");
-const { UserRepoPromise } = require("../db.js");
+const { UserRepoPromise, ClassroomRepoPromise } = require("../db.js");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -118,10 +118,18 @@ app.post("/rooms/roomStatus/:roomId", checkUserLogin, (req, res) => {
 	// check if this room is online
 	// this will be used if we want to add a user to the listed room
 });
-app.post("/rooms/createRoom", checkUserLogin, (req, res) => {
+app.post("/rooms/createRoom", checkUserLogin, async (req, res) => {
 	// handle the creation of a new classroom here
-	const {} = req.body;
-	// save room to the database
+	const { name } = req.body;
+	const ClassroomRepo = await ClassroomRepoPromise;
+
+	try {
+		const classroom = await ClassroomRepo.save({name});
+		res.json({classroom});
+	}
+	catch (e) {
+		res.json({classroom: null});
+	}
 });
 
 gameServer.listen(3000);
