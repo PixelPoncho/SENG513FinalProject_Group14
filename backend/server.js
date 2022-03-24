@@ -118,10 +118,6 @@ app.post("/rooms/roomStatus/:roomId", checkUserLogin, (req, res) => {
 	// check if this room is online
 	// this will be used if we want to add a user to the listed room
 });
-app.post("/rooms/userRooms", checkUserLogin, (req, res) => {
-	// query the database for this users rooms
-	res.json({ userRooms });
-});
 app.post("/rooms/createRoom", checkUserLogin, (req, res) => {
 	// handle the creation of a new classroom here
 	const {} = req.body;
