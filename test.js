@@ -1,6 +1,6 @@
-import User from "./models/User.mjs";
-import Classroom from "./models/Classroom.mjs";
-import {UserRepoPromise, ClassroomRepoPromise} from "./db.mjs";
+const User = require("./models/User.js");
+const Classroom = require("./models/Classroom.js");
+const {UserRepoPromise, ClassroomRepoPromise} = require("./db.js");
 
 (async function() {
     const UserRepo = await UserRepoPromise;
