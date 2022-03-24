@@ -12,12 +12,21 @@ const User = new EntitySchema({
             type: "varchar"
         },
         email:  {
-            type: "varchar"
+            type: "varchar",
+            unique: true
         },
         password: {
             type: "varchar"
         }
+    },
+    relations: {
+        classrooms: {
+            target: "Classroom",
+            type:"many-to-many",
+            joinTable: true
+        }
     }
+
 });
 
 module.exports = User;
