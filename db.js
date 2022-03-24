@@ -1,5 +1,5 @@
-import typeorm from "typeorm";
-import sqlite3 from "sqlite3";
+const typeorm = require("typeorm");
+const sqlite3 = require("sqlite3");
 
 const DataSource = new typeorm.DataSource({
     type: "sqlite",
@@ -25,7 +25,7 @@ const ClassroomRepoPromise = new Promise(async resolve => {
    resolve(repo);
 });
 
-export {
+module.exports = {
     db,
     UserRepoPromise,
     ClassroomRepoPromise

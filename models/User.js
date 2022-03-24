@@ -1,4 +1,4 @@
-import {EntitySchema} from "typeorm";
+const {EntitySchema} = require("typeorm");
 
 const User = new EntitySchema({
     name: "User",
@@ -20,4 +20,4 @@ const User = new EntitySchema({
     }
 });
 
-export default User;
+module.exports = User;
