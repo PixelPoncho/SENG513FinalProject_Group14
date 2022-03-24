@@ -83,7 +83,7 @@ app.post("/users/createUser", async (req, res) => {
 		res.json({user: null});
 	}
 });
-app.get("/user", async (req, res) => {
+app.get("/user", checkUserLogin, async (req, res) => {
 	const id = new String(req.session?.userId);
 	const UserRepo = await UserRepoPromise;
 	const user = await UserRepo.find({
