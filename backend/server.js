@@ -50,7 +50,7 @@ const checkUserLogin = (req, res, next) => {
 app.post("/users/login", async (req, res) => {
 	const { email, password } = req.body;
 	if(!email || !password) {
-		res.json({ error: "Specify both username and password" });
+		res.json({ error: "Specify both email and password" });
 		return;
 	}
 
@@ -68,7 +68,7 @@ app.post("/users/login", async (req, res) => {
 	else {
 		req.session.isLoggedIn = false;
 		req.session.name = null;
-		res.json(null);
+		res.json({error: "Email/password combination was incorrect"});
 	}
 });
 app.post("/users/createUser", async (req, res) => {
