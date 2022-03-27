@@ -26,7 +26,6 @@ const ClassroomRepoPromise = new Promise(async resolve => {
 });
 
 module.exports = {
-    db,
     UserRepoPromise,
     ClassroomRepoPromise
 };
