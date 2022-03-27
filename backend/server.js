@@ -25,7 +25,7 @@ const gameServer = new Server({
 	express: app
 });
 // gameServer.define("classroom", ClassRoom).filterBy(["classId"]);
-gameServer.define("classroom", ClassRoom);
+gameServer.define("classroom", ClassRoom).filterBy(['roomId']);
 
 // middleware
 const checkUserLogin = (req, res, next) => {

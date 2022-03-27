@@ -15,7 +15,7 @@ db.once("open", () => {
 });
 
 exports.loginUser = async (loginData) => {
-    const user = await UserData.findOne({ username: loginData.username }).populate("ownedClassRooms").populate("visitedClassRooms").populate("bannedClassRooms");
+    const user = await UserData.findOne({ username: loginData.username }).populate("ownedClassRooms visitedClassRooms bannedClassRooms");
     if(!user) return { error: "Invalid username" };
     if(loginData.password !== user.password) return { error: "Invalid password" };
     return { user };
@@ -29,15 +29,48 @@ exports.createUser = async (userData) => {
     return { user: user };
 };
 exports.getUserById = async (userId) => {
-    return await UserData.findById(userId).populate("ownedClassRooms").populate("visitedClassRooms").populate("bannedClassRooms");
+    return await UserData.findById(userId).populate("ownedClassRooms visitedClassRooms bannedClassRooms");
+};
+
+// create a delete user that goes through and deletes all the owned classrooms that user has 
+// the delete the user element from the database
+
+// exports.getUserByIdMinified = async (userId) => await UserData.findById(userId);
+
+exports.getClassRoomById = async (roomId) => await ClassRoomData.findById(roomId);
+
+exports.activateClassRoom = async (roomId) => {
+    const classRoom = await ClassRoomData.findById(roomId).populate("owner");
+    if(!classRoom) return { error: "classroom does not exist" };
+    if(classRoom.active === true) return { error: "classroom already active" };
+    classRoom.active = true;
+    await classRoom.save();
+    return { classRoom };
+};
+
+exports.deactivateClassRoom = async (roomId) => {
+    const classRoom = await ClassRoomData.findById(roomId);
+    if(!classRoom) return { error: "classroom does not exist" };
+    if(classRoom.active === false) return { error: "classroom already inactive" };
+    classRoom.active = false;
+    await classRoom.save();
+    return { classRoom };
 };
 
 exports.createClassRoom = async (userId, classRoomData) => {
     const user = await UserData.findById(userId).populate("ownedClassRooms");
+    if(!user) return { error: "Invalid userId" };
 	const existingRoom = user.ownedClassRooms.find(el => el.name === classRoomData.name);
 	if(existingRoom) return { error: "Invalid room name" };
 	const classRoom = new ClassRoomData({ ...classRoomData, active: false });
-	await classRoom.save();
+    classRoom.owner = user;
+	await classRoom.save()
+        .then((result) => {
+            user.ownedClassRooms.push(classRoom);
+            await user.save();
+        }).catch((error) => {
+            return { error };
+        });
     return { classRoom };
 };
 

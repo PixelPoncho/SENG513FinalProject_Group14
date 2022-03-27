@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
-const UserData = require("../schemas/userSchema");
-const ClassRoomData = require("../schemas/classRoomSchema");
+// const mongoose = require("mongoose");
+// const UserData = require("../schemas/userSchema");
+// const ClassRoomData = require("../schemas/classRoomSchema");
 
 // mongoose.connect("mongodb://localhost:27017/seng513", {
 // 	useNewUrlParser: true,
@@ -14,9 +14,24 @@ const ClassRoomData = require("../schemas/classRoomSchema");
 // 	console.log("Database connected");
 // });
 
+// const users = [
+//     {},
+//     {},
+//     {},
+// ];
+
+// const rooms = [
+//     {
+//         name: "Room1",
+//         owner: 
+//     },
+//     {},
+//     {}
+// ];
+
 // const seedDB = async () => {
-// 	await UserData.deleteMany({});
 //     await ClassRoomData.deleteMany({});
+// 	await UserData.deleteMany({});
 //     for(let user : users) {
 
 //     }

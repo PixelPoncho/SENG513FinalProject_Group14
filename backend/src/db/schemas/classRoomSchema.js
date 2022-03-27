@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const ClassRoomSchema = new Schema({
 	name: String,
     active: Boolean,
-    admin: {
+    owner: {
         type: Schema.Types.ObjectId,
         ref: "UserData",  
     },
