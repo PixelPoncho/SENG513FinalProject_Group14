@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema({
 	name: String,
 	username: String,
-	password: Number,
+	password: String,
     ownedClassRooms: [
         {
             type: Schema.Types.ObjectId,

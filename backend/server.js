@@ -45,7 +45,7 @@ const validateUserLogin = (req, res, next) => {
 	const { error } = userLoginSchema.validate(req.body);
 	if(error) {
 		res.status(400).json({ error: "Invalid resquest data" })
-	} 
+	}
 	next();
 };
 const validateClassRoomCreate = (req, res, next) => {
@@ -74,9 +74,13 @@ app.post(
 	"/users/createUser",
 	validateUserCreate,
 	catchAsync(async (req, res) => {
-		const { error, user } = createUser(req.body.user);
-		if(error) res.status(400).json({ error });
-		res.json({ user });
+		const { error, user } = await createUser(req.body.user);
+		if(error) {
+			res.status(400).json({ error });
+		}
+		else {
+			res.json({ user });
+		}
 	})
 );
 
