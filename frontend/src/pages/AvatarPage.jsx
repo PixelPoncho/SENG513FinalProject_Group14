@@ -16,26 +16,60 @@ import { ReactComponent as ClothesIcon } from '../assets/clothes.svg'
 import { ReactComponent as SkinIcon } from '../assets/skin.svg'
 import { ReactComponent as HairIcon } from '../assets/hair.svg'
 
+// Importing the Avatar react library
+import Avatar from 'avataaars'
+import {Piece} from "avataaars";
+
 // Importing styling
 import '../styles/AvatarPage.scss';
 
 // Customization Options available for the user to interact with. 
 // Assumed the API has a large number of options, but we're limiting what users can pick
-const SkinOptions = [
-  "#FFECE0",
-  "#F9D6C0",
-  "#F1C3A1",
-  "#A96B52",
-  "#7E4220",
-  "#4B301F"
-]
 
-const HairOptions = [];
-const ClothingOptions = [];
+
+const SkinOptions = [
+    ['Tanned', '#FD9841'],
+    ['Yellow', '#F8D25C'],
+    ['Pale', '#FFDBB4'],
+    ['Light', '#EDB98A'],
+    ['Brown', '#D08B5B'],
+    ['DarkBrown', '#AE5D29'],
+    ['Black', '#614335']
+];
+
+const HairOptions = [
+    'LongHairStraight',
+    'ShortHairFrizzle',
+    'Turban'
+];
+
+const HairColourOptions = [
+    ['Auburn', '#A55728'],
+    ['Black', '#2C1B18'],
+    ['Blonde', '#B58143'],
+    ['BlondeGolden', '#D6B370'],
+    ['Brown', '#724133'],
+    ['BrownDark', '#4A312C'],
+    ['PastelPink', '#F59797'],
+    ['Blue', '#000fdb']
+];
+
+const ClothingOptions = [
+    "BlazerShirt",
+    "BlazerSweater",
+    "CollarSweater",
+    "GraphicShirt",
+    "Hoodie",
+    "Overall",
+    "ShirtCrewNeck",
+    "ShirtScoopNeck",
+    "ShirtVNeck",
+];
 
 function AvatarPage() {
   // Used to display edit mode content (ie. buttons) By default should be false, but for development purposes could be set to true
   const [isEditMode, setIsEditMode] = useState(true);
+
   // Used to update "section" of customization user is in
   const [activeSection, setActiveSection] = useState('skin');
   // Used to track overall page of customization the user is in.
@@ -46,18 +80,19 @@ function AvatarPage() {
     username: "Percival",
     chatColour: "#00b1fc",
     skin: "",
-    hair: "",
-    clothing: "",
+      topType: "",
+      clothingType: "",
   }
 
-  // To be used when the user is in edit mode. Any time a new selection is made this is automatically updated 
-  let currentAvatar = {
-    username: "Percival",
-    chatColour: "#00b1fc",
-    skin: "",
-    hair: "",
-    clothing: "",
-  }
+  const [currentAvatar, setCurrentAvatar] = useState({
+      username: "Percival",
+      chatColour: "#00b1fc",
+      skin: SkinOptions[0][0],
+      topType: HairOptions[0],
+      hairColour: HairColourOptions[0][0],
+      clothingType: ClothingOptions[0],
+      clothingColour: "PastelBlue" // Hardcode for now
+  });
 
   return (
     <div className="avatars --container">
@@ -108,7 +143,20 @@ function AvatarPage() {
 
 
         <div className="avatar-container">
-          {/* INSERT CODE HERE TO DISPLAY AVATAR */}
+            <Avatar
+                style={{width: '100%', height: '100%'}}
+                avatarStyle='Transparent'
+                topType={currentAvatar.topType}
+                accessoriesType='Prescription02'
+                hairColor={currentAvatar.hairColour}
+                facialHairType='Blank'
+                clotheType={currentAvatar.clothingType}
+                clotheColor='PastelBlue'
+                eyeType='Happy'
+                eyebrowType='Default'
+                mouthType='Smile'
+                skinColor={currentAvatar.skin}
+            />
         </div>
 
 
@@ -189,44 +237,100 @@ function AvatarPage() {
 
         <div className="horizontal-divider bottom" />
 
-        {/* TODO: Update this section!! Use .map() and add the arrows just incase one section has more than one page associated with it */}
-        <div className="customization-options-container">
-          <div
-            className="customization-option active-selection"
-            style={{ backgroundColor: `${SkinOptions[0]}` }}
-            onClick={() => {
-              // If something is selected then turn on edit mode and update currentAvatar with the most recent selection
-              // If the current selection is the saved on, then don't turn on edit mode
-              setIsEditMode(true);
-              if (page === 1) {
-                currentAvatar.skin = ''
-              } else if (page === 2) {
-                currentAvatar.hair = ''
-              } else if (page === 3) {
-                currentAvatar.clothing = ''
-              }
-            }}
-          />
-          <div
-            className="customization-option"
-            style={{ backgroundColor: `${SkinOptions[1]}` }}
-          />
-          <div
-            className="customization-option"
-            style={{ backgroundColor: `${SkinOptions[2]}` }}
-          />
-          <div
-            className="customization-option"
-            style={{ backgroundColor: `${SkinOptions[3]}` }}
-          />
-          <div
-            className="customization-option"
-            style={{ backgroundColor: `${SkinOptions[4]}` }}
-          />
-          <div
-            className="customization-option"
-            style={{ backgroundColor: `${SkinOptions[5]}` }}
-          />
+        {/* TODO: Update this section!! add the arrows just in case one section has more than one page associated with it */}
+        <div className={"customization-options-container " + (activeSection === 'skin' ? 'active-selection' : '')}>
+            {SkinOptions.map((skinOpt, index) =>
+                <div
+                    key={skinOpt[1]}
+                    className={"customization-option " + (currentAvatar.skin === skinOpt[0] ? "active-selection" : "") }
+                    style={{ backgroundColor: `${SkinOptions[index][1]}` }}
+                    onClick={() => {
+                        setCurrentAvatar({
+                            ...currentAvatar,
+                            skin: skinOpt[0]
+                        });
+
+                        // If something is selected then turn on edit mode and update currentAvatar with the most recent selection
+                        // If the current selection is the saved on, then don't turn on edit mode
+                        if(currentAvatar.skin !== savedAvatar.skin) {
+                            setIsEditMode(true);
+                        }
+
+                        //TODO: (STEVEN) What is the purpose of this?
+                        if (page === 1) {
+                            currentAvatar.skin = ''
+                        } else if (page === 2) {
+                            currentAvatar.hair = ''
+                        } else if (page === 3) {
+                            currentAvatar.clothing = ''
+                        }
+                    }}
+                />
+            )}
+        </div>
+
+        <div className={"customization-options-container " + (activeSection === 'hair' ? 'active-selection' : '')}>
+            {/* Hack to force new line in flex layout */}
+            <div className="sub-header" style={{flexBasis: "100%"}}>Hair Style</div>
+            {HairOptions.map(hair =>
+                <div
+                    key={hair}
+                    className={"customization-option " + (currentAvatar.topType === hair ? "active-selection" : "") }
+                    style={{ backgroundColor: "white" }} // Hack?
+                    onClick={() => {
+                        setCurrentAvatar({
+                            ...currentAvatar,
+                            topType: hair
+                        });
+                    }}
+                >
+                    <Piece
+                        pieceSize='error' // Forced to pick a pixel size and I don't want to.
+                        pieceType='top'
+                        topType={hair}
+                        hairColor={currentAvatar.hairColour}
+                    />
+                </div>
+            )}
+
+            {/* Hack to force new line in flex layout */}
+            <div className="sub-header" style={{flexBasis: "100%"}}>Hair Colour</div>
+
+            {HairColourOptions.map(hairColour =>
+                <div
+                    key={hairColour[0]}
+                    className={"customization-option  " + (currentAvatar.hairColour === hairColour[0] ? "active-selection" : "")}
+                    style={{ backgroundColor: `${hairColour[1]}` }}
+                    onClick={() => {
+                        setCurrentAvatar({
+                            ...currentAvatar,
+                            hairColour: hairColour[0]
+                        });
+                    }}
+                />
+            )}
+        </div>
+        <div className={"customization-options-container " + (activeSection === 'clothes' ? 'active-selection' : '')}>
+            {ClothingOptions.map(clothing =>
+                <div
+                    key={clothing}
+                    className={"customization-option  " + (currentAvatar.clothingType === clothing ? "active-selection" : "")}
+                    style={{ backgroundColor: "white" }} // Hack?
+                    onClick={() => {
+                        setCurrentAvatar({
+                            ...currentAvatar,
+                            clothingType: clothing
+                        });
+                    }}
+                >
+                    <Piece
+                        pieceType="clothe"
+                        pieceSize="50"
+                        clotheType={clothing}
+                        clotheColor={currentAvatar.clothingColour}
+                    />
+                </div>
+            )}
         </div>
       </div>
     </div>

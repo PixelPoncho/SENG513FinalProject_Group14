@@ -142,7 +142,15 @@
 
       padding: 0 30px;
 
+      display: none;
+      &.active-selection {
+        display: flex;
+      }
+
       .customization-option {
+        display: flex;
+        justify-content: center;
+
         width: 55px;
         height: 55px;
 
