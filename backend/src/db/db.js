@@ -4,7 +4,6 @@ const ClassRoomData = require("./schemas/classRoomSchema");
 
 mongoose.connect("mongodb://localhost:27017/seng513", {
 	useNewUrlParser: true,
-	useCreateIndex: true,
 	useUnifiedTopology: true,
 });
 
@@ -65,7 +64,7 @@ exports.createClassRoom = async (userId, classRoomData) => {
 	const classRoom = new ClassRoomData({ ...classRoomData, active: false });
     classRoom.owner = user;
 	await classRoom.save()
-        .then((result) => {
+        .then(async (result) => {
             user.ownedClassRooms.push(classRoom);
             await user.save();
         }).catch((error) => {
