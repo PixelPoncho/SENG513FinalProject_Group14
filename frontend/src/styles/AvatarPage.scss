@@ -1,0 +1,165 @@
+// TODO: Dynamic sizing so that it is legible on all screens
+// TODO: With the active customization sub-page, include the lil blue underline
+
+.avatars.--container {
+  display: flex;
+  justify-content: space-between;
+  
+  width: 60%;
+  height: 550px;
+
+  top: calc(50% + 35px);
+  padding: 60px 75px;
+
+  .vertical-divider,
+  .horizontal-divider {
+    background-color: var(--dark-blue);
+    opacity: 0.15;
+    border-radius: 10px;
+  }
+
+  .vertical-divider {
+    min-width: 3px;
+  }
+
+  .horizontal-divider {
+    min-height: 3px;
+
+    &.bottom {
+      margin: 0 0 35px;
+    }
+  }
+
+  // Styling for the container on the left side (ie. where users see their most up to date avatar)
+  .left-container {
+    width: 35%;
+
+    .sub-header {
+      text-align: left;
+      font-size: 30px;
+    }
+
+    .top.chat-options {
+      display: flex;
+      justify-content: center;
+
+      .edit-icon {
+        color: var(--yellow);
+
+        width: 30px;
+        height: 30px;
+
+        margin: 5px 0 0 5px;
+
+        &:hover {
+          cursor: pointer;
+          color: var(--off-yellow);
+        }
+      }
+
+      .users-color {
+        min-width: 30px;
+        max-width: 30px;
+        min-height: 30px;
+        max-height: 30px;
+
+        border-radius: 30px;
+        margin: 5px 0 0 10px;
+      }
+
+      &.non-edit {
+        margin: 30px 0 0;
+        .sub-header {
+          margin: 5px 0 0;
+        }
+      }
+
+      &.edit .users-color:hover {
+        cursor: pointer;
+        border: var(--hover-selection);
+      }
+    }
+
+    .avatar-container {
+      background-color: var(--white);
+      border-radius: 20px;
+
+      width: 250px;
+      height: 250px;
+
+      margin: 20px auto 25px;
+    }
+
+    .btn-container {
+      text-align: center;
+      max-width: 200px;
+
+      margin: 0 auto;
+
+      .--btn {
+        margin: 0 0 15px;
+      }
+    }
+  }
+
+  // Styling for the container on the right side (ie. the area where users select their customization choices)
+  .right-container {
+    width: 45%;
+
+    .avatar.header {
+      margin: 25px 0 30px;
+    }
+
+    .customization-section {
+      display: flex;
+      justify-content: space-between;
+
+      width: 275px;
+      padding: 10px 0;
+      margin: 0 auto;
+
+      svg {
+        width: 50px;
+        height: 50px;
+
+        filter: invert(13%) sepia(40%) saturate(2260%) hue-rotate(172deg) brightness(94%) contrast(98%);
+
+        &.active {
+          filter: invert(54%) sepia(55%) saturate(5413%) hue-rotate(159deg) brightness(100%) contrast(82%);
+        }
+
+        &:not(&.active):hover {
+          cursor: pointer;
+          opacity: 0.75;
+        }
+      }
+    }
+
+    .customization-options-container {
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: space-around;
+
+      padding: 0 30px;
+
+      .customization-option {
+        width: 55px;
+        height: 55px;
+
+        border-radius: 15px;
+        background-color: blue;
+
+        margin: 0 15px 15px;
+
+        &.active-selection {
+          border: var(--active-selection);
+        }
+
+        &:not(&.active-selection):hover {
+          cursor: pointer;
+          border: var(--hover-selection);
+        }
+      }
+    }
+  }
+}

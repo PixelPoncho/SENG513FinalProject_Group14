@@ -1,0 +1,60 @@
+// TODO: Dynamic sizing so that it is legible on all screens
+
+// Styling for account creation prompt
+.signup.--container {
+  width: 400px;
+  min-width: 300px;
+  padding: 60px 85px 50px;
+
+  .header {
+    margin: 0 0 20px;
+  }
+
+  .btn-container {
+    text-align: center;
+    margin: 0 0 15px;
+  }
+
+  .form-group {
+    margin: 0 0 15px;
+
+    input.textbox {
+      width: 100%;
+    }
+  }
+
+  p {
+    font-weight: 300;
+    text-align: center;
+
+    &.small-text {
+      font-size: 0.6em;
+    }
+
+    a {
+      color: var(--yellow);
+      font-weight: 700;
+      text-decoration: underline;
+
+      &:hover {
+        color: var(--off-yellow);
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.signup.--container .form-error {
+  color: var(--red);
+  font-size: 10px;
+  font-weight: bold;
+  text-align: left;
+
+  margin: 5px 0 0;
+}
+
+// Styling for successful account creation prompt
+.signup.--container.success {
+  text-align: center;
+  width: 500px;
+}
