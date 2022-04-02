@@ -57,6 +57,9 @@ const validateUserUpdate = (req, res, next) => {
 	if(error) {
 		res.status(400).json({error: "Invalid request data"});
 	}
+	else if (req.body.user._id !== req.session.userId) {
+		res.status(400).json({error: "You are not allowed to update another user"});
+	}
 	else {
 		next();
 	}
