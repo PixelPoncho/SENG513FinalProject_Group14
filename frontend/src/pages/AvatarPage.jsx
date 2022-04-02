@@ -6,7 +6,8 @@
 // TODO: Add interactivity of avatar customization (ie. see different "sub-page")
 
 // Importing Components from node_modules
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 
 // Importing icons
 import { MdEdit } from 'react-icons/md'
@@ -66,6 +67,12 @@ const ClothingOptions = [
     "ShirtVNeck",
 ];
 
+const loadUser = new Promise(async resolve => {
+    const resp = await axios.post("/users/getUser");
+    const user = resp.data.user;
+    resolve(user);
+});
+
 function AvatarPage() {
   // Used to display edit mode content (ie. buttons) By default should be false, but for development purposes could be set to true
   const [isEditMode, setIsEditMode] = useState(true);
@@ -80,11 +87,14 @@ function AvatarPage() {
     username: "Percival",
     chatColour: "#00b1fc",
     skin: "",
-      topType: "",
-      clothingType: "",
+    topType: "",
+    hairColour: "",
+    clothingType: "",
+    clothingColour: ""
   }
 
   const [currentAvatar, setCurrentAvatar] = useState({
+      // These initial values act as defaults
       username: "Percival",
       chatColour: "#00b1fc",
       skin: SkinOptions[0][0],
@@ -93,6 +103,40 @@ function AvatarPage() {
       clothingType: ClothingOptions[0],
       clothingColour: "PastelBlue" // Hardcode for now
   });
+
+  // Perform an initial loading of the user's existing avatar preferences/
+  // Note: I don't understand how this works but using useEffect with empty dependencies
+  // prevents this from generating an infinite render loop (because setCurrentAvatar triggers a re-render)
+  useEffect(() => {
+      loadUser.then(user => {
+          if(user?.avatar !== undefined) {
+              savedAvatar.username = user.username;
+              savedAvatar.skin = user.avatar.skin;
+              savedAvatar.topType = user.avatar.topType;
+              savedAvatar.hairColour = user.avatar.hairColour;
+              savedAvatar.clothingType = user.avatar.clothingType;
+              savedAvatar.clothingColour = user.avatar.clothingColour;
+              setCurrentAvatar(savedAvatar);
+          }
+      });
+  }, []);
+
+    const onSave = async () => {
+        const data = {
+            user: {
+                username: currentAvatar.username,
+                chatColour: currentAvatar.chatColour,
+                avatar: {
+                    skin: currentAvatar.skin,
+                    topType: currentAvatar.topType,
+                    hairColour: currentAvatar.hairColour,
+                    clothingType: currentAvatar.clothingType,
+                    clothingColour: currentAvatar.clothingColour
+                }
+            }
+        };
+        const response = await axios.post("/users/updateUser", data);
+    };
 
   return (
     <div className="avatars --container">
@@ -164,12 +208,7 @@ function AvatarPage() {
           <div className="btn-container">
             <button
               className="--btn yellow solid"
-              onClick={() => {
-                // TODO: When button is clicked, send the information to the server too! This can be moved to a non-inline function afterwards but just for a starting point
-
-                savedAvatar = currentAvatar;
-                setIsEditMode(false);
-              }}
+              onClick={onSave}
             >
               Save Changes
             </button>
