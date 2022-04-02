@@ -2,9 +2,18 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-	name: String,
-	username: String,
-	password: String,
+    name: String,
+    username: String,
+    password: String,
+
+    avatar: {
+        skinColour: String,
+        topType: String,
+        hairColour: String,
+        clothing: String,
+        clothingColour: String,
+    },
+
     ownedClassRooms: [
         {
             type: Schema.Types.ObjectId,

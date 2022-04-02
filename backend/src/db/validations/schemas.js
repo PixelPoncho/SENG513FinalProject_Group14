@@ -15,6 +15,22 @@ module.exports.userLoginSchema = Joi.object({
 	}).required(),
 });
 
+module.exports.userUpdateSchema = Joi.object({
+	user: Joi.object({
+		_id: Joi.string().required(),
+		name: Joi.string(),
+		username: Joi.string(),
+		password: Joi.string(),
+		avatar: Joi.object({
+			kinColour: Joi.object,
+			topType: Joi.object,
+			hairColour: Joi.object,
+			clothing: Joi.object,
+			clothingColour: Joi.object
+		}),
+	}).required(),
+});
+
 module.exports.classRoomCreateSchema = Joi.object({
 	classRoom: Joi.object({
 		name: Joi.string().required(),

@@ -22,13 +22,29 @@ exports.loginUser = async (loginData) => {
 
 exports.createUser = async (userData) => {
     const user = new UserData(userData);
-	const otherUser = await UserData.findOne({ username: userData.username });
-	if(otherUser) return { error: "Username exists" };
-	await user.save();
+    const otherUser = await UserData.findOne({ username: userData.username });
+    if(otherUser) {
+        return { error: "Username exists" };
+    }
+    await user.save();
     return { user: user };
 };
-exports.getUserById = async (userId) => {
-    return await UserData.findById(userId).populate("ownedClassRooms visitedClassRooms bannedClassRooms");
+const getUserById = async (userId) => {
+    return UserData.findById(userId).populate("ownedClassRooms visitedClassRooms bannedClassRooms avatar");
+};
+exports.getUserById = getUserById();
+
+exports.updateUser = async (userData) => {
+    const user = await getUserById(userData._id);
+    console.dir(userData);
+    console.dir(user);
+    for(const prop in userData) {
+        user[prop] = userData[prop];
+    }
+
+    //TODO: How exactly do arrays get updated?
+
+    return user.save();
 };
 
 // create a delete user that goes through and deletes all the owned classrooms that user has 

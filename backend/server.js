@@ -10,8 +10,9 @@ const { Server } = require("colyseus");
 const { ClassRoom } = require("./src/colyseus/schemas");
 const catchAsync = require("./src/utils/catchAsync");
 // database
-const { userCreateSchema, userLoginSchema, classRoomCreateSchema } = require("./src/db/validations/schemas");
-const { createUser, getUserById, loginUser, createClassRoom } = require("./src/db/db");
+const { userCreateSchema, userLoginSchema, userUpdateSchema, classRoomCreateSchema } = require("./src/db/validations/schemas");
+const { createUser, getUserById, loginUser, createClassRoom, updateUser} = require("./src/db/db");
+const UserData = require("./src/db/schemas/userSchema");
 
 const app = express();
 const server = createServer(app);
@@ -32,7 +33,9 @@ const checkUserLogin = (req, res, next) => {
 	if(!req.session.isLoggedIn || !req.session.userId || !req.session.name) {
 		res.send("You are not logged in!");
 	}
-	next();
+	else{
+		next();
+	}
 };
 const validateUserCreate = (req, res, next) => {
 	const { error } = userCreateSchema.validate(req.body);
@@ -48,6 +51,17 @@ const validateUserLogin = (req, res, next) => {
 	}
 	next();
 };
+
+const validateUserUpdate = (req, res, next) => {
+	const { error } = userUpdateSchema.validate(req.body);
+	if(error) {
+		res.status(400).json({error: "Invalid request data"});
+	}
+	else {
+		next();
+	}
+};
+
 const validateClassRoomCreate = (req, res, next) => {
 	const { error } = classRoomCreateSchema.validate(req.body);
 	if(error) {
@@ -61,12 +75,16 @@ app.post(
 	"/users/login",
 	validateUserLogin,
 	catchAsync(async (req, res) => {
-		const { error, user } = loginUser(req.body.user);
-		if(error) res.status(400).json({ error });
-		req.session.isLoggedIn = true;
-		req.session.userId = user._id;
-		req.session.name = user.name;
-		res.json({ user });
+		const { error, user } = await loginUser(req.body.user);
+		if(error) {
+			res.status(400).json({ error });
+		}
+		else {
+			req.session.isLoggedIn = true;
+			req.session.userId = user._id;
+			req.session.name = user.name;
+			res.json({ user });
+		}
 	})
 );
 
@@ -89,8 +107,23 @@ app.post(
 	checkUserLogin,
 	catchAsync(async (req, res) => {
 		const user = await getUserById(req.session.userId);
-		if(!user) res.status(400).json({ error: "Invalid user" });
-		res.json({ user });
+		if(!user) {
+			res.status(400).json({ error: "Invalid user" });
+		}
+		else {
+			res.json({ user });
+		}
+	})
+);
+
+app.post(
+	"/users/updateUser",
+	checkUserLogin,
+	validateUserUpdate,
+	catchAsync(async (req, res) => {
+		const user = await updateUser(req.body.user);
+
+		res.json({user});
 	})
 );
 
