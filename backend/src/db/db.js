@@ -32,7 +32,7 @@ exports.createUser = async (userData) => {
 const getUserById = async (userId) => {
     return UserData.findById(userId).populate("ownedClassRooms visitedClassRooms bannedClassRooms avatar");
 };
-exports.getUserById = getUserById();
+exports.getUserById = getUserById;
 
 exports.updateUser = async (userData) => {
     const user = await getUserById(userData._id);
