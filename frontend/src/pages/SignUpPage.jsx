@@ -4,6 +4,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useForm } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
+import axios from 'axios';
 
 // Importing icons
 import { FiAlertTriangle } from 'react-icons/fi';
@@ -49,10 +50,31 @@ function Login() {
   };
 
   // Not 100% sure how this will connect to the server, but if there needs to be anything set up from the front end to prep it, put it in here.
-  useEffect(() => {
-    // if (credentials = {}) {
-    //   return;
-    // }
+  useEffect(async () => {
+    if (credentials?.name === undefined) {
+      return;
+    }
+
+    const data = {
+      "user": {
+        "name": credentials.name,
+        "username": credentials.email,
+        "password": credentials.password,
+      }
+    };
+
+    try {
+      const response = await axios.post("/users/createUser", data);
+
+      if(response.data.user) {
+        setIsSuccessful(true);
+      }
+    }
+    catch(error) {
+      setErrorInfo(error.response.data.error);
+      setIsSuccessful(false);
+      setIsLoading(false); // Should this line be moved to the next use effect function?
+    }
 
     console.log("Send data to server ", credentials)
     // Do something with {credentials}
@@ -220,10 +242,11 @@ function Login() {
               </div>
 
               {/* An error message that can appear if the servre was unable to successfully create their account (ie. something broke server wise). May need other errors to let them know if an email is already in use */}
-              {(errorInfo && errorInfo === 'error msg') && (
+              {(errorInfo) && (
                 <FormError
                   className="account-creation--msg"
-                  errorMsg='Unable to make the account. Please make sure all information is provided.'
+                  errorMsg={errorInfo}
+                  // errorMsg='Unable to make the account. Please make sure all information is provided.'
                 />)
               }
 
