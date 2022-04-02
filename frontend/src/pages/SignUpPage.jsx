@@ -81,11 +81,29 @@ function Login() {
   }, [credentials])
 
   // The server should return either a success or error message to then present to the user to help them identify the status of their request. Once again tho, not sure how it will be recieved from the front-end
-  useEffect(() => {
+  useEffect(async () => {
     setIsLoading(false);
 
     if (isSuccessful) {
-      // do something? (setting variables)
+
+      // Send a login request to log the user in automatically on sign up
+      const data = {
+        user: {
+          username: credentials.email,
+          password: credentials.password
+        }
+      };
+
+      try {
+        await axios.post("/users/login", data);
+        // Don't need to do anything with the response
+      }
+      catch(e) {
+        // There shouldn't be an error here since we're literally using the
+        // credentials we created the account with...
+        console.error(e);
+      }
+
     } else {
       // do something else?
     }
