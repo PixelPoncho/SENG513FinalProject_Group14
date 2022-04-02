@@ -7,10 +7,10 @@ const UserSchema = new Schema({
     password: String,
 
     avatar: {
-        skinColour: String,
+        skin: String,
         topType: String,
         hairColour: String,
-        clothing: String,
+        clothingType: String,
         clothingColour: String,
     },
 

@@ -20,12 +20,13 @@ module.exports.userUpdateSchema = Joi.object({
 		name: Joi.string(),
 		username: Joi.string(),
 		password: Joi.string(),
+		chatColour: Joi.string(),
 		avatar: Joi.object({
-			kinColour: Joi.object,
-			topType: Joi.object,
-			hairColour: Joi.object,
-			clothing: Joi.object,
-			clothingColour: Joi.object
+			skin: Joi.string(),
+			topType: Joi.string(),
+			hairColour: Joi.string(),
+			clothingType: Joi.string(),
+			clothingColour: Joi.string()
 		}),
 	}).required(),
 });
