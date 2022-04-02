@@ -150,5 +150,6 @@ app.post(
 	})
 );
 
-gameServer.listen(3000);
-console.log("Listening on http://localhost:3000");
+const port = 3001;
+gameServer.listen(port);
+console.log(`Listening on http://localhost:${port}`);
