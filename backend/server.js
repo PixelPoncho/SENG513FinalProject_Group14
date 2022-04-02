@@ -57,9 +57,6 @@ const validateUserUpdate = (req, res, next) => {
 	if(error) {
 		res.status(400).json({error: "Invalid request data"});
 	}
-	else if (req.body.user._id !== req.session.userId) {
-		res.status(400).json({error: "You are not allowed to update another user"});
-	}
 	else {
 		next();
 	}
@@ -124,7 +121,7 @@ app.post(
 	checkUserLogin,
 	validateUserUpdate,
 	catchAsync(async (req, res) => {
-		const user = await updateUser(req.body.user);
+		const user = await updateUser(req.session.userId, req.body.user);
 
 		res.json({user});
 	})

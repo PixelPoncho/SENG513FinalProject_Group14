@@ -34,10 +34,8 @@ const getUserById = async (userId) => {
 };
 exports.getUserById = getUserById;
 
-exports.updateUser = async (userData) => {
-    const user = await getUserById(userData._id);
-    console.dir(userData);
-    console.dir(user);
+exports.updateUser = async (userId, userData) => {
+    const user = await getUserById(userId);
     for(const prop in userData) {
         user[prop] = userData[prop];
     }
