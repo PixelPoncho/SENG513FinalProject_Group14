@@ -6,6 +6,9 @@ import { useForm } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
 import axios from 'axios';
 
+// Import Local Components
+import FormError from "../components/FormError";
+
 // Importing icons
 import { FiAlertTriangle } from 'react-icons/fi';
 import { BsFillArrowLeftCircleFill } from 'react-icons/bs';
@@ -13,16 +16,6 @@ import { BsFillArrowLeftCircleFill } from 'react-icons/bs';
 // importing styling
 import '../styles/SignUpPage.scss';
 
-// Component used to format error messages on forms
-function FormError(props) {
-  return (
-    <p className={`form-error ${props.className}`}>
-      <FiAlertTriangle />
-      {' '}
-      {props.errorMsg}
-    </p>
-  );
-}
 
 function Login() {
   const [errorInfo, setErrorInfo] = useState("");
