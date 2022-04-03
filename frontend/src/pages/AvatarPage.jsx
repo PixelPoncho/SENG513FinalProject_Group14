@@ -162,6 +162,8 @@ function AvatarPage() {
     });
 
     const onSave = async e => {
+        setIsEditMode(false);
+
         const data = {
             user: {
                 username: currentAvatar.username,
@@ -178,7 +180,6 @@ function AvatarPage() {
 
         try {
             await axios.post("/users/updateUser", data);
-
         }
         catch(error) {
             // No error handling needed currently.
@@ -204,10 +205,14 @@ function AvatarPage() {
 
         {!isEditMode &&
           <div className="top chat-options non-edit">
-            <h1 className="sub-header">{savedAvatar.username}</h1>
+            <h1 className="sub-header">{currentAvatar.username}</h1>
             <div
               className='users-color'
               style={{ backgroundColor: `${currentAvatar.chatColour}` }}
+              onClick={() => {
+                  setIsEditMode(true);
+                  setIsEditColour(true);
+              }}
             />
             {/* Edit icon */}
             <MdEdit
@@ -372,6 +377,10 @@ function AvatarPage() {
                     className={"customization-option " + (currentAvatar.topType === hair ? "active-selection" : "") }
                     style={{ backgroundColor: "white" }} // Hack?
                     onClick={() => {
+                        if(currentAvatar.topType !== savedAvatar.topType) {
+                            setIsEditMode(true);
+                        }
+
                         setCurrentAvatar({
                             ...currentAvatar,
                             topType: hair
@@ -396,6 +405,10 @@ function AvatarPage() {
                     className={"customization-option  " + (currentAvatar.hairColour === hairColour[0] ? "active-selection" : "")}
                     style={{ backgroundColor: `${hairColour[1]}` }}
                     onClick={() => {
+                        if(currentAvatar.hairColour !== savedAvatar.hairColour) {
+                            setIsEditMode(true);
+                        }
+
                         setCurrentAvatar({
                             ...currentAvatar,
                             hairColour: hairColour[0]
@@ -411,6 +424,10 @@ function AvatarPage() {
                     className={"customization-option  " + (currentAvatar.clothingType === clothing ? "active-selection" : "")}
                     style={{ backgroundColor: "white" }} // Hack?
                     onClick={() => {
+                        if(currentAvatar.clothingType !== savedAvatar.clothingType) {
+                            setIsEditMode(true);
+                        }
+
                         setCurrentAvatar({
                             ...currentAvatar,
                             clothingType: clothing
