@@ -1,16 +1,17 @@
-// TODO: Integrate the profile picture API thingy
 // TODO: Disable user from being able to move pages in edit mode
 // TODO: On change, set it to edit mode
 // TODO: Color picker
-// TODO: Save changes on "save" click
 // TODO: Add interactivity of avatar customization (ie. see different "sub-page")
 
 // Importing Components from node_modules
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
+// Import Local Components
+import FormError from "../components/FormError";
+
 // Importing icons
-import { MdEdit } from 'react-icons/md'
+import { MdEdit, MdClose, MdCheck } from 'react-icons/md'
 
 // Importing Assets
 import { ReactComponent as ClothesIcon } from '../assets/clothes.svg'
@@ -23,6 +24,7 @@ import {Piece} from "avataaars";
 
 // Importing styling
 import '../styles/AvatarPage.scss';
+import {useForm} from "react-hook-form";
 
 // Customization Options available for the user to interact with. 
 // Assumed the API has a large number of options, but we're limiting what users can pick
@@ -67,6 +69,26 @@ const ClothingOptions = [
     "ShirtVNeck",
 ];
 
+const ChatColorOptions = [
+    "#1ABC9C",
+    "#2ECC71",
+    "#3498DB",
+    "#9B59B6",
+    "#E91E63",
+    "#F1C40F",
+    "#E67E22",
+    "#E74C3C",
+    "#11806A",
+    "#1F8B4C",
+    "#206694",
+    "#71368A",
+    "#AD1457",
+    "#C27C0E",
+    "#A84300",
+    "#992D22",
+];
+
+// Create a promise and get the current user info on load
 const loadUser = new Promise(async resolve => {
     const resp = await axios.post("/users/getUser");
     const user = resp.data.user;
@@ -77,6 +99,8 @@ function AvatarPage() {
   // Used to display edit mode content (ie. buttons) By default should be false, but for development purposes could be set to true
   const [isEditMode, setIsEditMode] = useState(true);
 
+  const [isEditColour, setIsEditColour] = useState(false);
+
   // Used to update "section" of customization user is in
   const [activeSection, setActiveSection] = useState('skin');
   // Used to track overall page of customization the user is in.
@@ -84,19 +108,19 @@ function AvatarPage() {
 
   // Saved state of the user to compare when changes have been made/restore to. This can be retrieved through other methods. (ie. maybe saved in session state on login or one time request to server on page access?)
   let savedAvatar = {
-    username: "Percival",
-    chatColour: "#00b1fc",
-    skin: "",
-    topType: "",
-    hairColour: "",
-    clothingType: "",
-    clothingColour: ""
-  }
+      username: "55555555",
+      chatColour: "#555555",
+      skin: "",
+      topType: "",
+      hairColour: "",
+      clothingType: "",
+      clothingColour: ""
+  };
 
-  const [currentAvatar, setCurrentAvatar] = useState({
-      // These initial values act as defaults
-      username: "Percival",
-      chatColour: "#00b1fc",
+  let [currentAvatar, setCurrentAvatar] = useState({
+      //TODO: These values are displayed initially, should we have better defaults?
+      username: "666666",
+      chatColour: "#666666",
       skin: SkinOptions[0][0],
       topType: HairOptions[0],
       hairColour: HairColourOptions[0][0],
@@ -110,18 +134,34 @@ function AvatarPage() {
   useEffect(() => {
       loadUser.then(user => {
           if(user?.avatar !== undefined) {
+              savedAvatar.chatColour = user.chatColour;
               savedAvatar.username = user.username;
               savedAvatar.skin = user.avatar.skin;
               savedAvatar.topType = user.avatar.topType;
               savedAvatar.hairColour = user.avatar.hairColour;
               savedAvatar.clothingType = user.avatar.clothingType;
               savedAvatar.clothingColour = user.avatar.clothingColour;
-              setCurrentAvatar(savedAvatar);
+
+
+              const newObj = {
+                  chatColour: savedAvatar.chatColour,
+                  username: savedAvatar.username,
+                  skin: savedAvatar.skin,
+                  topType: savedAvatar.topType,
+                  hairColour: savedAvatar.hairColour,
+                  clothingType: savedAvatar.clothingType,
+                  clothingColour: savedAvatar.clothingColour
+              }
+              setCurrentAvatar(newObj);
           }
       });
   }, []);
 
-    const onSave = async () => {
+    const { register, handleSubmit, formState: { errors } } = useForm({
+        reValidateMode: 'onSubmit',
+    });
+
+    const onSave = async e => {
         const data = {
             user: {
                 username: currentAvatar.username,
@@ -135,20 +175,39 @@ function AvatarPage() {
                 }
             }
         };
-        const response = await axios.post("/users/updateUser", data);
+
+        try {
+            await axios.post("/users/updateUser", data);
+
+        }
+        catch(error) {
+            // No error handling needed currently.
+        }
+    };
+
+    const onColorModalCancel = () => {
+        setIsEditColour(false);
+
+        // Reset the current chat colour to the last saved one
+        setCurrentAvatar({
+            ...currentAvatar,
+            chatColour: savedAvatar.chatColour
+        });
     };
 
   return (
-    <div className="avatars --container">
+      <>
+    <form className="avatars --container" onSubmit={handleSubmit(onSave)}>
 
       {/* Containing the avatar */}
       <div className="left-container">
+
         {!isEditMode &&
           <div className="top chat-options non-edit">
             <h1 className="sub-header">{savedAvatar.username}</h1>
             <div
               className='users-color'
-              style={{ backgroundColor: `${savedAvatar.chatColour}` }}
+              style={{ backgroundColor: `${currentAvatar.chatColour}` }}
             />
             {/* Edit icon */}
             <MdEdit
@@ -160,31 +219,28 @@ function AvatarPage() {
 
         {isEditMode &&
           <div className="top chat-options edit">
-            <input
-              className="textbox"
-              placeholder={savedAvatar.username}
-              onChange={(e) => {
-                // Update the username when user starts typing
-                console.log(e.target.value);
+            <label>
+                <input
+                    className="textbox"
+                    value={currentAvatar.username}
+                    {...register("username", {required: true})}
+                    onChange={(e) => {
+                        setCurrentAvatar({
+                            ...currentAvatar,
+                            username: e.target.value
+                        });
+                    }}
+                />
+                {errors.username && (<FormError errorMsg="A username is required"/>)}
+            </label>
 
-                if (e.target.value === "") {
-                  currentAvatar.username = savedAvatar.username;
-                } else {
-                  currentAvatar.username = e.target.value;
-                }
-              }}
-            />
             <div
               className='users-color'
-              style={{ backgroundColor: `${savedAvatar.chatColour}` }}
-              onClick={() => {
-                // TODO: open modal with options for chat colours!
-                console.log("open module with colour options")
-              }}
+              style={{ backgroundColor: `${currentAvatar.chatColour}` }}
+              onClick={() => setIsEditColour(true)}
             />
           </div>
         }
-
 
         <div className="avatar-container">
             <Avatar
@@ -203,12 +259,11 @@ function AvatarPage() {
             />
         </div>
 
-
         {isEditMode &&
           <div className="btn-container">
             <button
               className="--btn yellow solid"
-              onClick={onSave}
+              {...register("save-changes")}
             >
               Save Changes
             </button>
@@ -222,8 +277,8 @@ function AvatarPage() {
             </button>
           </div>
         }
-      </div>
 
+      </div>
       <div className='vertical-divider' />
 
       {/* Container for all avatar customization options*/}
@@ -372,7 +427,64 @@ function AvatarPage() {
             )}
         </div>
       </div>
-    </div>
+    </form>
+      <div
+          className={"popup-background " + (isEditColour ? "show" : "")}
+          onClick={e => {
+              // If the popup background is clicked directly then execute the cancel
+              if(e.target.classList.contains("popup-background")) {
+                  onColorModalCancel();
+              }
+          }}
+      >
+          <div className="popup --container">
+              <MdClose
+                  className="btn-close"
+                  onClick={onColorModalCancel}
+              />
+              <h1 className="header">Select Colour</h1>
+              <p className="descriptive-text">This will be the colour used to denote your messages in the classroom</p>
+              <div
+                  className='users-color color-square'
+                  style={{ backgroundColor: `${currentAvatar.chatColour}` }}
+              />
+              <div className="custom-colors-container">
+                  {ChatColorOptions.map(color =>
+                      <div
+                          key={color}
+                          className="color-square color-option"
+                          style={{ backgroundColor: color }}
+                          onClick={e => {
+                              setCurrentAvatar({
+                                  ...currentAvatar,
+                                  chatColour: color
+                              });
+                          }}
+                      >
+                          {currentAvatar.chatColour === color && <MdCheck color="white" fontSize="30px" />}
+                      </div>
+                  )}
+              </div>
+              <div className="btn-container">
+                  <button
+                      className="--btn yellow solid"
+                      onClick={async () => {
+                          await onSave();
+                          setIsEditColour(false);
+                      }}
+                  >
+                      Save
+                  </button>
+                  <button
+                      className="--btn blue outline"
+                      onClick={onColorModalCancel}
+                  >
+                      Cancel
+                  </button>
+              </div>
+          </div>
+      </div>
+    </>
   )
 }
 

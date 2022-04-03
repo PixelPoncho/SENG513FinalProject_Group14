@@ -5,6 +5,7 @@ const UserSchema = new Schema({
     name: String,
     username: String,
     password: String,
+    chatColour: String,
 
     avatar: {
         skin: String,
