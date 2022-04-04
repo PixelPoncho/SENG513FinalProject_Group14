@@ -1,7 +1,8 @@
 // Importing Components from node_modules
 import React, { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 // Importing icons
 import { FiAlertTriangle } from 'react-icons/fi';
@@ -28,6 +29,8 @@ function SignInPage() {
   // Used to change the content currently displayed on the screen
   const [isSuccessful, setIsSuccessful] = useState(false);
 
+  const navigate = useNavigate();
+
   // Arguments for react-hook-form
   const { register, handleSubmit, formState: { errors } } = useForm({
     reValidateMode: 'onSubmit',
@@ -40,21 +43,33 @@ function SignInPage() {
     setIsLoading(true);
 
     let tempCredentials = {
-      "email_address": `${data.email}`,
+      "username": `${data.email}`,
       "password": `${data.password}`,
     };
 
     setCredentials(tempCredentials);
   };
 
-  // Not 100% sure how this will connect to the server, but if there needs to be anything set up from the front end to prep it, put it in here.
-  useEffect(() => {
-    // if (credentials = {}) {
-    //   return;
-    // }
+  useEffect(async () => {
+    if (credentials?.username === undefined) {
+      return;
+    }
 
-    console.log("Send data to server ", credentials)
-    // Do something with {credentials}
+    try {
+      const response = await axios.post("/users/login", {
+        user: credentials
+      });
+
+      setIsLoading(false);
+
+      if(response.data?.user !== undefined) {
+        setIsSuccessful(true);
+      }
+    }
+    catch(e) {
+      setIsLoading(false);
+      setErrorInfo(e.response.data.error);
+    }
   }, [credentials])
 
   // The server should return either a success or error message to then present to the user to help them identify the status of their request. Once again tho, not sure how it will be recieved from the front-end
@@ -62,10 +77,11 @@ function SignInPage() {
     setIsLoading(false);
 
     if (isSuccessful) {
-      // redirect user to their account page
-      // Maybe store a particular set of user data that's returned (ie. classes, name, avatar setting?)?
+      navigate("/avatars"); //TODO: Decide where the user should be taken on login and update this
     } else {
-      // give the user some context as to what went wrong
+      // No handling is needed here because if there is an error
+      // response from the server it will be caught in the
+      // try-catch in and setErrorInfo as necessary
     }
   }, [isSuccessful])
 
@@ -133,7 +149,7 @@ function SignInPage() {
                 />
                 {errors.password && (<FormError errorMsg='This field is required' />)}
                 {/* This error is required to be passed back from the server. */}
-                {(errorInfo === 401) && (<FormError errorMsg='Invalid email/password combination. Please try again.' />)}
+                {(errorInfo) && (<FormError errorMsg='Invalid email/password combination. Please try again.' />)}
               </label>
             </div>
           </div>
