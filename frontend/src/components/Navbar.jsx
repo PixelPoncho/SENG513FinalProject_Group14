@@ -2,8 +2,9 @@
 
 // Importing Components from node_modules
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Nav, Navbar as ReactNavbar } from 'react-bootstrap';
+import axios from "axios";
 
 // Importing styles
 import '../styles/Navbar.scss';
@@ -12,6 +13,13 @@ import '../styles/Navbar.scss';
   Passing in the className allows the styling of the Navbar to be customized based on what page we are on
 */
 const Navbar = () => {
+    const navigate = useNavigate();
+
+    const logout = async () => {
+        await axios.post("/users/logout");
+        navigate("/");
+    };
+
   return (
     <>
       <ReactNavbar
@@ -59,12 +67,12 @@ const Navbar = () => {
             </Nav.Link>
 
             {/* Logout "button" */}
-            <NavLink
-              to="/login"
-              className="--btn outline red"
-            >
-              Logout
-            </NavLink>
+              <button
+                  className="--btn outline red"
+                  onClick={logout}
+              >
+                  Logout
+              </button>
           </Nav>
         </ReactNavbar.Collapse>
       </ReactNavbar>

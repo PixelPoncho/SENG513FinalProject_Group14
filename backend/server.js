@@ -89,6 +89,16 @@ app.post(
 );
 
 app.post(
+	"/users/logout",
+	(req, res) => {
+		req.session.isLoggedIn = false;
+		req.session.userId = null;
+		req.session.name = null;
+		res.json({success: true});
+	}
+);
+
+app.post(
 	"/users/createUser",
 	validateUserCreate,
 	catchAsync(async (req, res) => {
