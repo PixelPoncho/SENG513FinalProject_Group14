@@ -121,7 +121,7 @@ app.post(
 	checkUserLogin,
 	validateUserUpdate,
 	catchAsync(async (req, res) => {
-		const user = await updateUser(req.body.user);
+		const user = await updateUser(req.session.userId, req.body.user);
 
 		res.json({user});
 	})

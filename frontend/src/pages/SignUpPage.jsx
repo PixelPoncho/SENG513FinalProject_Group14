@@ -4,6 +4,10 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useForm } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
+import axios from 'axios';
+
+// Import Local Components
+import FormError from "../components/FormError";
 
 // Importing icons
 import { FiAlertTriangle } from 'react-icons/fi';
@@ -12,16 +16,6 @@ import { BsFillArrowLeftCircleFill } from 'react-icons/bs';
 // importing styling
 import '../styles/SignUpPage.scss';
 
-// Component used to format error messages on forms
-function FormError(props) {
-  return (
-    <p className={`form-error ${props.className}`}>
-      <FiAlertTriangle />
-      {' '}
-      {props.errorMsg}
-    </p>
-  );
-}
 
 function Login() {
   const [errorInfo, setErrorInfo] = useState("");
@@ -49,21 +43,60 @@ function Login() {
   };
 
   // Not 100% sure how this will connect to the server, but if there needs to be anything set up from the front end to prep it, put it in here.
-  useEffect(() => {
-    // if (credentials = {}) {
-    //   return;
-    // }
+  useEffect(async () => {
+    if (credentials?.name === undefined) {
+      return;
+    }
+
+    const data = {
+      "user": {
+        "name": credentials.name,
+        "username": credentials.email,
+        "password": credentials.password,
+      }
+    };
+
+    try {
+      const response = await axios.post("/users/createUser", data);
+
+      if(response.data.user) {
+        setIsSuccessful(true);
+      }
+    }
+    catch(error) {
+      setErrorInfo(error.response.data.error);
+      setIsSuccessful(false);
+      setIsLoading(false); // Should this line be moved to the next use effect function?
+    }
 
     console.log("Send data to server ", credentials)
     // Do something with {credentials}
   }, [credentials])
 
   // The server should return either a success or error message to then present to the user to help them identify the status of their request. Once again tho, not sure how it will be recieved from the front-end
-  useEffect(() => {
+  useEffect(async () => {
     setIsLoading(false);
 
     if (isSuccessful) {
-      // do something? (setting variables)
+
+      // Send a login request to log the user in automatically on sign up
+      const data = {
+        user: {
+          username: credentials.email,
+          password: credentials.password
+        }
+      };
+
+      try {
+        await axios.post("/users/login", data);
+        // Don't need to do anything with the response
+      }
+      catch(e) {
+        // There shouldn't be an error here since we're literally using the
+        // credentials we created the account with...
+        console.error(e);
+      }
+
     } else {
       // do something else?
     }
@@ -220,10 +253,11 @@ function Login() {
               </div>
 
               {/* An error message that can appear if the servre was unable to successfully create their account (ie. something broke server wise). May need other errors to let them know if an email is already in use */}
-              {(errorInfo && errorInfo === 'error msg') && (
+              {(errorInfo) && (
                 <FormError
                   className="account-creation--msg"
-                  errorMsg='Unable to make the account. Please make sure all information is provided.'
+                  errorMsg={errorInfo}
+                  // errorMsg='Unable to make the account. Please make sure all information is provided.'
                 />)
               }
 
