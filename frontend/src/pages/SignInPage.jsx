@@ -4,22 +4,14 @@ import { useForm } from 'react-hook-form';
 import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+// Import Local Components
+import FormError from "../components/FormError";
+
 // Importing icons
 import { FiAlertTriangle } from 'react-icons/fi';
 
 // importing styling
 import '../styles/SignInPage.scss';
-
-// Component used to format error messages on forms
-function FormError(props) {
-  return (
-    <p className={`form-error ${props.className}`}>
-      <FiAlertTriangle />
-      {' '}
-      {props.errorMsg}
-    </p>
-  );
-}
 
 function SignInPage() {
   const [errorInfo, setErrorInfo] = useState("");
@@ -43,7 +35,7 @@ function SignInPage() {
     setIsLoading(true);
 
     let tempCredentials = {
-      "username": `${data.email}`,
+      "email": `${data.email}`,
       "password": `${data.password}`,
     };
 
@@ -51,7 +43,7 @@ function SignInPage() {
   };
 
   useEffect(async () => {
-    if (credentials?.username === undefined) {
+    if (credentials?.email === undefined) {
       return;
     }
 

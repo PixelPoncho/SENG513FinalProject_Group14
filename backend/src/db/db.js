@@ -22,7 +22,7 @@ exports.loginUser = async (loginData) => {
 
 exports.createUser = async (userData) => {
     const user = new UserData(userData);
-    const otherUser = await UserData.findOne({ email: userData.email });
+    let otherUser = await UserData.findOne({ email: userData.email });
     if(otherUser) {
         return { error: "email exists" };
     }
@@ -36,12 +36,10 @@ exports.createUser = async (userData) => {
 const getUserById = async (userId) => {
     return UserData.findById(userId).populate("ownedClassRooms visitedClassRooms bannedClassRooms avatar");
 };
-exports.getUserById = getUserById();
+exports.getUserById = getUserById;
 
-exports.updateUser = async (userData) => {
-    const user = await getUserById(userData._id);
-    console.dir(userData);
-    console.dir(user);
+exports.updateUser = async (userId, userData) => {
+    const user = await getUserById(userId);
     for(const prop in userData) {
         user[prop] = userData[prop];
     }

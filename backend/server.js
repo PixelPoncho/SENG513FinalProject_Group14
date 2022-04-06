@@ -49,7 +49,9 @@ const validateUserLogin = (req, res, next) => {
 	if(error) {
 		res.status(400).json({ error: "Invalid resquest data" })
 	}
-	next();
+	else {
+		next();
+	}
 };
 
 const validateUserUpdate = (req, res, next) => {
@@ -125,7 +127,7 @@ app.post(
 	validateUserUpdate,
 	catchAsync(async (req, res) => {
 		console.log("in /users/updateUser");
-		const user = await updateUser(req.body.user);
+		const user = await updateUser(req.session.userId, req.body.user);
 		res.json({user});
 	})
 );

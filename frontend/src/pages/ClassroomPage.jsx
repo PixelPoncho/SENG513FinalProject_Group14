@@ -12,21 +12,27 @@ function ClassroomPage(props) {
   const { classId } = props;
   const [gameState, setGameState] = useState(null);
   const [chatMessages, setChatMessages] = useState([]);
-  const client = null;
-  const room = null;
+  let client = null;
+  let room = null;
 
-  useEffect(() => {
+  useEffect(async () => {
     client = new Client('ws://localhost:3001')
     const joinRoom = async () => {
       return await client.joinOrCreate("classroom", { classId });
     };
-    room = joinRoom().catch("error connecting to classroom");
+    try {
+      room = await joinRoom();
+    }
+    catch(e) {
+      console.log("error connecting to classroom");
+    }
+
     room.onStateChange((state) => {
       console.log(gameState);
       setGameState(state);
     });
     room.onMessage("chat", (msg) => {
-      setChatMessages(...chatMessages, msg);
+      setChatMessages([...chatMessages, msg]);
     });
   }, []);
 
