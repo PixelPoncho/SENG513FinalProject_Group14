@@ -17,7 +17,7 @@ const Navbar = () => {
 
     const logout = async () => {
         await axios.post("/users/logout");
-        navigate("/");
+        navigate("/login");
     };
 
   return (
