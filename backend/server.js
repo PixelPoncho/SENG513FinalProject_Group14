@@ -75,6 +75,7 @@ app.post(
 	"/users/login",
 	validateUserLogin,
 	catchAsync(async (req, res) => {
+		console.log("in /users/login");
 		const { error, user } = await loginUser(req.body.user);
 		if(error) {
 			res.status(400).json({ error });
@@ -92,6 +93,7 @@ app.post(
 	"/users/createUser",
 	validateUserCreate,
 	catchAsync(async (req, res) => {
+		console.log("in /users/createUser");
 		const { error, user } = await createUser(req.body.user);
 		if(error) {
 			res.status(400).json({ error });
@@ -106,6 +108,7 @@ app.post(
 	"/users/getUser",
 	checkUserLogin,
 	catchAsync(async (req, res) => {
+		console.log("in /users/getUser");
 		const user = await getUserById(req.session.userId);
 		if(!user) {
 			res.status(400).json({ error: "Invalid user" });
@@ -121,8 +124,8 @@ app.post(
 	checkUserLogin,
 	validateUserUpdate,
 	catchAsync(async (req, res) => {
+		console.log("in /users/updateUser");
 		const user = await updateUser(req.body.user);
-
 		res.json({user});
 	})
 );
@@ -133,6 +136,7 @@ app.post(
 	checkUserLogin,
 	validateClassRoomCreate, 
 	catchAsync(async (req, res) => {
+		console.log("in /rooms/createRoom");
 		const { error, classRoom } = createClassRoom(req.session.userId, req.body.classRoom);
 		if(error) res.status(400).json({ error });
 		res.json({ classRoom });
@@ -143,6 +147,7 @@ app.post(
 	"/rooms/deleteRoom/:roomId",
 	checkUserLogin,
 	catchAsync(async (req, res) => {
+		console.log("in /rooms/deleteRoom/:roomId");
 		const { roomId } = req.params;
 		const { error, deletedRoom } = deletedRoom(req.session.userId, roomId);
 		if(error) res.status(400).json({ error });

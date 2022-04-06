@@ -90,7 +90,7 @@ function Routes() {
         path="/classroom"
         element={
           <>
-            <Page title="Welcoem to the Classroom">
+            <Page title="Welcome to the Classroom">
               <ClassroomPage />
             </Page>
           </>

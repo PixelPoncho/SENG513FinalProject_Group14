@@ -1,6 +1,8 @@
 const { Room } = require("colyseus");
 const { Schema, MapSchema } = require("@colyseus/schema");
 const { getUserById, activateClassRoom, deactivateClassRoom, getClassRoomById } = require("../db/db");
+const { deleteMany } = require("../db/schemas/userSchema");
+const session = require("express-session");
 
 class User extends Schema {
     constructor(x = 0, y = 0) {
@@ -11,9 +13,10 @@ class User extends Schema {
 }
 
 class State extends Schema {
-    constructor() {
+    constructor(gridSize) {
         super();
         this.users = new MapSchema();
+        this.gridSize = gridSize;
     }
 
     addUser(sessionId) {
@@ -24,15 +27,21 @@ class State extends Schema {
         this.users.delete(sessionId);
     }
 
-    moveUser(sessionId, x, y) {
+    moveUser(sessionId, deltaX, deltaY) {
         const user = this.users.get(sessionId);
-        user.x = x;
-        user.y = y
+        user.x = user.x + deltaX;
+        user.y = user.y + deltaY;
+        if(user.x < 0) user.x = 0;
+        else if(user.x > this.gridSize) user.x = this.gridSize;
+        if(user.y < 0) user.y = 0;
+        else if(user.y > this.gridSize) user.y = this.gridSize;
+        this.users.set(sessionId, user);
     }
 }
 
 class ClassRoom extends Room {
     maxClients = 20;
+    gridSize = 10;
 
     // anyone will be able to start a room, they just wont have admin in that room
     // the roomId will need to be unique since the filterby would just sent them to existing room
@@ -52,10 +61,14 @@ class ClassRoom extends Room {
             return;
         }
         this.setMetadata({ roomId, className: classRoom.name, owner: classRoom.owner._id });
-        this.setState(new State());
+        this.setState(new State(gridSize));
         this.onMessage("chat", (client, message) => {
             console.log(`chat from ${client.sessionId} saying ${message}`);
-            this.broadcast("messages", client.name, message);
+            this.broadcast("chat", client.name, message);
+        });
+        this.onMessage("move", (client, message) => {
+            const { deltaX, deltaY } = message;
+            this.state.moveUser(client.sessionId, deltaX, deltaY);
         });
         console.log("ClassRoom created successfully ");
     }

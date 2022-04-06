@@ -17,12 +17,11 @@ module.exports.userLoginSchema = Joi.object({
 
 module.exports.userUpdateSchema = Joi.object({
 	user: Joi.object({
-		_id: Joi.string().required(),
 		name: Joi.string(),
 		username: Joi.string(),
 		password: Joi.string(),
 		avatar: Joi.object({
-			kinColour: Joi.object,
+			skinColour: Joi.object,
 			topType: Joi.object,
 			hairColour: Joi.object,
 			clothing: Joi.object,
