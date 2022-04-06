@@ -15,25 +15,26 @@ function ClassroomPage(props) {
   let client = null;
   let room = null;
 
-  useEffect(async () => {
-    client = new Client('ws://localhost:3001')
-    const joinRoom = async () => {
-      return await client.joinOrCreate("classroom", { classId });
-    };
-    try {
-      room = await joinRoom();
-    }
-    catch(e) {
-      console.log("error connecting to classroom");
-    }
+  useEffect(() => {
+    (async () => {
+        client = new Client('ws://localhost:3001')
+        const joinRoom = async () => {
+          return await client.joinOrCreate("classroom", {classId});
+        };
+        try {
+          room = await joinRoom();
+        } catch (e) {
+          console.log("error connecting to classroom");
+        }
 
-    room.onStateChange((state) => {
-      console.log(gameState);
-      setGameState(state);
-    });
-    room.onMessage("chat", (msg) => {
-      setChatMessages([...chatMessages, msg]);
-    });
+        room.onStateChange((state) => {
+          console.log(gameState);
+          setGameState(state);
+        });
+        room.onMessage("chat", (msg) => {
+          setChatMessages([...chatMessages, msg]);
+        });
+      })();
   }, []);
 
   const sendAction = (actionType, actionValue) => {
