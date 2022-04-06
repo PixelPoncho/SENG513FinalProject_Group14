@@ -5,12 +5,13 @@ const UserSchema = new Schema({
     username: String,
     email: String,
     password: String,
+    chatColour: String,
 
     avatar: {
-        skinColour: String,
+        skin: String,
         topType: String,
         hairColour: String,
-        clothing: String,
+        clothingType: String,
         clothingColour: String,
     },
 

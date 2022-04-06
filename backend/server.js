@@ -125,7 +125,7 @@ app.post(
 	validateUserUpdate,
 	catchAsync(async (req, res) => {
 		console.log("in /users/updateUser");
-		const user = await updateUser(req.body.user);
+		const user = await updateUser(req.session.userId, req.body.user);
 		res.json({user});
 	})
 );
