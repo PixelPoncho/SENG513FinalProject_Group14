@@ -12,8 +12,8 @@ function ClassroomPage(props) {
   const { classId } = props;
   const [gameState, setGameState] = useState(null);
   const [chatMessages, setChatMessages] = useState([]);
-  const client = null;
-  const room = null;
+  let client = null;
+  let room = null;
 
   useEffect(() => {
     client = new Client('ws://localhost:3001')
