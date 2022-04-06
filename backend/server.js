@@ -49,7 +49,9 @@ const validateUserLogin = (req, res, next) => {
 	if(error) {
 		res.status(400).json({ error: "Invalid resquest data" })
 	}
-	next();
+	else {
+		next();
+	}
 };
 
 const validateUserUpdate = (req, res, next) => {
