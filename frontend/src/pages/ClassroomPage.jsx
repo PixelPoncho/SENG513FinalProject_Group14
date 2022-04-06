@@ -15,12 +15,18 @@ function ClassroomPage(props) {
   let client = null;
   let room = null;
 
-  useEffect(() => {
+  useEffect(async () => {
     client = new Client('ws://localhost:3001')
     const joinRoom = async () => {
       return await client.joinOrCreate("classroom", { classId });
     };
-    room = joinRoom().catch(() => console.log("error connecting to classroom"));
+    try {
+      room = await joinRoom();
+    }
+    catch(e) {
+      console.log("error connecting to classroom");
+    }
+
     room.onStateChange((state) => {
       console.log(gameState);
       setGameState(state);
