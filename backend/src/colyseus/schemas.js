@@ -1,8 +1,6 @@
 const { Room } = require("colyseus");
 const { Schema, MapSchema } = require("@colyseus/schema");
 const { getUserById, activateClassRoom, deactivateClassRoom, getClassRoomById } = require("../db/db");
-const { deleteMany } = require("../db/schemas/userSchema");
-const session = require("express-session");
 
 class User extends Schema {
     constructor(x = 0, y = 0) {
