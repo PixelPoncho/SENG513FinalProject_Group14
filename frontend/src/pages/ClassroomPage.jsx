@@ -32,7 +32,7 @@ function ClassroomPage(props) {
       setGameState(state);
     });
     room.onMessage("chat", (msg) => {
-      setChatMessages(...chatMessages, msg);
+      setChatMessages([...chatMessages, msg]);
     });
   }, []);
 
