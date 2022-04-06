@@ -20,7 +20,7 @@ function ClassroomPage(props) {
     const joinRoom = async () => {
       return await client.joinOrCreate("classroom", { classId });
     };
-    room = joinRoom().catch("error connecting to classroom");
+    room = joinRoom().catch(() => console.log("error connecting to classroom"));
     room.onStateChange((state) => {
       console.log(gameState);
       setGameState(state);
