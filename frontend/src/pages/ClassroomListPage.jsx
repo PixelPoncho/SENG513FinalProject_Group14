@@ -82,7 +82,7 @@ function NewClassroom() {
             type="text"
             placeholder="My Classroom"
             onChange={() => {
-              // On cahnge update a variable containing the name that the new classroom can be set to. On "Create Classroom" button click should check to see if its an existing one and if it is, let the user know
+              // On change update a variable containing the name that the new classroom can be set to. On "Create Classroom" button click should check to see if its an existing one and if it is, let the user know
             }}
           />
         </label>

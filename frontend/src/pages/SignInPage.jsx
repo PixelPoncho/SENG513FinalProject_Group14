@@ -35,7 +35,7 @@ function SignInPage() {
     setIsLoading(true);
 
     let tempCredentials = {
-      "username": `${data.email}`,
+      "email": `${data.email}`,
       "password": `${data.password}`,
     };
 
@@ -43,7 +43,7 @@ function SignInPage() {
   };
 
   useEffect(async () => {
-    if (credentials?.username === undefined) {
+    if (credentials?.email === undefined) {
       return;
     }
 

@@ -14,17 +14,21 @@ db.once("open", () => {
 });
 
 exports.loginUser = async (loginData) => {
-    const user = await UserData.findOne({ username: loginData.username }).populate("ownedClassRooms visitedClassRooms bannedClassRooms");
-    if(!user) return { error: "Invalid username" };
+    const user = await UserData.findOne({ email: loginData.email }).populate("ownedClassRooms visitedClassRooms bannedClassRooms");
+    if(!user) return { error: "Invalid email" };
     if(loginData.password !== user.password) return { error: "Invalid password" };
     return { user };
 };
 
 exports.createUser = async (userData) => {
     const user = new UserData(userData);
-    const otherUser = await UserData.findOne({ username: userData.username });
+    let otherUser = await UserData.findOne({ email: userData.email });
     if(otherUser) {
-        return { error: "Username exists" };
+        return { error: "email exists" };
+    }
+    otherUser = await UserData.findOne({ username: userData.username });
+    if(otherUser) {
+        return { error: "username exists" };
     }
     await user.save();
     return { user: user };
