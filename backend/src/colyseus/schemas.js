@@ -73,6 +73,7 @@ class ClassRoom extends Room {
 
     // consider making this async and just throw new error
     onAuth(client, options, req) {
+        console.log(client.sessionId + " is in auth with options " + options + " req session " + req.session);
         // use a promise so that we can have custom rejections letting the user know why they failed to join
         return new Promise((resolve, reject) => {
             const { roomId } = options;
@@ -89,6 +90,7 @@ class ClassRoom extends Room {
     }
 
     onJoin(client, options, auth) {
+        console.log(client.sessionId + ' is joining ' + this.roomId + ' with options ' + options + ' auth ' + auth );
         const { userId, name } = auth;
         const isOwner = userId === this.metadata.owner;
         // assign userful information to the client
@@ -98,6 +100,7 @@ class ClassRoom extends Room {
     }
 
     onLeave(client) {
+        console.log(client.sessionId + ' is leaving the room ' + this.roomId);
         this.state.removeUser(client.sessionId);
     }
 

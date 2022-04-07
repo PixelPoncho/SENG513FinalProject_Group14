@@ -78,8 +78,10 @@ app.post(
 	validateUserLogin,
 	catchAsync(async (req, res) => {
 		console.log("in /users/login");
+		console.log(req.body.user);
 		const { error, user } = await loginUser(req.body.user);
 		if(error) {
+			console.log(error);
 			res.status(400).json({ error });
 		}
 		else {

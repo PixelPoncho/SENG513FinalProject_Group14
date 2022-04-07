@@ -8,6 +8,7 @@ const UserSchema = new Schema({
     chatColour: String,
 
     avatar: {
+        type: Object,
         skin: String,
         topType: String,
         hairColour: String,

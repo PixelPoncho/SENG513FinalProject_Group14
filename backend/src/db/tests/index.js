@@ -17,14 +17,14 @@ const printClassrooms = async () => {
     console.log("CLASSROOMS");
     const classrooms = await ClassRoomData.find({});
     if(classrooms.length === 0) console.log("No classrooms");
-    else classrooms.forEach(console.logjson);
+    else console.log(classrooms); //classrooms.forEach(console.logjson);
 };
 
 const printUsers = async () => {
     console.log("USERS");
     const users = await UserData.find({});
     if(users.length === 0) console.log("No users");
-    else users.forEach(console.logjson);
+    else console.log(users); //users.forEach(console.logjson);
 };
 
 const showStuff = async () => {
