@@ -16,14 +16,18 @@ const UserData = require("./src/db/schemas/userSchema");
 
 const app = express();
 const server = createServer(app);
+const sessionParser = session({ secret: 'secret' });
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(session({ secret: 'secret' }));
+app.use(sessionParser);
 
 const gameServer = new Server({
 	server: server,
-	express: app
+	express: app,
+	verifyClient: (info, next) => {
+		sessionParser(info.req, {}, () => next(true))
+	}
 });
 // gameServer.define("classroom", ClassRoom).filterBy(["classId"]);
 gameServer.define("classroom", ClassRoom).filterBy(['roomId']);
@@ -87,7 +91,7 @@ app.post(
 		else {
 			req.session.isLoggedIn = true;
 			req.session.userId = user._id;
-			req.session.name = user.name;
+			req.session.name = user.username;
 			res.json({ user });
 		}
 	})

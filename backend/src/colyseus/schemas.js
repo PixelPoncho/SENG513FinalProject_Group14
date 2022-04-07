@@ -74,9 +74,11 @@ class ClassRoom extends Room {
     // consider making this async and just throw new error
     onAuth(client, options, req) {
         console.log(client.sessionId + " is in auth with options " + options + " req session " + req.session);
+        console.log(req.session.userId);
         // use a promise so that we can have custom rejections letting the user know why they failed to join
         return new Promise((resolve, reject) => {
             const { roomId } = options;
+            if(!roomId) reject({ error: "Room not running" });
             // make sure routing works and users are going to the correct rooms
             if(roomId !== this.roomId) reject({ error: "Request room doesnt match this room id" });
             // find the user
