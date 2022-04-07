@@ -1,0 +1,46 @@
+
+.history {
+  /* This section is likely just temporary */
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background-color: white;
+  z-index: 12;
+  border: solid 2px black;
+  box-shadow: 0 0px  100px 200px hsla(0, 0%, 0%, 70%);
+
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+
+  .messages-container-outer {
+    overflow-y: scroll;
+    flex-grow: 1;
+    max-height: 100%;
+    margin: 16px 32px;
+  }
+
+  .messages-container {
+    box-shadow: inset 1px 1px 10px grey;
+
+    border-radius: 16px;
+    padding: 16px;
+    margin-right: 8px;
+    min-height: 100%;
+  }
+
+  .message {
+    display: flex;
+    margin-bottom: 8px;
+
+    .name {
+      margin-right: 8px;
+      flex-shrink: 0;
+    }
+  }
+
+  .btn-container {
+    display: flex;
+    justify-content: center;
+  }
+}
