@@ -122,17 +122,9 @@ function ClassroomPage(props) {
                 width: "50px",
                 height: "45px",
                 color: "var(--white)",
-                backgroundColor: "var(--light-blue)",
+                backgroundColor: "var(--gray)",
                 borderRadius: "20px",
                 boxShadow: "var(--card-shadow)"
-              }}
-              onMouseOver={({ target }) => {
-                target.style.backgroundColor = "var(--gray)";
-                target.style.cursor = "pointer";
-              }}
-              onMouseOut={({ target }) => {
-                target.style.backgroundColor = "var(--light-blue)";
-                target.style.cursor = "default";
               }}
         />
         {isChatOpen ? (
