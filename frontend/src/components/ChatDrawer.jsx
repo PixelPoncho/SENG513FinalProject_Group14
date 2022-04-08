@@ -19,7 +19,7 @@ const ChatDrawer = props => {
   }
 
   return (
-    <div className='chat-drawer --container'>
+    <div className='chat-drawer'>
         <div className='bottom-align'></div>
         <FaMicrophone
                 style={{
