@@ -68,7 +68,7 @@ function ClassroomPage(props) {
   }, []);
 
   useEffect(() => {
-    console.log("gameState: ", gameState);
+    //console.log("gameState: ", gameState);
   }, [gameState]);
 
   const sendAction = (actionType, actionValue) => {
@@ -82,12 +82,12 @@ function ClassroomPage(props) {
 
   return (
     <>
-    <div class='classroom-container'>
-      <div class='classroom-grid'>
+    <div className='classroom-container'>
+      <div className='classroom-grid'>
         <Grid gridWidth={14} />
       </div>
 
-      <div class='classroom-sidenav'>
+      <div className='classroom-sidenav'>
         <AiOutlineMenu
               style={{
                 margin: "15px",
@@ -108,8 +108,49 @@ function ClassroomPage(props) {
                 target.style.cursor = "default";
               }}
         />
-
         <ChatDrawer />
+
+        <div className="classroom-sidenav-space"></div>
+        <FaMicrophone
+              style={{
+                margin: "15px",
+                padding: "10px",
+                width: "50px",
+                height: "45px",
+                color: "var(--white)",
+                backgroundColor: "var(--light-blue)",
+                borderRadius: "20px",
+                boxShadow: "var(--card-shadow)"
+              }}
+              onMouseOver={({ target }) => {
+                target.style.backgroundColor = "var(--gray)";
+                target.style.cursor = "pointer";
+              }}
+              onMouseOut={({ target }) => {
+                target.style.backgroundColor = "var(--light-blue)";
+                target.style.cursor = "default";
+              }}
+        />
+        <HiChatAlt
+              style={{
+                margin: "15px",
+                padding: "10px",
+                width: "50px",
+                height: "45px",
+                color: "var(--white)",
+                backgroundColor: "var(--light-blue)",
+                borderRadius: "20px",
+                boxShadow: "var(--card-shadow)"
+              }}
+              onMouseOver={({ target }) => {
+                target.style.backgroundColor = "var(--gray)";
+                target.style.cursor = "pointer";
+              }}
+              onMouseOut={({ target }) => {
+                target.style.backgroundColor = "var(--light-blue)";
+                target.style.cursor = "default";
+              }}
+        />
       </div>
     </div>
     </>
