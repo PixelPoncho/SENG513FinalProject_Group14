@@ -8,13 +8,19 @@ import { HiChatAlt } from 'react-icons/hi';
 import { IoMdSend } from 'react-icons/io';
 
 const ChatDrawer = props => {
-  const {
-    isOpen,
-    setIsOpen
-  } = props;
+//   const {
+//   } = props;
+
+  const [isChatOpen, setIsChatOpen] = useState(false);
+
+  const handleChatClick = () => {
+    setIsChatOpen(!isChatOpen)
+  }
 
   return (
-    <div class='chat-container'>
+    <>
+    {isChatOpen ? (
+        <div class='chat-container'>
         <HiChatAlt
                 style={{
                     padding: "10px",
@@ -24,7 +30,7 @@ const ChatDrawer = props => {
                     backgroundColor: "var(--light-blue)",
                     borderRadius: "20px",
                 }}
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={() => setIsChatOpen(!isChatOpen)}
             />
         <IoMdSend 
             style={{
@@ -39,6 +45,30 @@ const ChatDrawer = props => {
             />
         <input id="input" placeholder="Start typing..."></input>
     </div>
+    ) : (
+        <HiChatAlt
+              style={{
+                margin: "15px",
+                padding: "10px",
+                width: "50px",
+                height: "45px",
+                color: "var(--white)",
+                backgroundColor: "var(--light-blue)",
+                borderRadius: "20px",
+                boxShadow: "var(--card-shadow)"
+              }}
+              onMouseOver={({ target }) => {
+                target.style.backgroundColor = "var(--gray)";
+                target.style.cursor = "pointer";
+              }}
+              onMouseOut={({ target }) => {
+                target.style.backgroundColor = "var(--light-blue)";
+                target.style.cursor = "default";
+              }}
+              onClick={handleChatClick}
+        />
+    )}
+    </>
   );
 }
 

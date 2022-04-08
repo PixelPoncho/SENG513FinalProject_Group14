@@ -17,8 +17,6 @@ import '../styles/ClassroomPage.scss';
 
 function ClassroomPage(props) {
 
-  const [isChatOpen, setIsChatOpen] = useState(false);
-
   let params = (new URL(document.location)).searchParams;
   const classId = params.get('id')
   //const { classId } = props;
@@ -82,10 +80,6 @@ function ClassroomPage(props) {
     room.send(actionType, actionValue);
   };
 
-  const handleChatClick = () => {
-    setIsChatOpen(!isChatOpen)
-  }
-
   return (
     <>
     <div class='classroom-container'>
@@ -127,34 +121,8 @@ function ClassroomPage(props) {
                 boxShadow: "var(--card-shadow)"
               }}
         />
-        {isChatOpen ? (
-          <ChatDrawer
-            isOpen={isChatOpen}
-            setIsOpen={setIsChatOpen}
-           />
-        ) : (
-          <HiChatAlt
-              style={{
-                margin: "15px",
-                padding: "10px",
-                width: "50px",
-                height: "45px",
-                color: "var(--white)",
-                backgroundColor: "var(--light-blue)",
-                borderRadius: "20px",
-                boxShadow: "var(--card-shadow)"
-              }}
-              onMouseOver={({ target }) => {
-                target.style.backgroundColor = "var(--gray)";
-                target.style.cursor = "pointer";
-              }}
-              onMouseOut={({ target }) => {
-                target.style.backgroundColor = "var(--light-blue)";
-                target.style.cursor = "default";
-              }}
-              onClick={handleChatClick}
-        />
-        )}
+        <ChatDrawer
+          />
       </div>
     </div>
     </>
