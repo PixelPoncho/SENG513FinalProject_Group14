@@ -8,6 +8,9 @@ import { AiOutlineMenu } from 'react-icons/ai';
 import { FaMicrophone } from 'react-icons/fa';
 import { HiChatAlt } from 'react-icons/hi';
 
+// Importing MUI components
+import ButtonGroup from '@mui/material/ButtonGroup';
+
 //TODO the gameState should be passed to the things that need it, this holds all the needed game information
 
 // Importing styling
@@ -85,6 +88,9 @@ function ClassroomPage(props) {
       </div>
 
       <div class='classroom-sidenav'>
+      <ButtonGroup
+          orientation='vertical'
+        />
         <AiOutlineMenu
               style={{
                 margin: "15px",
