@@ -1,0 +1,39 @@
+.chat-drawer {
+
+    display: contents;
+
+    .bottom-align {
+        margin-top: auto;
+    }
+    
+    .chat-container {
+        display: flex;
+        align-items: center;
+        align-self: flex-end;
+        flex-direction: row-reverse;
+        margin: 15px;
+        margin-right: 40px;
+        width: 750px;
+        height: 45px;
+        border-radius: 20px;
+        background-color: var(--light-blue);
+        box-shadow: var(--nav-shadow);
+    }
+
+    .chat-input {
+        width: 600px;
+        height: 40px;
+        border-radius: 20px;
+        background-color: white;
+    }
+
+    #input { 
+        border-width:0px;
+        border-radius: 20px;
+        background-color: white; 
+        width: 80%;
+        padding: 1em 1em;
+        height: 30px;
+    }
+
+}
