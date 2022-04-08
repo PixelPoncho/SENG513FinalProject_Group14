@@ -50,8 +50,8 @@ function Login() {
 
     const data = {
       "user": {
-        "name": credentials.name,
-        "username": credentials.email,
+        "username": credentials.name,
+        "email": credentials.email,
         "password": credentials.password,
       }
     };
@@ -82,7 +82,7 @@ function Login() {
       // Send a login request to log the user in automatically on sign up
       const data = {
         user: {
-          username: credentials.email,
+          email: credentials.email,
           password: credentials.password
         }
       };
