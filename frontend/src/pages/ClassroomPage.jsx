@@ -79,12 +79,13 @@ function ClassroomPage(props) {
                 target.style.cursor = "default";
               }}
         />
+        <div class="classroom-sidenav-space"></div>
         <FaMicrophone
               style={{
                 margin: "15px",
                 padding: "10px",
                 width: "50px",
-                height: "40px",
+                height: "45px",
                 color: "var(--white)",
                 backgroundColor: "var(--light-blue)",
                 borderRadius: "20px",
@@ -104,7 +105,7 @@ function ClassroomPage(props) {
                 margin: "15px",
                 padding: "10px",
                 width: "50px",
-                height: "40px",
+                height: "45px",
                 color: "var(--white)",
                 backgroundColor: "var(--light-blue)",
                 borderRadius: "20px",
@@ -119,7 +120,6 @@ function ClassroomPage(props) {
                 target.style.cursor = "default";
               }}
         />
-
       </div>
     </div>
     </>
