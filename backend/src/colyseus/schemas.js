@@ -1,5 +1,5 @@
 const { Room } = require("colyseus");
-const { Schema, MapSchema } = require("@colyseus/schema");
+const { Schema, MapSchema, defineTypes } = require("@colyseus/schema");
 const { getUserById, activateClassRoom, deactivateClassRoom, getClassRoomById } = require("../db/db");
 
 class User extends Schema {
@@ -9,6 +9,11 @@ class User extends Schema {
         this.y = y;
     }
 }
+
+defineTypes(User, {
+    x: "number",
+    y: "number"
+});
 
 class State extends Schema {
     constructor(gridSize) {
@@ -37,29 +42,34 @@ class State extends Schema {
     }
 }
 
+defineTypes(State, {
+    users: {map: User},
+    gridSize: "number"
+});
+
 class ClassRoom extends Room {
     maxClients = 20;
     gridSize = 10;
 
     // anyone will be able to start a room, they just wont have admin in that room
-    // the roomId will need to be unique since the filterby would just sent them to existing room
+    // the classId will need to be unique since the filterby would just sent them to existing room
     // this protects us from the issue of multiple classroom instances
-    // if they just make up a roomId then disconnect up front
+    // if they just make up a classId then disconnect up front
     async onCreate(options) {
         console.log("Starting ClassRoom with options ", options);
-        // get the roomId from the user set options
-        const { roomId } = options;
-        this.roomId = roomId;
+        // get the classId from the user set options
+        const { classId } = options;
+        this.classId = classId;
         // get the classroom the user wants to start
         // if it is a real classroom and not active start it
-        const { error, classRoom } = await activateClassRoom(roomId);
+        const { error, classRoom } = await activateClassRoom(classId);
         if(error) {
             console.log(error);
             this.disconnect();
             return;
         }
-        this.setMetadata({ roomId, className: classRoom.name, owner: classRoom.owner._id });
-        this.setState(new State(gridSize));
+        //this.setMetadata({ classId, className: classRoom.name, owner: classRoom.owner._id });
+        this.setState(new State(this.gridSize));
         this.onMessage("chat", (client, message) => {
             console.log(`chat from ${client.sessionId} saying ${message}`);
             this.broadcast("chat", client.name, message);
@@ -76,41 +86,43 @@ class ClassRoom extends Room {
         console.log(client.sessionId + " is in auth with options " + options + " req session " + req.session);
         console.log(req.session.userId);
         // use a promise so that we can have custom rejections letting the user know why they failed to join
-        return new Promise((resolve, reject) => {
-            const { roomId } = options;
-            if(!roomId) reject({ error: "Room not running" });
+        return new Promise(async (resolve, reject) => {
+            const { classId } = options;
+
+            if(!classId) reject({ error: "Room not running" });
             // make sure routing works and users are going to the correct rooms
-            if(roomId !== this.roomId) reject({ error: "Request room doesnt match this room id" });
+            if(classId !== this.classId) reject({ error: "Request room doesnt match this room id" });
             // find the user
             if(!req.session.isLoggedIn || !req.session.userId) reject({ error: "Not logged in" });
-            const user = getUserById(req.session.userId);
+            const user = await getUserById(req.session.userId);
             if(!user) reject({ errror: "Invalid user" });
             // make sure the user isint banned from this room
-            if(user.bannedRooms.includes(this.roomId)) reject({ error: "User banned from this room" });
+            if(user.bannedClassRooms.includes(this.classId)) reject({ error: "User banned from this room" });
             resolve({ userId: user._id, name: user.name });
         });
     }
 
     onJoin(client, options, auth) {
-        console.log(client.sessionId + ' is joining ' + this.roomId + ' with options ' + options + ' auth ' + auth );
+        console.log(client.sessionId + ' is joining ' + this.classId + ' with options ' + options + ' auth ' + auth );
         const { userId, name } = auth;
-        const isOwner = userId === this.metadata.owner;
+        //const isOwner = userId === this.metadata.owner;
         // assign userful information to the client
         // we carry the name, id and if they are the owner of the room
-        client.userData = { userId, name, isOwner }
+        //client.userData = { userId, name, isOwner }
         this.state.addUser(client.sessionId);
     }
 
     onLeave(client) {
-        console.log(client.sessionId + ' is leaving the room ' + this.roomId);
+        console.log(client.sessionId + ' is leaving the room ' + this.classId);
         this.state.removeUser(client.sessionId);
     }
 
     async onDispose() {
-        console.log(`shutting down room ${this.roomId}`);
-        const { error, classRoom } = await deactivateClassRoom(this.roomId);
-        if(error) console.log(`${this.roomId} - ${error}`);
+        console.log(`shutting down room ${this.classId}`);
+        const { error, classRoom } = await deactivateClassRoom(this.classId);
+        if(error) console.log(`${this.classId} - ${error}`);
     }
 }
+
 
 module.exports = { User, State, ClassRoom };
