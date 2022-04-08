@@ -108,7 +108,6 @@ function ClassroomPage(props) {
                 target.style.cursor = "default";
               }}
         />
-        <div class="classroom-sidenav-space"></div>
         <ChatDrawer />
       </div>
     </div>

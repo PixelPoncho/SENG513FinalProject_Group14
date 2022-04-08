@@ -1,3 +1,7 @@
+.bottom-align {
+    margin-top: auto;
+}
+
 .chat-container {
     display: flex;
     align-items: center;
@@ -11,6 +15,11 @@
     background-color: var(--light-blue);
     box-shadow: var(--nav-shadow);
 }
+
+// .classroom-sidenav-space {
+//     margin-top: auto;
+//     padding-bottom: 10px;
+// }
 
 .chat-input {
     width: 600px;

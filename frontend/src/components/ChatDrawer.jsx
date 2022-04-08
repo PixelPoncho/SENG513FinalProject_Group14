@@ -20,6 +20,7 @@ const ChatDrawer = props => {
 
   return (
     <>
+    <div class='bottom-align'></div>
     <FaMicrophone
               style={{
                 margin: "15px",
