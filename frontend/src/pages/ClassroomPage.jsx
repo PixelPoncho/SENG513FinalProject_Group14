@@ -3,12 +3,10 @@ import React, { useState, useEffect } from 'react'
 import Grid from '../components/Grid'
 import { Client } from 'colyseus.js';
 import ChatDrawer from '../components/ChatDrawer'
+import MenuDrawer from '../components/MenuDrawer'
 
 // Importing icons
 import { AiOutlineMenu } from 'react-icons/ai';
-import { FaMicrophone } from 'react-icons/fa';
-import { HiChatAlt } from 'react-icons/hi';
-import { FaTshirt } from 'react-icons/fa';
 
 //TODO the gameState should be passed to the things that need it, this holds all the needed game information
 
@@ -88,27 +86,7 @@ function ClassroomPage(props) {
       </div>
 
       <div class='classroom-sidenav'>
-        <AiOutlineMenu
-              style={{
-                margin: "15px",
-                padding: "10px",
-                width: "50px",
-                height: "60px",
-                color: "var(--white)",
-                backgroundColor: "var(--light-blue)",
-                borderRadius: "20px",
-                boxShadow: "var(--card-shadow)"
-              }}
-              onMouseOver={({ target }) => {
-                target.style.backgroundColor = "var(--gray)";
-                target.style.cursor = "pointer";
-              }}
-              onMouseOut={({ target }) => {
-                target.style.backgroundColor = "var(--light-blue)";
-                target.style.cursor = "default";
-              }}
-        />
-
+        <MenuDrawer />
         <ChatDrawer />
       </div>
     </div>

@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useCallback } from 'react'
 
 // Import styling
-import '../styles/ChatDrawerStyling.scss'
+import '../styles/ChatDrawer.scss'
 
 // Import react-icons
 import { HiChatAlt } from 'react-icons/hi';
