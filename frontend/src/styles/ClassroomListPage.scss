@@ -101,7 +101,38 @@
       min-width: 250px;
       padding: 20px 0;
       margin: 0 20px;
+
+      a {
+        text-decoration: none;
+      }
     }
+  }
+
+  .yours {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+
+  .status {
+    display: flex;
+    justify-content: center;
+    font-style: italic;
+  }
+
+  .status::before {
+    width: 10px;
+    height: 10px;
+    background-color: green;
+    color: transparent;
+    content: ". ";
+    border-radius: 100px;
+    align-self: center;
+    margin-right: 8px;
+  }
+  .status.inactive::before {
+    background-color: red;
   }
 }
 
@@ -158,6 +189,9 @@
       min-width: 250px;
       padding: 20px 0;
       margin: 0 20px;
+
+
     }
+
   }
 }
