@@ -1,14 +1,16 @@
 .chat-drawer {
 
+    display: contents;
+
     .bottom-align {
         margin-top: auto;
     }
-
+    
     .chat-container {
         display: flex;
         align-items: center;
-        flex-direction: row-reverse;
         align-self: flex-end;
+        flex-direction: row-reverse;
         margin: 15px;
         margin-right: 40px;
         width: 750px;
