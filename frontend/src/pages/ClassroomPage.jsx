@@ -108,6 +108,7 @@ function ClassroomPage(props) {
                 target.style.cursor = "default";
               }}
         />
+
         <ChatDrawer />
       </div>
     </div>
