@@ -34,7 +34,7 @@ const MenuDrawer = props => {
                         borderRadius: "20px",
                     }}
                     onMouseOver={({ target }) => {
-                        target.style.backgroundColor = "var(--gray)";
+                        target.style.backgroundColor = "var(--off-yellow)";
                         target.style.cursor = "pointer";
                     }}
                     onMouseOut={({ target }) => {
@@ -43,7 +43,6 @@ const MenuDrawer = props => {
                     }}
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
                 />
-
                 <FaTshirt
                     style={{
                         padding: "10px",
@@ -54,7 +53,7 @@ const MenuDrawer = props => {
                         borderRadius: "20px",
                     }}
                     onMouseOver={({ target }) => {
-                        target.style.backgroundColor = "var(--gray)";
+                        target.style.backgroundColor = "var(--off-yellow)";
                         target.style.cursor = "pointer";
                     }}
                     onMouseOut={({ target }) => {
@@ -73,7 +72,7 @@ const MenuDrawer = props => {
                         borderRadius: "20px",
                     }}
                     onMouseOver={({ target }) => {
-                        target.style.backgroundColor = "var(--gray)";
+                        target.style.backgroundColor = "var(--off-yellow)";
                         target.style.cursor = "pointer";
                     }}
                     onMouseOut={({ target }) => {
@@ -92,7 +91,7 @@ const MenuDrawer = props => {
                         borderRadius: "20px",
                     }}
                     onMouseOver={({ target }) => {
-                        target.style.backgroundColor = "var(--gray)";
+                        target.style.backgroundColor = "var(--off-yellow)";
                         target.style.cursor = "pointer";
                     }}
                     onMouseOut={({ target }) => {
@@ -111,7 +110,7 @@ const MenuDrawer = props => {
                         borderRadius: "20px",
                     }}
                     onMouseOver={({ target }) => {
-                        target.style.backgroundColor = "var(--gray)";
+                        target.style.backgroundColor = "var(--off-yellow)";
                         target.style.cursor = "pointer";
                     }}
                     onMouseOut={({ target }) => {
@@ -131,7 +130,7 @@ const MenuDrawer = props => {
                             borderRadius: "20px",
                         }}
                         onMouseOver={({ target }) => {
-                            target.style.backgroundColor = "var(--gray)";
+                            target.style.backgroundColor = "var(--off-yellow)";
                             target.style.cursor = "pointer";
                         }}
                         onMouseOut={({ target }) => {
@@ -154,7 +153,7 @@ const MenuDrawer = props => {
                     boxShadow: "var(--card-shadow)"
                 }}
                 onMouseOver={({ target }) => {
-                    target.style.backgroundColor = "var(--gray)";
+                    target.style.backgroundColor = "var(--off-yellow)";
                     target.style.cursor = "pointer";
                 }}
                 onMouseOut={({ target }) => {

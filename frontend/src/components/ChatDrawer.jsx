@@ -72,7 +72,7 @@ const ChatDrawer = props => {
                     boxShadow: "var(--card-shadow)"
                 }}
                 onMouseOver={({ target }) => {
-                    target.style.backgroundColor = "var(--gray)";
+                    target.style.backgroundColor = "var(--off-yellow)";
                     target.style.cursor = "pointer";
                 }}
                 onMouseOut={({ target }) => {
