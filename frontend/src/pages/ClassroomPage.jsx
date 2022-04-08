@@ -136,7 +136,10 @@ function ClassroomPage(props) {
               }}
         />
         {isChatOpen ? (
-          <ChatDrawer />
+          <ChatDrawer
+            isOpen={isChatOpen}
+            setIsOpen={setIsChatOpen}
+           />
         ) : (
           <HiChatAlt
               style={{

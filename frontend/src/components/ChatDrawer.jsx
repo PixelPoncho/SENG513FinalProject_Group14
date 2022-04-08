@@ -9,7 +9,8 @@ import { IoMdSend } from 'react-icons/io';
 
 const ChatDrawer = props => {
   const {
-    isOpen
+    isOpen,
+    setIsOpen
   } = props;
 
   return (
@@ -23,6 +24,7 @@ const ChatDrawer = props => {
                     backgroundColor: "var(--light-blue)",
                     borderRadius: "20px",
                 }}
+                onClick={() => setIsOpen(!isOpen)}
             />
         <IoMdSend 
             style={{
