@@ -6,6 +6,7 @@ import '../styles/ChatDrawerStyling.scss'
 // Import react-icons
 import { HiChatAlt } from 'react-icons/hi';
 import { IoMdSend } from 'react-icons/io';
+import { FaMicrophone } from 'react-icons/fa';
 
 const ChatDrawer = props => {
 //   const {
@@ -19,6 +20,18 @@ const ChatDrawer = props => {
 
   return (
     <>
+    <FaMicrophone
+              style={{
+                margin: "15px",
+                padding: "10px",
+                width: "50px",
+                height: "45px",
+                color: "var(--white)",
+                backgroundColor: "var(--gray)",
+                borderRadius: "20px",
+                boxShadow: "var(--card-shadow)"
+              }}
+        />
     {isChatOpen ? (
         <div class='chat-container'>
         <HiChatAlt

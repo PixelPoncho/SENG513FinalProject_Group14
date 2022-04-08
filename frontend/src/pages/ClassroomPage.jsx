@@ -109,20 +109,7 @@ function ClassroomPage(props) {
               }}
         />
         <div class="classroom-sidenav-space"></div>
-        <FaMicrophone
-              style={{
-                margin: "15px",
-                padding: "10px",
-                width: "50px",
-                height: "45px",
-                color: "var(--white)",
-                backgroundColor: "var(--gray)",
-                borderRadius: "20px",
-                boxShadow: "var(--card-shadow)"
-              }}
-        />
-        <ChatDrawer
-          />
+        <ChatDrawer />
       </div>
     </div>
     </>
