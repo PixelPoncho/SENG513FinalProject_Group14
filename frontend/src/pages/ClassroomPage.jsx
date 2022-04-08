@@ -5,6 +5,8 @@ import { Client } from 'colyseus.js';
 
 // Importing icons
 import { AiOutlineMenu } from 'react-icons/ai';
+import { FaMicrophone } from 'react-icons/fa';
+import { HiChatAlt } from 'react-icons/hi';
 
 //TODO the gameState should be passed to the things that need it, this holds all the needed game information
 
@@ -63,6 +65,26 @@ function ClassroomPage(props) {
                 padding: "10px",
                 width: "50px",
                 height: "60px",
+                color: "var(--white)",
+                backgroundColor: "var(--light-blue)",
+                borderRadius: "20px",
+                boxShadow: "var(--card-shadow)"
+              }}
+              onMouseOver={({ target }) => {
+                target.style.backgroundColor = "var(--gray)";
+                target.style.cursor = "pointer";
+              }}
+              onMouseOut={({ target }) => {
+                target.style.backgroundColor = "var(--light-blue)";
+                target.style.cursor = "default";
+              }}
+        />
+        <FaMicrophone
+              style={{
+                margin: "15px",
+                padding: "10px",
+                width: "50px",
+                height: "40px",
                 color: "var(--white)",
                 backgroundColor: "var(--light-blue)",
                 borderRadius: "20px",
