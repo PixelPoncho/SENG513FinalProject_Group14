@@ -14,17 +14,25 @@ import { HiChatAlt } from 'react-icons/hi';
 import '../styles/ClassroomPage.scss';
 
 function ClassroomPage(props) {
-  const { classId } = props;
-  const [gameState, setGameState] = useState(null);
+    let params = (new URL(document.location)).searchParams;
+    const classId = params.get('id')
+  //const { classId } = props;
+  const [gameState, setGameState] = useState({
+      users: []
+  });
   const [chatMessages, setChatMessages] = useState([]);
   let client = null;
   let room = null;
+
+  let p = {
+      room
+  };
 
   useEffect(() => {
     (async () => {
         client = new Client('ws://localhost:3001')
         const joinRoom = async () => {
-          return await client.joinOrCreate("classroom", {classId});
+          return client.joinOrCreate("classroom", {classId});
         };
         try {
           room = await joinRoom();
@@ -33,14 +41,32 @@ function ClassroomPage(props) {
         }
 
         room.onStateChange((state) => {
-          console.log(gameState);
-          setGameState(state);
+            const users = [];
+
+            state.users.forEach(u => {
+                users.push({
+                  x: u.x,
+                  y: u.y
+                });
+            });
+
+          setGameState({
+              ...gameState,
+              users: users
+          });
         });
+
+
+
         room.onMessage("chat", (msg) => {
           setChatMessages([...chatMessages, msg]);
         });
       })();
   }, []);
+
+  useEffect(() => {
+    console.log("gameState: ", gameState);
+  }, [gameState]);
 
   const sendAction = (actionType, actionValue) => {
     // currently options

@@ -30,7 +30,7 @@ const gameServer = new Server({
 	}
 });
 // gameServer.define("classroom", ClassRoom).filterBy(["classId"]);
-gameServer.define("classroom", ClassRoom).filterBy(['roomId']);
+gameServer.define("classroom", ClassRoom).filterBy(['classId']);
 
 // middleware
 const checkUserLogin = (req, res, next) => {
