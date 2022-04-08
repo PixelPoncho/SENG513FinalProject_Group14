@@ -1,0 +1,30 @@
+.classroom-container {
+
+}
+
+.classroom-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding-right: 150px;
+}
+
+.classroom-sidenav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 150px;
+    padding: 10px;
+    background-color: var(--dark-blue);
+    box-shadow: var(--nav-shadow);
+}
+
+.classroom-sidenav-space {
+    margin-top: auto;
+    padding-bottom: 10px;
+}

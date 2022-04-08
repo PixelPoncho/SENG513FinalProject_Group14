@@ -1,3 +1,5 @@
+// TODO: fix infinite loop
+
 import React, {useState, useEffect, useCallback } from 'react'
 import Square from './Square'
 
