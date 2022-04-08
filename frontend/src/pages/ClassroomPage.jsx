@@ -99,6 +99,27 @@ function ClassroomPage(props) {
                 target.style.cursor = "default";
               }}
         />
+        <HiChatAlt
+              style={{
+                margin: "15px",
+                padding: "10px",
+                width: "50px",
+                height: "40px",
+                color: "var(--white)",
+                backgroundColor: "var(--light-blue)",
+                borderRadius: "20px",
+                boxShadow: "var(--card-shadow)"
+              }}
+              onMouseOver={({ target }) => {
+                target.style.backgroundColor = "var(--gray)";
+                target.style.cursor = "pointer";
+              }}
+              onMouseOut={({ target }) => {
+                target.style.backgroundColor = "var(--light-blue)";
+                target.style.cursor = "default";
+              }}
+        />
+
       </div>
     </div>
     </>
