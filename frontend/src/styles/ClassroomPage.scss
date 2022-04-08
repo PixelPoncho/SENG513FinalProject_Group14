@@ -1,12 +1,21 @@
 .classroom-container {
-    display: flex;
+
 }
 
-.sidenav {
-    height: 100%;
-    width: 200px;
-    // background-color: var(--dark-blue);
-    background-color: red;
-    float: right;
+.classroom-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding-right: 150px;
+}
+
+.classroom-sidenav {
+    position: absolute;
     top: 0;
+    right: 0;
+    height: 100%;
+    width: 150px;
+    background-color: var(--dark-blue);
+    box-shadow: var(--nav-shadow);
 }

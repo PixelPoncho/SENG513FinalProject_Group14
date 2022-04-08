@@ -49,8 +49,13 @@ function ClassroomPage(props) {
   return (
     <>
     <div class='classroom-container'>
-      <Grid gridWidth={14} />
-      {/* <div class='sidenav'></div> */}
+      <div class='classroom-grid'>
+        <Grid gridWidth={14} />
+      </div>
+
+      <div class='classroom-sidenav'>
+
+      </div>
     </div>
     </>
   )
