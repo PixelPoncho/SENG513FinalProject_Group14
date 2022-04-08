@@ -1,30 +1,29 @@
-.classroom-container {
-
-}
-
-.classroom-grid {
+.chat-container {
     display: flex;
-    justify-content: center;
     align-items: center;
-    height: 100vh;
-    padding-right: 150px;
-}
-
-.classroom-sidenav {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 100vh;
-    width: 150px;
-    padding: 10px;
-    background-color: var(--dark-blue);
+    flex-direction: row-reverse;
+    align-self: flex-end;
+    margin: 15px;
+    margin-right: 35px;
+    width: 750px;
+    height: 45px;
+    border-radius: 20px;
+    background-color: var(--light-blue);
     box-shadow: var(--nav-shadow);
 }
 
-.classroom-sidenav-space {
-    margin-top: auto;
-    padding-bottom: 10px;
+.chat-input {
+    width: 600px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: white;
+}
+
+#input { 
+    border-width:0px;
+    border-radius: 20px;
+    background-color: white; 
+    width: 80%;
+    padding: 1em 1em;
+    height: 30px;
 }

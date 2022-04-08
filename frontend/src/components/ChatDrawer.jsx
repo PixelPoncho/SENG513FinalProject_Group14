@@ -1,10 +1,11 @@
 import React, {useState, useEffect, useCallback } from 'react'
 
 // Import styling
-import '../styles/GridStyling.scss'
+import '../styles/ChatDrawerStyling.scss'
 
 // Import react-icons
 import { HiChatAlt } from 'react-icons/hi';
+import { IoMdSend } from 'react-icons/io';
 
 const ChatDrawer = props => {
   const {
@@ -12,26 +13,30 @@ const ChatDrawer = props => {
   } = props;
 
   return (
-    <HiChatAlt
-              style={{
-                margin: "15px",
+    <div class='chat-container'>
+        <HiChatAlt
+                style={{
+                    padding: "10px",
+                    width: "50px",
+                    height: "45px",
+                    color: "var(--white)",
+                    backgroundColor: "var(--light-blue)",
+                    borderRadius: "20px",
+                }}
+            />
+        <IoMdSend 
+            style={{
+                margin: '10px',
                 padding: "10px",
-                width: "50px",
-                height: "60px",
+                width: "35px",
+                height: "35px",
                 color: "var(--white)",
-                backgroundColor: "var(--light-blue)",
-                borderRadius: "20px",
-                boxShadow: "var(--card-shadow)"
-              }}
-              onMouseOver={({ target }) => {
-                target.style.backgroundColor = "var(--gray)";
-                target.style.cursor = "pointer";
-              }}
-              onMouseOut={({ target }) => {
-                target.style.backgroundColor = "var(--light-blue)";
-                target.style.cursor = "default";
-              }}
-        />
+                backgroundColor: "var(--yellow)",
+                borderRadius: "50%",
+            }}
+            />
+        <input id="input" placeholder="Start typing..."></input>
+    </div>
   );
 }
 
