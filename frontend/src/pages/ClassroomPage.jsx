@@ -2,14 +2,13 @@
 import React, { useState, useEffect } from 'react'
 import Grid from '../components/Grid'
 import { Client } from 'colyseus.js';
+import ChatDrawer from '../components/ChatDrawer'
 
 // Importing icons
 import { AiOutlineMenu } from 'react-icons/ai';
 import { FaMicrophone } from 'react-icons/fa';
 import { HiChatAlt } from 'react-icons/hi';
-
-// Importing MUI components
-import ButtonGroup from '@mui/material/ButtonGroup';
+import { FaTshirt } from 'react-icons/fa';
 
 //TODO the gameState should be passed to the things that need it, this holds all the needed game information
 
@@ -17,6 +16,7 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import '../styles/ClassroomPage.scss';
 
 function ClassroomPage(props) {
+
     let params = (new URL(document.location)).searchParams;
     const classId = params.get('id')
   //const { classId } = props;
@@ -88,9 +88,6 @@ function ClassroomPage(props) {
       </div>
 
       <div class='classroom-sidenav'>
-      <ButtonGroup
-          orientation='vertical'
-        />
         <AiOutlineMenu
               style={{
                 margin: "15px",
