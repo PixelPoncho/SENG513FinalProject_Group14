@@ -5,6 +5,13 @@ module.exports.userCreateSchema = Joi.object({
 		username: Joi.string().required(),
 		email: Joi.string().required(),
 		password: Joi.string().required(),
+		avatar: Joi.object({
+			skin: Joi.string(),
+			topType: Joi.string(),
+			hairColour: Joi.string(),
+			clothingType: Joi.string(),
+			clothingColour: Joi.string()
+		}),
 	}).required(),
 });
 

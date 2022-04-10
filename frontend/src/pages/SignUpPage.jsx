@@ -53,6 +53,13 @@ function Login() {
         "username": credentials.name,
         "email": credentials.email,
         "password": credentials.password,
+        avatar: { // Some default avatar values
+          skin: "Tanned",
+          topType: "LongHairStraight",
+          hairColour: "Auburn",
+          clothingType: "BlazerShirt",
+          clothingColour: "#1ABC9C",
+        }
       }
     };
 
