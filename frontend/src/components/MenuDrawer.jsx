@@ -12,7 +12,8 @@ import { BiExit, BiArrowBack } from 'react-icons/bi'
 
 const MenuDrawer = props => {
   const {
-    handleChatHistoryClick
+    handleChatHistoryClick,
+    handleAvatarModalClick
   } = props;
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -31,6 +32,7 @@ const MenuDrawer = props => {
                 />
                 <FaTshirt
                     className='menu-icon'
+                    onClick={handleAvatarModalClick}
                 />
 
                 <RiTeamFill
@@ -43,7 +45,7 @@ const MenuDrawer = props => {
                 />
 
                 <FaChalkboardTeacher
-                    className='menu-icon'
+                    className='menu-icon disabled'
                 />
 
                 <div className='exit-button'>

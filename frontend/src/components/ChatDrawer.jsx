@@ -22,12 +22,12 @@ const ChatDrawer = props => {
     <div className='chat-drawer'>
         <div className='bottom-align'></div>
         <FaMicrophone
-            className='disabled'
+            className='drawer-icon disabled'
         />
         {isChatOpen ? (
             <div className='chat-container'>
             <HiChatAlt
-                    className='chat-icon'
+                    className='drawer-icon'
                     onClick={() => setIsChatOpen(!isChatOpen)}
                 />
             <IoMdSend 
@@ -37,7 +37,7 @@ const ChatDrawer = props => {
         </div>
         ) : (
             <HiChatAlt
-                className='chat-icon main'
+                className='drawer-icon main'
                 onClick={handleChatClick}
             />
         )}

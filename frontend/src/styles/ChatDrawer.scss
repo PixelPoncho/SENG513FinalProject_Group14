@@ -36,7 +36,7 @@
         height: 30px;
     }
 
-    .chat-icon {
+    .drawer-icon {
         padding: 10px;
         width: 50px;
         height: 45px;
@@ -47,6 +47,11 @@
         &.main {
             box-shadow: var(--card-shadow);
             margin: 15px;
+        }
+
+        &.disabled {
+            background-color: var(--gray);
+            pointer-events: none;
         }
 
         &:hover {
@@ -66,16 +71,5 @@
         &:hover {
             background-color: var(--off-yellow);
         }
-    }
-
-    .disabled {
-        margin: 15px;
-        padding: 10px;
-        width: 50px;
-        height: 45px;
-        color: var(--white);
-        background-color: var(--gray);
-        border-radius: 20px;
-        box-shadow: var(--card-shadow);
     }
 }
