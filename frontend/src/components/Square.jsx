@@ -8,10 +8,12 @@ const Square = props => {
     x,
     y,
     selectedSquare,
+    player
   } = props;
 
   return (
     <div className={selectedSquare[0] === x && selectedSquare[1] === y ? `selected square` : `square`}>
+      {player}
     </div>
   )
 }
