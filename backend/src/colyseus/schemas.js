@@ -109,11 +109,11 @@ class ClassRoom extends Room {
     }
 
     // consider making this async and just throw new error
-    onAuth(client, options, req) {
+    async onAuth(client, options, req) {
         console.log(client.sessionId + " is in auth with options " + JSON.stringify(options) + " req session " + JSON.stringify(req.session) );
         console.log(req.session.userId);
         // use a promise so that we can have custom rejections letting the user know why they failed to join
-        return new Promise(async (resolve, reject) => {
+        return await new Promise(async (resolve, reject) => {
             const { classId } = options;
 
             if(!classId) reject({ error: "Room not running" });
@@ -145,7 +145,10 @@ class ClassRoom extends Room {
         // assign userful information to the client
         // we carry the name, id and if they are the owner of the room
         //client.userData = { userId, name, isOwner }
-        this.state.addUser(client.sessionId, { userIdStr, username, email, avatar });
+        const sessionId = client.sessionId;
+        const user = { userId: userIdStr, username, email, avatar };
+
+        this.state.addUser(sessionId, user);
     }
 
     onLeave(client) {
