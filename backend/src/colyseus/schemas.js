@@ -83,7 +83,6 @@ class ClassRoom extends Room {
             const { deltaX, deltaY } = message;
             this.state.moveUser(client.sessionId, deltaX, deltaY);
         });
-        this.setSimulationInterval(())
         console.log("ClassRoom created successfully ");
     }
 
