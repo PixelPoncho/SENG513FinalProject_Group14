@@ -1,5 +1,5 @@
 // Importing Components from node_modules
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import Grid from '../components/Grid'
 import { Client } from 'colyseus.js';
 import ChatDrawer from '../components/ChatDrawer'
@@ -18,6 +18,9 @@ function ClassroomPage(props) {
   let params = (new URL(document.location)).searchParams;
   const classId = params.get('id')
   //const { classId } = props;
+
+  // I think this could be set to null object, then just handle with 
+  // if statement for whatever on the front end
   const [gameState, setGameState] = useState({
       users: []
   });
@@ -28,6 +31,12 @@ function ClassroomPage(props) {
   let p = {
       room
   };
+
+  const updateGameState = useCallback((newState) => {
+    console.log("Updating Game State");
+    console.log(newState);
+    setGameState(newState);
+  }, [gameState]);
 
   useEffect(() => {
     (async () => {
@@ -47,11 +56,23 @@ function ClassroomPage(props) {
             state.users.forEach(u => {
                 users.push({
                   x: u.x,
-                  y: u.y
+                  y: u.y,
+                    userId: u.userId,
+                    username: u.username,
+                    email: u.email,
+                    avatar: {
+                        skin: u.avatar.skin,
+                        topType: u.avatar.topType,
+                        hairColour: u.avatar.hairColour,
+                        clothingType: u.avatar.clothingType,
+                        clothingColour: u.avatar.clothingColour,
+                    }
                 });
             });
 
-          setGameState({
+
+
+          updateGameState({
               ...gameState,
               users: users
           });
