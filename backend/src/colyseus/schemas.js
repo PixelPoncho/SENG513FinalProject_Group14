@@ -2,17 +2,44 @@ const { Room } = require("colyseus");
 const { Schema, MapSchema, defineTypes } = require("@colyseus/schema");
 const { getUserById, activateClassRoom, deactivateClassRoom, getClassRoomById } = require("../db/db");
 
-class User extends Schema {
-    constructor(x = 0, y = 0) {
+class Avatar extends Schema {
+    constructor(skin, topType, hairColour, clothingType, clothingColour) {
         super();
+        this.skin = skin;
+        this.topType = topType;
+        this.hairColour = hairColour;
+        this.clothingType = clothingType;
+        this.clothingColour = clothingColour;
+    }
+}
+defineTypes(Avatar, {
+    skin: "string",
+    topType: "string",
+    hairColour: "string",
+    clothingType: "string",
+    clothingColour: "string",
+});
+
+class User extends Schema {
+    constructor(properties, x = 0, y = 0) {
+        super();
+        const { userId, username, email, avatar } = properties;
         this.x = x;
         this.y = y;
+        this.userId = userId;
+        this.username = username;
+        this.email = email;
+        this.avatar = avatar;
     }
 }
 
 defineTypes(User, {
     x: "number",
-    y: "number"
+    y: "number",
+    userId: "string",
+    username: "string",
+    email: "string",
+    avatar: Avatar
 });
 
 class State extends Schema {
@@ -22,8 +49,8 @@ class State extends Schema {
         this.gridSize = gridSize;
     }
 
-    addUser(sessionId) {
-        this.users.set(sessionId, new User());
+    addUser(sessionId, properties) {
+        this.users.set(sessionId, new User(properties));
     }
     
     removeUser(sessionId) {
@@ -83,7 +110,7 @@ class ClassRoom extends Room {
 
     // consider making this async and just throw new error
     onAuth(client, options, req) {
-        console.log(client.sessionId + " is in auth with options " + options + " req session " + req.session);
+        console.log(client.sessionId + " is in auth with options " + JSON.stringify(options) + " req session " + JSON.stringify(req.session) );
         console.log(req.session.userId);
         // use a promise so that we can have custom rejections letting the user know why they failed to join
         return new Promise(async (resolve, reject) => {
@@ -96,20 +123,29 @@ class ClassRoom extends Room {
             if(!req.session.isLoggedIn || !req.session.userId) reject({ error: "Not logged in" });
             const user = await getUserById(req.session.userId);
             if(!user) reject({ errror: "Invalid user" });
+            console.log(JSON.stringify(user));
             // make sure the user isint banned from this room
             if(user.bannedClassRooms.includes(this.classId)) reject({ error: "User banned from this room" });
-            resolve({ userId: user._id, name: user.name });
+            const avatar = new Avatar(
+                user.avatar.skin,
+                user.avatar.topType,
+                user.avatar.hairColour,
+                user.avatar.clothingType,
+                user.avatar.clothingColour
+            )
+            resolve({ userId: user._id, username: user.username, email: user.email, avatar: avatar });
         });
     }
 
     onJoin(client, options, auth) {
-        console.log(client.sessionId + ' is joining ' + this.classId + ' with options ' + options + ' auth ' + auth );
-        const { userId, name } = auth;
+        console.log(client.sessionId + ' is joining ' + this.classId + ' with options ' + JSON.stringify(options) + ' auth ' + JSON.stringify(auth) );
+        const { userId, username, email, avatar } = auth;
+        const userIdStr = userId.toString();
         //const isOwner = userId === this.metadata.owner;
         // assign userful information to the client
         // we carry the name, id and if they are the owner of the room
         //client.userData = { userId, name, isOwner }
-        this.state.addUser(client.sessionId);
+        this.state.addUser(client.sessionId, { userIdStr, username, email, avatar });
     }
 
     onLeave(client) {

@@ -6,10 +6,15 @@
 // Importing Components from node_modules
 import React, { useState } from 'react'
 
+// Importing icons
+import { MdStarRate } from 'react-icons/md'
+
+
 // Importing styling
 import '../styles/ClassroomListPage.scss';
+import {NavLink} from "react-router-dom";
 
-function ExistingClassrooms() {
+function ExistingClassrooms(props) {
   return (
     <div className="existing-container">
       <p className="descriptive-text">
@@ -43,20 +48,26 @@ function ExistingClassrooms() {
         <h5 className='sub-header'>OR</h5>
         <div className="horizontal-divider short" />
       </div>
-
       <div className='your-classes'>
+          {props.currentUser.ownedClassRooms.map(classroom =>
+              <div className='class-card' key={classroom._id} >
+                  <NavLink to={"/classroom?id="+classroom._id} >
+                  <h4 className='header'>{classroom.name}</h4>
+                  <div className="sub-header yours">
+                      <MdStarRate />
+                      Your classroom
+                  </div>
+                  {classroom.active &&
+                      <div className="status active">ONLINE</div>
+                  }
+                  {!classroom.active &&
+                      <div className="status inactive">OFFLINE</div>
+                  }
+                  {/* Include kebab menu and edit options */}
+                  </NavLink>
+              </div>
+          )}
         {/* Setup for a card. Need to use .map to create cards for every instance the user has. */}
-        <div className='class-card'>
-          <h4 className='header'>Class Name</h4>
-          <p>Offline/Online status</p>
-          {/* Include kebab menu and edit options */}
-        </div>
-
-        <div className='class-card'>
-          <h4 className='header'>Class Name</h4>
-          <p>Offline/Online status</p>
-          {/* Include kebab menu and edit options */}
-        </div>
       </div>
       <button className='--btn yellow solid'>
         Start Your Class
@@ -108,7 +119,7 @@ function NewClassroom() {
 }
 
 
-function ClassroomListPage() {
+function ClassroomListPage(props) {
   // Used to update "section" of customization user is in
   const [activeSubView, setActiveSubView] = useState('existing');
 
@@ -146,7 +157,7 @@ function ClassroomListPage() {
       <div className="horizontal-divider" />
 
       {activeSubView === 'existing' &&
-        <ExistingClassrooms />
+        <ExistingClassrooms currentUser={props.currentUser} />
       }
 
       {activeSubView === 'new' &&
