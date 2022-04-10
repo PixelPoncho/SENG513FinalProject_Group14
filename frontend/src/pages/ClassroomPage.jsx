@@ -22,7 +22,9 @@ function ClassroomPage(props) {
         const classId = params.get('id');
 
         try {
-            const client = new Client('ws://localhost:3000');
+            const client = new Client('ws://localhost:3001');
+            console.log("About to call client.joinOrCreate");
+
             const room = await client.joinOrCreate("classroom", {classId});
             resolve(room);
         }
