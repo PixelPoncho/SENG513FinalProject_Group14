@@ -26,10 +26,10 @@ exports.createUser = async (userData) => {
     if(otherUser) {
         return { error: "email exists" };
     }
-    otherUser = await UserData.findOne({ username: userData.username });
-    if(otherUser) {
-        return { error: "username exists" };
-    }
+    // otherUser = await UserData.findOne({ username: userData.username });
+    // if(otherUser) {
+    //     return { error: "username exists" };
+    // }
     await user.save();
     return { user: user };
 };
