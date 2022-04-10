@@ -1,6 +1,6 @@
 
 .history {
-  /* This section is likely just temporary */
+  /* centering on page */
   position: absolute;
   width: 500px;
   height: 500px;
@@ -8,7 +8,7 @@
   z-index: 12;
   border: solid 2px black;
   box-shadow: 0 0px  100px 200px hsla(0, 0%, 0%, 70%);
-
+  border-radius: 20px;
   padding: 16px;
   display: flex;
   flex-direction: column;

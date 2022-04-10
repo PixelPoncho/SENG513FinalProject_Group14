@@ -2,7 +2,11 @@ import React, {useEffect, useState} from 'react'
 
 import '../styles/ChatHistory.scss';
 
-function ChatHistory() {
+const ChatHistory = props => {
+    const {
+        handleChatHistoryClick
+    } = props;
+
     const [messages, setMessages] = useState([]);
 
     const addMessage = message => {
@@ -55,7 +59,7 @@ function ChatHistory() {
                 </div>
             </div>
             <div className="btn-container">
-                <button className="--btn yellow solid">Ok</button>
+                <button className="--btn yellow solid" onClick={handleChatHistoryClick}>Ok</button>
             </div>
         </div>
     );

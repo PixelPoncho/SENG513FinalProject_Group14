@@ -5,6 +5,8 @@ import Grid from '../components/Grid'
 import { Client } from 'colyseus.js';
 import ChatDrawer from '../components/ChatDrawer'
 import MenuDrawer from '../components/MenuDrawer'
+import ChatHistory from '../components/ChatHistory';
+import ExitModal from '../components/ExitModal'
 
 // Importing icons
 import { AiOutlineMenu } from 'react-icons/ai';
@@ -13,8 +15,6 @@ import { AiOutlineMenu } from 'react-icons/ai';
 
 // Importing styling
 import '../styles/ClassroomPage.scss';
-
-
 
 function ClassroomPage(props) {
   const roomP = useMemo( async() => new Promise(async (resolve, reject) => {
@@ -30,9 +30,28 @@ function ClassroomPage(props) {
             console.log("error connecting to classroom");
         }
     }), []);
-
+  
+  const avatarMsg = "To edit your avatar, you must return to the dashboard. You will be disconnected from the classroom."
+  const exitMsg = "You will be disconnected from the space and taken back to the Manage Classrooms page."
+  
   const [gameState, setGameState] = useState({ users: [] });
   const [chatMessages, setChatMessages] = useState([]);
+
+  const [isChatHistoryOpen, setIsChatHistoryOpen] = useState(false);
+  const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
+  const [isExitModalOpen, setIsExitModalOpen] = useState(false);
+
+  const handleChatHistoryClick = () => {
+    setIsChatHistoryOpen(!isChatHistoryOpen)
+  }
+
+  const handleAvatarModalClick = () => {
+    setIsAvatarModalOpen(!isAvatarModalOpen)
+  }
+
+  const handleExitModalClick = () => {
+    setIsExitModalOpen(!isExitModalOpen)
+  }
 
   // Put remote room state changes into gameState and chatMessages
   useEffect(() => {
@@ -91,17 +110,41 @@ function ClassroomPage(props) {
   };
 
   return (
-    <>
     <div className='classroom-container'>
+
+      {isChatHistoryOpen && 
+        <ChatHistory 
+          handleChatHistoryClick={handleChatHistoryClick}
+        />
+      }
+
+      {isAvatarModalOpen &&
+        <ExitModal 
+          handleModalClick={handleAvatarModalClick}
+          message={avatarMsg}
+        />
+      }
+
+      {isExitModalOpen &&
+        <ExitModal 
+          handleModalClick={handleExitModalClick}
+          message={exitMsg}
+        />
+      }
+
       <div className='classroom-grid'>
         <Grid gridWidth={14} sendAction={sendAction} gameState={gameState} />
       </div>
+
       <div className='classroom-sidenav'>
-        <MenuDrawer />
+        <MenuDrawer
+          handleChatHistoryClick={handleChatHistoryClick}
+          handleAvatarModalClick={handleAvatarModalClick}
+          handleExitModalClick={handleExitModalClick}
+        />
         <ChatDrawer />
       </div>
     </div>
-    </>
   )
 }
 
