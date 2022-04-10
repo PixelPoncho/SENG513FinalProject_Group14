@@ -1,8 +1,9 @@
 // TODO: Convert paths to custom Unauth and Auth Routes
 
 // Importing Components from node_modules
-import React, { useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import { Routes as Switches, Route, Navigate } from 'react-router-dom';
+import axios from "axios";
 
 // Importing the page components for routing
 import AvatarPage from '../pages/AvatarPage';
@@ -28,6 +29,44 @@ const Page = (props) => {
 };
 
 function Routes() {
+    const [currentUser, setCurrentUser] = useState({
+        id: "",
+        username: "",
+        email: "",
+        password: "",
+        chatColour: "",
+        avatar: {
+            type: {},
+            skin: "",
+            topType: "",
+            hairColour: "",
+            clothingType: "",
+            clothingColour: "",
+        },
+        ownedClassRooms: [],
+        visitedClassRooms: [],
+        bannedClassRooms: [],
+    });
+
+    useEffect(function() {
+
+        (async () => {
+            const response = await axios.post("/users/getUser");
+            const user = response.data.user;
+
+            if(user !== undefined) {
+                // Map the api response to our currentUser format
+                const updatedCurUser = user;
+                updatedCurUser.id = updatedCurUser._id;
+                delete updatedCurUser._id;
+                delete updatedCurUser.__v;
+
+                setCurrentUser(updatedCurUser);
+            }
+        })();
+
+    }, []);
+
   return (
     <Switches>
       {/* Route to Login Page */}
@@ -78,7 +117,7 @@ function Routes() {
           <>
             <Navbar />
             <Page title="Classroom Management">
-              <ClassroomListPage />
+              <ClassroomListPage currentUser={currentUser} />
             </Page>
           </>
         }
