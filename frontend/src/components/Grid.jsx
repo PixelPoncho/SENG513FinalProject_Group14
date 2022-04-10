@@ -2,10 +2,12 @@
 
 import React, {useState, useEffect, useCallback } from 'react'
 import Square from './Square'
+import Avatar from "avataaars";
 
 // Import styling
 import '../styles/GridStyling.scss'
 
+// The component that will represent a person on the gameboard via their avatar
 const Player = (props) => {
   const user = props.user;
 
@@ -13,137 +15,67 @@ const Player = (props) => {
     position: "absolute",
     height: "34px",
     width: "34px",
-    left: user.position.x * 34,
-    top: user.position.y * 34,
-    backgroundColor: user.chatColour
+    left: user.x * 34,
+    top: user.y * 34,
   };
 
-  return (<div style={style}>pla</div>);
+  return (
+      <div className="avatar-container" style={style}>
+        <span className="avatar-name">My Name</span>
+        <Avatar
+            style={{width: style.width, height: style.height}}
+            avatarStyle='Transparent'
+            topType="LongHairStraight"
+            accessoriesType='Prescription02'
+            hairColor="Auburn"
+            facialHairType='Blank'
+            clotheType="BlazerSweater"
+            clotheColor='PastelBlue'
+            eyeType='Happy'
+            eyebrowType='Default'
+            mouthType='Smile'
+            skinColor="Tanned"
+        />
+      </div>
+  );
 };
 
 const Grid = props => {
   const {
-    gridWidth
+    gridWidth,
+    sendAction,
+    gameState
   } = props;
 
-  const [square, setSquare] = useState([0, 0]);
-  const [classGrid, setClassGrid] = useState([]);
-  const [players, setPlayers] = useState([]);
-
-  const [users, setUsers] = useState([ //TEMP - will come from somewhere
-    {
-      username: "123",
-      chatColour: "#666666",
-      skin: "Tanned",
-      topType: "Turban",
-      hairColour: "Auburn",
-      clothingType: "BlazerShirt",
-      clothingColour: "PastelBlue",
-      position: {
-        x: 5,
-        y: 8
-      }
-    },
-    {
-      username: "234",
-      chatColour: "#230000",
-      skin: "Tanned",
-      topType: "Turban",
-      hairColour: "Auburn",
-      clothingType: "BlazerShirt",
-      clothingColour: "PastelBlue",
-      position: {
-        x: 2,
-        y: 2
-      }
-    }
-  ]);
-
-  //TEMP MOVING USER
-  const movingUser = {
-    username: "345",
-    chatColour: "#00FF00",
-    skin: "Tanned",
-    topType: "Turban",
-    hairColour: "Auburn",
-    clothingType: "BlazerShirt",
-    clothingColour: "PastelBlue",
-    position: {
-      x: 6,
-      y: 6
-    }
-  };
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    setTimeout(() => {
-      setUsers(oldUsers => [...oldUsers, movingUser]);
-    }, 10000);
+    setUsers(gameState.users);
+  },[gameState]);
 
-    setInterval(() => {
-      setUsers(oldUsers => {
-        const newUsers = [];
-        oldUsers.forEach(ou => {
-          const nu = ou;
-          nu.position.x = ou.position.x+1;
-          nu.position.y = ou.position.y+1;
-          newUsers.push(nu);
-        })
-        return newUsers;
-      });
-    }, 12000);
-  }, []);
-  //ENDTEMP
 
-  const move = (dir, change) => {
-    let coords = square
-    if ((coords[dir] + change) > -1 && (coords[dir] + change) < gridWidth) {
-      coords[dir] += change
-    }
-    //setSquare([coords[0], coords[1]])
+  const move = (deltaX, deltaY) => {
+    sendAction("move", { deltaX, deltaY });
   }
-
-  useEffect(() => {
-    let array = []
-    for(let i = 0; i < gridWidth; i++) {
-        for(let j = 0; j < gridWidth; j++) {
-          const user = {
-            username: "666666",
-            chatColour: "#666666",
-            skin: "Tanned",
-            topType: "Turban",
-            hairColour: "Auburn",
-            clothingType: "BlazerShirt",
-            clothingColour: "PastelBlue" // Hardcode for now
-          };
-          const player = <Player user={user} />;
-          array.push(<Square
-                      key={`${i} ${j}`}
-                      x={j}
-                      y={i}
-                      selectedSquare={square} />)
-      }
-    }
-    //setClassGrid(array)
-  }, [square]);
 
   const handleKeyPress = useCallback(e => {
     // WASD Movement
     switch (e.which) {
       // W
       case 87:
-        move(1, -1);
+          move(0, -1);
         break;
       // A
       case 65:
-        move(0, -1);
+          move(-1, 0);
         break;
       // S
       case 83:
-        move(1, 1);
+          move(0, 1);
         break;
       // D
       case 68:
-        move(0, 1);
+          move(1, 0);
         break;
     }
   }, []);
@@ -157,12 +89,11 @@ const Grid = props => {
 
 
   return (
-    <div className="grid-box"
-           style={{"width": gridWidth * 34, "height": gridWidth * 34}}>
-        {classGrid}
-      {users.map(user =>
-        <Player key={user.username} user={user} />
-      )}
+    <div
+        className="grid-box"
+        style={{"width": gridWidth * 34, "height": gridWidth * 34}}
+    >
+      {users.map(user => <Player key={user.username} user={user} /> )}
     </div>
   );
 }

@@ -35,9 +35,9 @@ class State extends Schema {
         user.x = user.x + deltaX;
         user.y = user.y + deltaY;
         if(user.x < 0) user.x = 0;
-        else if(user.x > this.gridSize) user.x = this.gridSize;
+        else if(user.x >= this.gridSize) user.x = this.gridSize-1;
         if(user.y < 0) user.y = 0;
-        else if(user.y > this.gridSize) user.y = this.gridSize;
+        else if(user.y >= this.gridSize) user.y = this.gridSize-1;
         this.users.set(sessionId, user);
     }
 }
@@ -49,7 +49,7 @@ defineTypes(State, {
 
 class ClassRoom extends Room {
     maxClients = 20;
-    gridSize = 10;
+    gridSize = 14;
 
     // anyone will be able to start a room, they just wont have admin in that room
     // the classId will need to be unique since the filterby would just sent them to existing room
