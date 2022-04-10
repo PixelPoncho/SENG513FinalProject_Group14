@@ -1,5 +1,6 @@
 // Importing Components from node_modules
-import React, { useState, useEffect, useCallback } from 'react'
+import React, {useState, useEffect, useCallback, useMemo} from 'react'
+
 import Grid from '../components/Grid'
 import { Client } from 'colyseus.js';
 import ChatDrawer from '../components/ChatDrawer'
@@ -13,42 +14,30 @@ import { AiOutlineMenu } from 'react-icons/ai';
 // Importing styling
 import '../styles/ClassroomPage.scss';
 
+
+
 function ClassroomPage(props) {
+  const roomP = useMemo( async() => new Promise(async (resolve, reject) => {
+        const params = (new URL(document.location)).searchParams;
+        const classId = params.get('id');
 
-  let params = (new URL(document.location)).searchParams;
-  const classId = params.get('id')
-  //const { classId } = props;
+        try {
+            const client = new Client('ws://localhost:3000');
+            const room = await client.joinOrCreate("classroom", {classId});
+            resolve(room);
+        }
+        catch(e) {
+            console.log("error connecting to classroom");
+        }
+    }), []);
 
-  // I think this could be set to null object, then just handle with 
-  // if statement for whatever on the front end
-  const [gameState, setGameState] = useState({
-      users: []
-  });
+  const [gameState, setGameState] = useState({ users: [] });
   const [chatMessages, setChatMessages] = useState([]);
-  let client = null;
-  let room = null;
 
-  let p = {
-      room
-  };
-
-  const updateGameState = useCallback((newState) => {
-    console.log("Updating Game State");
-    console.log(newState);
-    setGameState(newState);
-  }, [gameState]);
-
+  // Put remote room state changes into gameState and chatMessages
   useEffect(() => {
     (async () => {
-        client = new Client('ws://localhost:3001')
-        const joinRoom = async () => {
-          return client.joinOrCreate("classroom", {classId});
-        };
-        try {
-          room = await joinRoom();
-        } catch (e) {
-          console.log("error connecting to classroom");
-        }
+        const room = await roomP;
 
         room.onStateChange((state) => {
             const users = [];
@@ -70,15 +59,11 @@ function ClassroomPage(props) {
                 });
             });
 
-
-
-          updateGameState({
+            setGameState({
               ...gameState,
               users: users
           });
         });
-
-
 
         room.onMessage("chat", (msg) => {
           setChatMessages([...chatMessages, msg]);
@@ -86,27 +71,32 @@ function ClassroomPage(props) {
       })();
   }, []);
 
-  useEffect(() => {
-    console.log("gameState: ", gameState);
-  }, [gameState]);
+
+  // Print out game state, a useful debugging function
+  // useEffect(() => {
+  //   console.log("gameState: ", gameState);
+  // }, [gameState]);
 
   const sendAction = (actionType, actionValue) => {
     // currently options
     // Action Type : Action Value
     //  chat : message the user wants to send
     //  move : { deltaX: ?, deltaY: ? } the deltas in the users movements.
-    if(!room) return;
-    room.send(actionType, actionValue);
+    roomP.then(room => {
+        if(!room) {
+            return;
+        }
+        room.send(actionType, actionValue);
+    });
   };
 
   return (
     <>
-    <div class='classroom-container'>
-      <div class='classroom-grid'>
-        <Grid gridWidth={14} />
+    <div className='classroom-container'>
+      <div className='classroom-grid'>
+        <Grid gridWidth={14} sendAction={sendAction} gameState={gameState} />
       </div>
-
-      <div class='classroom-sidenav'>
+      <div className='classroom-sidenav'>
         <MenuDrawer />
         <ChatDrawer />
       </div>

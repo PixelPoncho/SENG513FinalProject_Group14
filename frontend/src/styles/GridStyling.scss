@@ -1,4 +1,21 @@
 .grid-box {
     background-image: url('../assets/classroom.png');
     position: relative;
+
+    .avatar-container {
+
+    }
+
+    .avatar-name {
+        background-color: #8ecae6;
+        position: absolute;
+        white-space: nowrap;
+        bottom: 36px;
+        right: -20px;
+        color: white;
+        font-size: 12px;
+        padding: 2px 12px;
+        border-radius: 15px;
+    }
 }
+

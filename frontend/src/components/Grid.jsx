@@ -2,57 +2,80 @@
 
 import React, {useState, useEffect, useCallback } from 'react'
 import Square from './Square'
+import Avatar from "avataaars";
 
 // Import styling
 import '../styles/GridStyling.scss'
 
+// The component that will represent a person on the gameboard via their avatar
+const Player = (props) => {
+  const user = props.user;
+
+  const style = {
+    position: "absolute",
+    height: "34px",
+    width: "34px",
+    left: user.x * 34,
+    top: user.y * 34,
+  };
+
+  return (
+      <div className="avatar-container" style={style}>
+        <span className="avatar-name">{user.username}</span>
+        <Avatar
+            style={{width: style.width, height: style.height}}
+            avatarStyle='Transparent'
+            topType={user.avatar.topType}
+            // accessoriesType='Prescription02'
+            hairColor={user.avatar.hairColour}
+            // facialHairType='Blank'
+            clotheType={user.avatar.clothingType}
+            clotheColor={user.avatar.clothingColour}
+            // eyeType='Happy'
+            // eyebrowType='Default'
+            // mouthType='Smile'
+            skinColor={user.avatar.skin}
+        />
+      </div>
+  );
+};
+
 const Grid = props => {
   const {
-    gridWidth
+    gridWidth,
+    sendAction,
+    gameState
   } = props;
 
-  const [square, setSquare] = useState([0, 0])
-  const [classGrid, setClassGrid] = useState([])
-
-  const move = (dir, change) => {
-    let coords = square
-    if ((coords[dir] + change) > -1 && (coords[dir] + change) < gridWidth) {
-      coords[dir] += change
-    }
-    setSquare([coords[0], coords[1]])
-  }
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    let array = []
-    for(let i = 0; i < gridWidth; i++) {
-        for(let j = 0; j < gridWidth; j++) {
-          array.push(<Square
-                      x={j}
-                      y={i}
-                      selectedSquare={square}/>)
-      }
-    }
-    setClassGrid(array)
-  }, [move])
+    setUsers(gameState.users);
+  },[gameState]);
+
+
+  const move = (deltaX, deltaY) => {
+    sendAction("move", { deltaX, deltaY });
+  }
 
   const handleKeyPress = useCallback(e => {
     // WASD Movement
     switch (e.which) {
       // W
       case 87:
-        move(1, -1);
+          move(0, -1);
         break;
       // A
       case 65:
-        move(0, -1);
+          move(-1, 0);
         break;
       // S
       case 83:
-        move(1, 1);
+          move(0, 1);
         break;
       // D
       case 68:
-        move(0, 1);
+          move(1, 0);
         break;
     }
   }, []);
@@ -66,9 +89,11 @@ const Grid = props => {
 
 
   return (
-    <div className="grid-box"
-           style={{"width": gridWidth * 34, "height": gridWidth * 34}}>
-        {classGrid}
+    <div
+        className="grid-box"
+        style={{"width": gridWidth * 34, "height": gridWidth * 34}}
+    >
+      {users.map(user => <Player key={user.username} user={user} /> )}
     </div>
   );
 }
