@@ -21,20 +21,20 @@ const Player = (props) => {
 
   return (
       <div className="avatar-container" style={style}>
-        <span className="avatar-name">My Name</span>
+        <span className="avatar-name">{user.username}</span>
         <Avatar
             style={{width: style.width, height: style.height}}
             avatarStyle='Transparent'
-            topType="LongHairStraight"
-            accessoriesType='Prescription02'
-            hairColor="Auburn"
-            facialHairType='Blank'
-            clotheType="BlazerSweater"
-            clotheColor='PastelBlue'
-            eyeType='Happy'
-            eyebrowType='Default'
-            mouthType='Smile'
-            skinColor="Tanned"
+            topType={user.avatar.topType}
+            // accessoriesType='Prescription02'
+            hairColor={user.avatar.hairColour}
+            // facialHairType='Blank'
+            clotheType={user.avatar.clothingType}
+            clotheColor={user.avatar.clothingColour}
+            // eyeType='Happy'
+            // eyebrowType='Default'
+            // mouthType='Smile'
+            skinColor={user.avatar.skin}
         />
       </div>
   );
