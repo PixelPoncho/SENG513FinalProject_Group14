@@ -12,18 +12,13 @@ import { BiExit, BiArrowBack } from 'react-icons/bi'
 
 const MenuDrawer = props => {
   const {
-    isChatHistoryOpen,
-    setIsChatHistoryOpen
+    handleChatHistoryClick
   } = props;
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleMenuClick = () => {
     setIsMenuOpen(!isMenuOpen)
-  }
-
-  const handleChatHistoryClick = () => {
-    setIsChatHistoryOpen(!isChatHistoryOpen)
   }
 
   return (

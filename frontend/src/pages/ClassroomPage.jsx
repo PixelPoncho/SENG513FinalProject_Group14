@@ -36,6 +36,10 @@ function ClassroomPage(props) {
   const [chatMessages, setChatMessages] = useState([]);
   const [isChatHistoryOpen, setIsChatHistoryOpen] = useState(false);
 
+  const handleChatHistoryClick = () => {
+    setIsChatHistoryOpen(!isChatHistoryOpen)
+  }
+
   // Put remote room state changes into gameState and chatMessages
   useEffect(() => {
     (async () => {
@@ -93,16 +97,19 @@ function ClassroomPage(props) {
   };
 
   return (
-    <div class='classroom-container'>
-      {isChatHistoryOpen && <ChatHistory />}
-      <div class='classroom-grid'>
+    <div className='classroom-container'>
+      {isChatHistoryOpen && 
+        <ChatHistory 
+          handleChatHistoryClick={handleChatHistoryClick}
+        />
+      }
+      <div className='classroom-grid'>
         <Grid gridWidth={14} sendAction={sendAction} gameState={gameState} />
       </div>
 
-      <div class='classroom-sidenav'>
+      <div className='classroom-sidenav'>
         <MenuDrawer
-          isChatHistoryOpen={isChatHistoryOpen}
-          setIsChatHistoryOpen={setIsChatHistoryOpen}
+          handleChatHistoryClick={handleChatHistoryClick}
         />
         <ChatDrawer />
       </div>
