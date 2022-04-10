@@ -27,7 +27,7 @@ const MenuDrawer = props => {
             <div className='menu-container'>
                 <BiArrowBack
                     className='menu-icon'
-                    onClick={() => setIsMenuOpen(!isMenuOpen)}
+                    onClick={handleMenuClick}
                 />
                 <FaTshirt
                     className='menu-icon'
@@ -54,7 +54,7 @@ const MenuDrawer = props => {
         ) : (
             <AiOutlineMenu
                 className='menu-icon main'
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                onClick={handleMenuClick}
             />
         )}
     </div>
