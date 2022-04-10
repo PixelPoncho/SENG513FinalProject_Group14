@@ -13,7 +13,8 @@ import { BiExit, BiArrowBack } from 'react-icons/bi'
 const MenuDrawer = props => {
   const {
     handleChatHistoryClick,
-    handleAvatarModalClick
+    handleAvatarModalClick,
+    handleExitModalClick
   } = props;
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -51,6 +52,7 @@ const MenuDrawer = props => {
                 <div className='exit-button'>
                     <BiExit
                         className='menu-icon exit'
+                        onClick={handleExitModalClick}
                     />
                 </div>
             </div>

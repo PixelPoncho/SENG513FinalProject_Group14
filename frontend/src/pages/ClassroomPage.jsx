@@ -32,12 +32,14 @@ function ClassroomPage(props) {
     }), []);
   
   const avatarMsg = "To edit your avatar, you must return to the dashboard. You will be disconnected from the classroom."
-
+  const exitMsg = "You will be disconnected from the space and taken back to the Manage Classrooms page."
+  
   const [gameState, setGameState] = useState({ users: [] });
   const [chatMessages, setChatMessages] = useState([]);
 
   const [isChatHistoryOpen, setIsChatHistoryOpen] = useState(false);
   const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
+  const [isExitModalOpen, setIsExitModalOpen] = useState(false);
 
   const handleChatHistoryClick = () => {
     setIsChatHistoryOpen(!isChatHistoryOpen)
@@ -45,6 +47,10 @@ function ClassroomPage(props) {
 
   const handleAvatarModalClick = () => {
     setIsAvatarModalOpen(!isAvatarModalOpen)
+  }
+
+  const handleExitModalClick = () => {
+    setIsExitModalOpen(!isExitModalOpen)
   }
 
   // Put remote room state changes into gameState and chatMessages
@@ -119,7 +125,12 @@ function ClassroomPage(props) {
         />
       }
 
-    
+      {isExitModalOpen &&
+        <ExitModal 
+          handleModalClick={handleExitModalClick}
+          message={exitMsg}
+        />
+      }
 
       <div className='classroom-grid'>
         <Grid gridWidth={14} sendAction={sendAction} gameState={gameState} />
@@ -129,6 +140,7 @@ function ClassroomPage(props) {
         <MenuDrawer
           handleChatHistoryClick={handleChatHistoryClick}
           handleAvatarModalClick={handleAvatarModalClick}
+          handleExitModalClick={handleExitModalClick}
         />
         <ChatDrawer />
       </div>

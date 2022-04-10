@@ -17,6 +17,9 @@ const ExitModal = props => {
         if(message.includes("avatar")) {
             navigate("/avatars");
         }
+        else if(message.includes("Manage")){
+            navigate("/manage-classroom");
+        }
     }
 
     return (
