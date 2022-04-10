@@ -19,39 +19,39 @@ const users = [
         email: "joe@test.com",
         password: "joe",
         chatColor: "black",
-        // avatar: {
-        //     skin: "blue",
-        //     topType: "shirt",
-        //     hairColour: "brown",
-        //     clothingType: "worn",
-        //     clothingColour: "skin",
-        // }
+        avatar: {
+            skin: "blue",
+            topType: "shirt",
+            hairColour: "brown",
+            clothingType: "worn",
+            clothingColour: "skin",
+        }
     },
     {
         username: "bob",
         email: "bob@test.com",
         password: "bob",
         chatColor: "black",
-        // avatar: {
-        //     skin: "blue",
-        //     topType: "shirt",
-        //     hairColour: "brown",
-        //     clothingType: "worn",
-        //     clothingColour: "skin",
-        // }
+        avatar: {
+            skin: "blue",
+            topType: "shirt",
+            hairColour: "brown",
+            clothingType: "worn",
+            clothingColour: "skin",
+        }
     },
     {
         username: "tim",
         email: "tim@test.com",
         password: "tim",
         chatColor: "black",
-        // avatar: {
-        //     skin: "blue",
-        //     topType: "shirt",
-        //     hairColour: "brown",
-        //     clothingType: "worn",
-        //     clothingColour: "skin",
-        // }
+        avatar: {
+            skin: "blue",
+            topType: "shirt",
+            hairColour: "brown",
+            clothingType: "worn",
+            clothingColour: "skin",
+        }
     },
 ];
 

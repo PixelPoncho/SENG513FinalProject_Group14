@@ -5,12 +5,12 @@ const { getUserById, activateClassRoom, deactivateClassRoom, getClassRoomById } 
 class User extends Schema {
     constructor(properties, x = 0, y = 0) {
         super();
-        const { userId, name, username, avatar } = properties;
+        const { userId, username, email, avatar } = properties;
         this.x = x;
         this.y = y;
         this.userId = userId;
-        this.name = name;
         this.username = username;
+        this.email = email;
         this.avatar = avatar;
     }
 }
@@ -88,7 +88,7 @@ class ClassRoom extends Room {
 
     // consider making this async and just throw new error
     onAuth(client, options, req) {
-        console.log(client.sessionId + " is in auth with options " + options + " req session " + req.session);
+        console.log(client.sessionId + " is in auth with options " + JSON.stringify(options) + " req session " + JSON.stringify(req.session) );
         console.log(req.session.userId);
         // use a promise so that we can have custom rejections letting the user know why they failed to join
         return new Promise(async (resolve, reject) => {
@@ -101,20 +101,21 @@ class ClassRoom extends Room {
             if(!req.session.isLoggedIn || !req.session.userId) reject({ error: "Not logged in" });
             const user = await getUserById(req.session.userId);
             if(!user) reject({ errror: "Invalid user" });
+            console.log(JSON.stringify(user));
             // make sure the user isint banned from this room
             if(user.bannedClassRooms.includes(this.classId)) reject({ error: "User banned from this room" });
-            resolve({ userId: user._id, name: user.name, username: user.username, avatar: user.avatar });
+            resolve({ userId: user._id, username: user.username, email: user.email, avatar: user.avatar });
         });
     }
 
     onJoin(client, options, auth) {
-        console.log(client.sessionId + ' is joining ' + this.classId + ' with options ' + options + ' auth ' + auth );
-        const { userId, name, username, avatar } = auth;
+        console.log(client.sessionId + ' is joining ' + this.classId + ' with options ' + JSON.stringify(options) + ' auth ' + JSON.stringify(auth) );
+        const { userId, username, email, avatar } = auth;
         //const isOwner = userId === this.metadata.owner;
         // assign userful information to the client
         // we carry the name, id and if they are the owner of the room
         //client.userData = { userId, name, isOwner }
-        this.state.addUser(client.sessionId, { userId, name, username, avatar });
+        this.state.addUser(client.sessionId, { userId, username, email, avatar });
     }
 
     onLeave(client) {
