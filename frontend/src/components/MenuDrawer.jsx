@@ -4,6 +4,7 @@ import React, {useState, useEffect, useCallback } from 'react'
 import '../styles/MenuDrawer.scss'
 
 // Import react-icons
+import { IconContext } from "react-icons";
 import { AiOutlineMenu } from 'react-icons/ai';
 import { FaTshirt, FaChalkboardTeacher } from 'react-icons/fa';
 import { RiTeamFill } from 'react-icons/ri'
@@ -25,141 +26,34 @@ const MenuDrawer = props => {
         {isMenuOpen ? (
             <div className='menu-container'>
                 <BiArrowBack
-                    style={{
-                        padding: "10px",
-                        width: "50px",
-                        height: "60px",
-                        color: "var(--white)",
-                        backgroundColor: "var(--light-blue)",
-                        borderRadius: "20px",
-                    }}
-                    onMouseOver={({ target }) => {
-                        target.style.backgroundColor = "var(--off-yellow)";
-                        target.style.cursor = "pointer";
-                    }}
-                    onMouseOut={({ target }) => {
-                        target.style.backgroundColor = "var(--light-blue)";
-                        target.style.cursor = "default";
-                    }}
+                    className='menu-icon'
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
                 />
                 <FaTshirt
-                    style={{
-                        padding: "10px",
-                        width: "50px",
-                        height: "60px",
-                        color: "var(--white)",
-                        backgroundColor: "var(--light-blue)",
-                        borderRadius: "20px",
-                    }}
-                    onMouseOver={({ target }) => {
-                        target.style.backgroundColor = "var(--off-yellow)";
-                        target.style.cursor = "pointer";
-                    }}
-                    onMouseOut={({ target }) => {
-                        target.style.backgroundColor = "var(--light-blue)";
-                        target.style.cursor = "default";
-                    }}
+                    className='menu-icon'
                 />
 
                 <RiTeamFill
-                    style={{
-                        padding: "10px",
-                        width: "50px",
-                        height: "60px",
-                        color: "var(--white)",
-                        backgroundColor: "var(--light-blue)",
-                        borderRadius: "20px",
-                    }}
-                    onMouseOver={({ target }) => {
-                        target.style.backgroundColor = "var(--off-yellow)";
-                        target.style.cursor = "pointer";
-                    }}
-                    onMouseOut={({ target }) => {
-                        target.style.backgroundColor = "var(--light-blue)";
-                        target.style.cursor = "default";
-                    }}
+                    className='menu-icon'
                 />
 
                 <MdHistory
-                    style={{
-                        padding: "10px",
-                        width: "50px",
-                        height: "60px",
-                        color: "var(--white)",
-                        backgroundColor: "var(--light-blue)",
-                        borderRadius: "20px",
-                    }}
-                    onMouseOver={({ target }) => {
-                        target.style.backgroundColor = "var(--off-yellow)";
-                        target.style.cursor = "pointer";
-                    }}
-                    onMouseOut={({ target }) => {
-                        target.style.backgroundColor = "var(--light-blue)";
-                        target.style.cursor = "default";
-                    }}
+                    className='menu-icon'
                 />
 
                 <FaChalkboardTeacher
-                    style={{
-                        padding: "10px",
-                        width: "50px",
-                        height: "60px",
-                        color: "var(--white)",
-                        backgroundColor: "var(--light-blue)",
-                        borderRadius: "20px",
-                    }}
-                    onMouseOver={({ target }) => {
-                        target.style.backgroundColor = "var(--off-yellow)";
-                        target.style.cursor = "pointer";
-                    }}
-                    onMouseOut={({ target }) => {
-                        target.style.backgroundColor = "var(--light-blue)";
-                        target.style.cursor = "default";
-                    }}
+                    className='menu-icon'
                 />
 
                 <div className='exit-button'>
                     <BiExit
-                        style={{
-                            padding: "10px",
-                            width: "50px",
-                            height: "60px",
-                            color: "var(--red)",
-                            backgroundColor: "var(--light-blue)",
-                            borderRadius: "20px",
-                        }}
-                        onMouseOver={({ target }) => {
-                            target.style.backgroundColor = "var(--off-yellow)";
-                            target.style.cursor = "pointer";
-                        }}
-                        onMouseOut={({ target }) => {
-                            target.style.backgroundColor = "var(--light-blue)";
-                            target.style.cursor = "default";
-                        }}
+                        className='menu-icon exit'
                     />
                 </div>
             </div>
         ) : (
             <AiOutlineMenu
-                style={{
-                    margin: "15px",
-                    padding: "10px",
-                    width: "50px",
-                    height: "60px",
-                    color: "var(--white)",
-                    backgroundColor: "var(--light-blue)",
-                    borderRadius: "20px",
-                    boxShadow: "var(--card-shadow)"
-                }}
-                onMouseOver={({ target }) => {
-                    target.style.backgroundColor = "var(--off-yellow)";
-                    target.style.cursor = "pointer";
-                }}
-                onMouseOut={({ target }) => {
-                    target.style.backgroundColor = "var(--light-blue)";
-                    target.style.cursor = "default";
-                }}
+                className='menu-icon main'
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
             />
         )}
