@@ -22,63 +22,22 @@ const ChatDrawer = props => {
     <div className='chat-drawer'>
         <div className='bottom-align'></div>
         <FaMicrophone
-                style={{
-                    margin: "15px",
-                    padding: "10px",
-                    width: "50px",
-                    height: "45px",
-                    color: "var(--white)",
-                    backgroundColor: "var(--gray)",
-                    borderRadius: "20px",
-                    boxShadow: "var(--card-shadow)"
-                }}
-            />
+            className='disabled'
+        />
         {isChatOpen ? (
             <div className='chat-container'>
             <HiChatAlt
-                    style={{
-                        padding: "10px",
-                        width: "50px",
-                        height: "45px",
-                        color: "var(--white)",
-                        backgroundColor: "var(--light-blue)",
-                        borderRadius: "20px",
-                    }}
+                    className='chat-icon'
                     onClick={() => setIsChatOpen(!isChatOpen)}
                 />
             <IoMdSend 
-                style={{
-                    margin: '10px',
-                    padding: "10px",
-                    width: "35px",
-                    height: "35px",
-                    color: "var(--white)",
-                    backgroundColor: "var(--yellow)",
-                    borderRadius: "50%",
-                }}
-                />
+                className='send-icon'
+            />
             <input id="input" placeholder="Start typing..."></input>
         </div>
         ) : (
             <HiChatAlt
-                style={{
-                    margin: "15px",
-                    padding: "10px",
-                    width: "50px",
-                    height: "45px",
-                    color: "var(--white)",
-                    backgroundColor: "var(--light-blue)",
-                    borderRadius: "20px",
-                    boxShadow: "var(--card-shadow)"
-                }}
-                onMouseOver={({ target }) => {
-                    target.style.backgroundColor = "var(--off-yellow)";
-                    target.style.cursor = "pointer";
-                }}
-                onMouseOut={({ target }) => {
-                    target.style.backgroundColor = "var(--light-blue)";
-                    target.style.cursor = "default";
-                }}
+                className='chat-icon main'
                 onClick={handleChatClick}
             />
         )}
