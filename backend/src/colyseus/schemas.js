@@ -3,10 +3,15 @@ const { Schema, MapSchema, defineTypes } = require("@colyseus/schema");
 const { getUserById, activateClassRoom, deactivateClassRoom, getClassRoomById } = require("../db/db");
 
 class User extends Schema {
-    constructor(x = 0, y = 0) {
+    constructor(properties, x = 0, y = 0) {
         super();
+        const { userId, name, username, avatar } = properties;
         this.x = x;
         this.y = y;
+        this.userId = userId;
+        this.name = name;
+        this.username = username;
+        this.avatar = avatar;
     }
 }
 
@@ -22,8 +27,8 @@ class State extends Schema {
         this.gridSize = gridSize;
     }
 
-    addUser(sessionId) {
-        this.users.set(sessionId, new User());
+    addUser(sessionId, properties) {
+        this.users.set(sessionId, new User(properties));
     }
     
     removeUser(sessionId) {
@@ -78,6 +83,7 @@ class ClassRoom extends Room {
             const { deltaX, deltaY } = message;
             this.state.moveUser(client.sessionId, deltaX, deltaY);
         });
+        this.setSimulationInterval(())
         console.log("ClassRoom created successfully ");
     }
 
@@ -98,18 +104,18 @@ class ClassRoom extends Room {
             if(!user) reject({ errror: "Invalid user" });
             // make sure the user isint banned from this room
             if(user.bannedClassRooms.includes(this.classId)) reject({ error: "User banned from this room" });
-            resolve({ userId: user._id, name: user.name });
+            resolve({ userId: user._id, name: user.name, username: user.username, avatar: user.avatar });
         });
     }
 
     onJoin(client, options, auth) {
         console.log(client.sessionId + ' is joining ' + this.classId + ' with options ' + options + ' auth ' + auth );
-        const { userId, name } = auth;
+        const { userId, name, username, avatar } = auth;
         //const isOwner = userId === this.metadata.owner;
         // assign userful information to the client
         // we carry the name, id and if they are the owner of the room
         //client.userData = { userId, name, isOwner }
-        this.state.addUser(client.sessionId);
+        this.state.addUser(client.sessionId, { userId, name, username, avatar });
     }
 
     onLeave(client) {
