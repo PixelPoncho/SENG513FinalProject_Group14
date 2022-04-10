@@ -56,9 +56,21 @@ function ClassroomPage(props) {
             state.users.forEach(u => {
                 users.push({
                   x: u.x,
-                  y: u.y
+                  y: u.y,
+                    userId: u.userId,
+                    username: u.username,
+                    email: u.email,
+                    avatar: {
+                        skin: u.avatar.skin,
+                        topType: u.avatar.topType,
+                        hairColour: u.avatar.hairColour,
+                        clothingType: u.avatar.clothingType,
+                        clothingColour: u.avatar.clothingColour,
+                    }
                 });
             });
+
+
 
           updateGameState({
               ...gameState,

@@ -2,6 +2,24 @@ const { Room } = require("colyseus");
 const { Schema, MapSchema, defineTypes } = require("@colyseus/schema");
 const { getUserById, activateClassRoom, deactivateClassRoom, getClassRoomById } = require("../db/db");
 
+class Avatar extends Schema {
+    constructor(skin, topType, hairColour, clothingType, clothingColour) {
+        super();
+        this.skin = skin;
+        this.topType = topType;
+        this.hairColour = hairColour;
+        this.clothingType = clothingType;
+        this.clothingColour = clothingColour;
+    }
+}
+defineTypes(Avatar, {
+    skin: "string",
+    topType: "string",
+    hairColour: "string",
+    clothingType: "string",
+    clothingColour: "string",
+});
+
 class User extends Schema {
     constructor(properties, x = 0, y = 0) {
         super();
@@ -17,7 +35,11 @@ class User extends Schema {
 
 defineTypes(User, {
     x: "number",
-    y: "number"
+    y: "number",
+    userId: "string",
+    username: "string",
+    email: "string",
+    avatar: Avatar
 });
 
 class State extends Schema {
@@ -104,18 +126,26 @@ class ClassRoom extends Room {
             console.log(JSON.stringify(user));
             // make sure the user isint banned from this room
             if(user.bannedClassRooms.includes(this.classId)) reject({ error: "User banned from this room" });
-            resolve({ userId: user._id, username: user.username, email: user.email, avatar: user.avatar });
+            const avatar = new Avatar(
+                user.avatar.skin,
+                user.avatar.topType,
+                user.avatar.hairColour,
+                user.avatar.clothingType,
+                user.avatar.clothingColour
+            )
+            resolve({ userId: user._id, username: user.username, email: user.email, avatar: avatar });
         });
     }
 
     onJoin(client, options, auth) {
         console.log(client.sessionId + ' is joining ' + this.classId + ' with options ' + JSON.stringify(options) + ' auth ' + JSON.stringify(auth) );
         const { userId, username, email, avatar } = auth;
+        const userIdStr = userId.toString();
         //const isOwner = userId === this.metadata.owner;
         // assign userful information to the client
         // we carry the name, id and if they are the owner of the room
         //client.userData = { userId, name, isOwner }
-        this.state.addUser(client.sessionId, { userId, username, email, avatar });
+        this.state.addUser(client.sessionId, { userIdStr, username, email, avatar });
     }
 
     onLeave(client) {
