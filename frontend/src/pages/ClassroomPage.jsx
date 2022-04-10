@@ -4,6 +4,7 @@ import Grid from '../components/Grid'
 import { Client } from 'colyseus.js';
 import ChatDrawer from '../components/ChatDrawer'
 import MenuDrawer from '../components/MenuDrawer'
+import ChatHistory from '../components/ChatHistory';
 
 // Importing icons
 import { AiOutlineMenu } from 'react-icons/ai';
@@ -22,12 +23,15 @@ function ClassroomPage(props) {
       users: []
   });
   const [chatMessages, setChatMessages] = useState([]);
+  const [isChatHistoryOpen, setIsChatHistoryOpen] = useState(false);
+
   let client = null;
   let room = null;
 
   let p = {
       room
   };
+  
 
   useEffect(() => {
     (async () => {
@@ -79,18 +83,20 @@ function ClassroomPage(props) {
   };
 
   return (
-    <>
     <div class='classroom-container'>
+      {isChatHistoryOpen && <ChatHistory />}
       <div class='classroom-grid'>
         <Grid gridWidth={14} />
       </div>
 
       <div class='classroom-sidenav'>
-        <MenuDrawer />
+        <MenuDrawer
+          isChatHistoryOpen={isChatHistoryOpen}
+          setIsChatHistoryOpen={setIsChatHistoryOpen}
+        />
         <ChatDrawer />
       </div>
     </div>
-    </>
   )
 }
 

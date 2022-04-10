@@ -4,7 +4,6 @@ import React, {useState, useEffect, useCallback } from 'react'
 import '../styles/MenuDrawer.scss'
 
 // Import react-icons
-import { IconContext } from "react-icons";
 import { AiOutlineMenu } from 'react-icons/ai';
 import { FaTshirt, FaChalkboardTeacher } from 'react-icons/fa';
 import { RiTeamFill } from 'react-icons/ri'
@@ -12,13 +11,19 @@ import { MdHistory } from 'react-icons/md'
 import { BiExit, BiArrowBack } from 'react-icons/bi'
 
 const MenuDrawer = props => {
-//   const {
-//   } = props;
+  const {
+    isChatHistoryOpen,
+    setIsChatHistoryOpen
+  } = props;
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleMenuClick = () => {
     setIsMenuOpen(!isMenuOpen)
+  }
+
+  const handleChatHistoryClick = () => {
+    setIsChatHistoryOpen(!isChatHistoryOpen)
   }
 
   return (
@@ -39,6 +44,7 @@ const MenuDrawer = props => {
 
                 <MdHistory
                     className='menu-icon'
+                    onClick={handleChatHistoryClick}
                 />
 
                 <FaChalkboardTeacher
