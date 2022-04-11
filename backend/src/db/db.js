@@ -28,7 +28,7 @@ exports.createUser = async (userData) => {
         clothingType: "BlazerShirt",
         clothingColour: "#1ABC9C",
     };
-    userData = { ...userData, avatar: defaultAvatar };
+    userData = { ...userData, avatar: defaultAvatar, chatColor: "black" };
     const user = new UserData(userData);
     let otherUser = await UserData.findOne({ email: userData.email });
     if(otherUser) {
