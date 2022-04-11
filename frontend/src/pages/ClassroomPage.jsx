@@ -105,9 +105,10 @@ function ClassroomPage(props) {
     console.log("thsi is chat bubbles", chatBubbles)
   }, [chatBubbles])
 
-  // TODO: empty chat message on page load
   useEffect(() => {
-    sendAction("chat", message );
+      if(message !== "") {
+          sendAction("chat", message );
+      }
   }, [message])
 
     useEffect(() => {
@@ -140,9 +141,9 @@ function ClassroomPage(props) {
     //     sendAction("chat", "message");
     // }, 4000);
 
-    // window.sendChatMessageToMe = () => {
-    //     sendAction("chat", "message");
-    // };
+    window.sendChatMessageToMe = () => {
+        sendAction("chat", "message");
+    };
     
     window.printChatMessages = () => {
         console.dir(chatMessages);
