@@ -8,6 +8,8 @@ import { HiChatAlt } from 'react-icons/hi';
 import { IoMdSend } from 'react-icons/io';
 import { FaMicrophone } from 'react-icons/fa';
 
+// TODO: fix bug that adds empty message to beginning of array
+
 const ChatDrawer = props => {
   const {
     setMessage
@@ -21,6 +23,7 @@ const ChatDrawer = props => {
   }
 
   function handleSubmit(e) {
+    console.log("we are submitting")
     e.preventDefault();
     setMessage(input);
     e.target.reset();

@@ -102,7 +102,7 @@ class ClassRoom extends Room {
             const user = this.state.users.get(client.sessionId);
             this.broadcast("chat", {
                 userId: user.userId,
-                chatColour: user?.chatColour ?? "black", //A fallback chat colour
+                : user?.chatColour ?? "black", //A fallback chat colour
                 content: message,
                 sentAt: new Date()
             });
