@@ -7,6 +7,10 @@ import Avatar from "avataaars";
 // Import styling
 import '../styles/GridStyling.scss'
 
+import { FaLongArrowAltDown, FaLongArrowAltUp, FaLongArrowAltLeft, FaLongArrowAltRight } from 'react-icons/fa';
+
+
+
 // The component that will represent a person on the gameboard via their avatar
 const Player = (props) => {
   const user = props.user;
@@ -94,6 +98,12 @@ const Grid = props => {
         style={{"width": gridWidth * 34, "height": gridWidth * 34}}
     >
       {users.map(user => <Player key={user.username} user={user} /> )}
+        <div className="arrow-container">
+            <div className="left" onClick={() => move(-1,0)}><FaLongArrowAltLeft /></div>
+            <div className="right" onClick={() => move(1,0)}><FaLongArrowAltRight /></div>
+            <div className="up" onClick={() => move(0,-1)}><FaLongArrowAltUp /></div>
+            <div className="down" onClick={() => move(0,1)}><FaLongArrowAltDown /></div>
+        </div>
     </div>
   );
 }
