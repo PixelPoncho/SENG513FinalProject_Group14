@@ -38,6 +38,7 @@ function ClassroomPage(props) {
   
   const [gameState, setGameState] = useState({ users: [] });
   const [chatMessages, setChatMessages] = useState([]);
+  const [message, setMessage] = useState("");
 
   const [isChatHistoryOpen, setIsChatHistoryOpen] = useState(false);
   const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
@@ -87,11 +88,18 @@ function ClassroomPage(props) {
         });
 
         room.onMessage("chat", (msg) => {
+          console.log("this is msg", msg        )
           setChatMessages([...chatMessages, msg]);
+          console.log("this is chatMessages", chatMessages)
         });
       })();
   }, []);
 
+  // Send message to server when message changes
+  useEffect(() => {
+    console.log("this is message from ChatDrawer", message)
+    sendAction("chat", message );
+  }, [message])
 
   // Print out game state, a useful debugging function
   // useEffect(() => {
@@ -144,7 +152,9 @@ function ClassroomPage(props) {
           handleAvatarModalClick={handleAvatarModalClick}
           handleExitModalClick={handleExitModalClick}
         />
-        <ChatDrawer />
+        <ChatDrawer 
+          setMessage={setMessage}
+        />
       </div>
     </div>
   )

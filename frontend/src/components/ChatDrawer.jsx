@@ -9,10 +9,22 @@ import { IoMdSend } from 'react-icons/io';
 import { FaMicrophone } from 'react-icons/fa';
 
 const ChatDrawer = props => {
-//   const {
-//   } = props;
+  const {
+    setMessage
+  } = props;
 
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [input, setInput] = useState("");
+
+  function handleInput(e) {
+    setInput(e.target.value)
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    setMessage(input);
+    e.target.reset();
+  }
 
   const handleChatClick = () => {
     setIsChatOpen(!isChatOpen)
@@ -26,15 +38,18 @@ const ChatDrawer = props => {
         />
         {isChatOpen ? (
             <div className='chat-container'>
-            <HiChatAlt
-                    className='drawer-icon'
-                    onClick={() => setIsChatOpen(!isChatOpen)}
+                <HiChatAlt
+                        className='drawer-icon'
+                        onClick={() => setIsChatOpen(!isChatOpen)}
+                    />
+                <IoMdSend 
+                    className='send-icon'
                 />
-            <IoMdSend 
-                className='send-icon'
-            />
-            <input id="input" placeholder="Start typing..."></input>
-        </div>
+                <form id="form" onSubmit={handleSubmit}>
+                    <input id="input" placeholder="Start typing..." onChange={handleInput}></input>
+                </form>
+                
+            </div>
         ) : (
             <HiChatAlt
                 className='drawer-icon main'
