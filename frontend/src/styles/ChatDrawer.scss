@@ -1,75 +1,75 @@
 .chat-drawer {
 
-    display: contents;
+  display: contents;
 
-    .bottom-align {
-        margin-top: auto;
-    }
-    
-    .chat-container {
-        display: flex;
-        align-items: center;
-        align-self: flex-end;
-        flex-direction: row-reverse;
-        margin: 15px;
-        margin-right: 40px;
-        width: 750px;
-        height: 45px;
-        border-radius: 20px;
-        background-color: var(--light-blue);
-        box-shadow: var(--nav-shadow);
-    }
+  .bottom-align {
+    margin-top: auto;
+  }
 
-    .chat-input {
-        width: 600px;
-        height: 40px;
-        border-radius: 20px;
-        background-color: white;
-    }
+  .chat-container {
+    display: flex;
+    align-items: center;
+    align-self: flex-end;
+    flex-direction: row-reverse;
+    margin: 15px;
+    margin-right: 40px;
+    width: 750px;
+    height: 45px;
+    border-radius: 20px;
+    background-color: var(--light-blue);
+    box-shadow: var(--nav-shadow);
+  }
 
-    #input { 
-        border-width:0px;
-        border-radius: 20px;
-        background-color: white; 
-        width: 80%;
-        padding: 1em 1em;
-        height: 30px;
-    }
+  .chat-input {
+    width: 600px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: white;
+  }
 
-    .drawer-icon {
-        padding: 10px;
-        width: 50px;
-        height: 45px;
-        color: var(--white);
-        background-color: var(--light-blue);
-        border-radius: 20px;
+  #input {
+    border-width: 0px;
+    border-radius: 20px;
+    background-color: white;
+    width: 80%;
+    padding: 1em 1em;
+    height: 30px;
+  }
 
-        &.main {
-            box-shadow: var(--card-shadow);
-            margin: 15px;
-        }
+  .drawer-icon {
+    padding: 10px;
+    width: 50px;
+    height: 45px;
+    color: var(--white);
+    background-color: var(--light-blue);
+    border-radius: 20px;
 
-        &.disabled {
-            background-color: var(--gray);
-            pointer-events: none;
-        }
-
-        &:hover {
-            background-color: var(--yellow);
-        }
+    &.main {
+      box-shadow: var(--card-shadow);
+      margin: 15px;
     }
 
-    .send-icon {
-        margin: 10px;
-        padding: 10px;
-        width: 35px;
-        height: 35px;
-        color: var(--white);
-        background-color: var(--yellow);
-        border-radius: 50%;
-
-        &:hover {
-            background-color: var(--off-yellow);
-        }
+    &.disabled {
+      background-color: var(--gray);
+      pointer-events: none;
     }
+
+    &:hover {
+      background-color: var(--yellow);
+    }
+  }
+
+  .send-icon {
+    margin: 10px;
+    padding: 10px;
+    width: 35px;
+    height: 35px;
+    color: var(--white);
+    background-color: var(--yellow);
+    border-radius: 50%;
+
+    &:hover {
+      background-color: var(--off-yellow);
+    }
+  }
 }

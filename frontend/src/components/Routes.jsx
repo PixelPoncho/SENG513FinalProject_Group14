@@ -1,7 +1,5 @@
-// TODO: Convert paths to custom Unauth and Auth Routes
-
 // Importing Components from node_modules
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { Routes as Switches, Route, Navigate } from 'react-router-dom';
 import axios from "axios";
 
@@ -16,56 +14,45 @@ import SignUpPage from "../pages/SignUpPage";
 import { AuthRoute, UnauthRoute } from './ProtectedRoutes';
 import Navbar from "./Navbar";
 
-/*
- * Function used to update each page's <title> tag. This tag is
- * typically found in the public folder (index.html), and would
- * otherwise be static
- */
-const Page = (props) => {
-  useEffect(() => {
-    document.title = props.title || '';
-  }, [props.title]);
-  return props.children;
-};
-
 function Routes() {
-    const [currentUser, setCurrentUser] = useState({
-        id: "",
-        username: "",
-        email: "",
-        password: "",
-        chatColour: "",
-        avatar: {
-            type: {},
-            skin: "",
-            topType: "",
-            hairColour: "",
-            clothingType: "",
-            clothingColour: "",
-        },
-        ownedClassRooms: [],
-        visitedClassRooms: [],
-        bannedClassRooms: [],
-    });
+  const [currentUser, setCurrentUser] = useState({
+    id: "",
+    username: "",
+    email: "",
+    password: "",
+    chatColour: "",
+    avatar: {
+      type: {},
+      skin: "",
+      topType: "",
+      hairColour: "",
+      clothingType: "",
+      clothingColour: "",
+    },
+    ownedClassRooms: [],
+    visitedClassRooms: [],
+    bannedClassRooms: [],
+  });
 
-    useEffect(function() {
 
-        (async () => {
-            const response = await axios.post("/users/getUser");
-            const user = response.data.user;
 
-            if(user !== undefined) {
-                // Map the api response to our currentUser format
-                const updatedCurUser = user;
-                updatedCurUser.id = updatedCurUser._id;
-                delete updatedCurUser._id;
-                delete updatedCurUser.__v;
+  
+  useEffect(function() {
+    (async() => {
+      const response = await axios.post("/users/getUser");
+      const user = response.data.user;
 
-                setCurrentUser(updatedCurUser);
-            }
-        })();
+      if (typeof user !== 'undefined') {
+        // Map the api response to our currentUser format
+        const updatedCurUser = user;
+        updatedCurUser.id = updatedCurUser._id;
+        delete updatedCurUser._id;
+        delete updatedCurUser.__v;
 
-    }, []);
+        setCurrentUser(updatedCurUser);
+      }
+    })();
+  }, []);
 
   return (
     <Switches>
@@ -74,11 +61,9 @@ function Routes() {
         exact
         path="/login"
         element={
-          <>
-            <Page title="Sign In">
-              <SignInPage />
-            </Page>
-          </>
+          <UnauthRoute title="Sign In">
+            <SignInPage />
+          </UnauthRoute>
         }
       />
 
@@ -87,11 +72,9 @@ function Routes() {
         exact
         path="/signup"
         element={
-          <>
-            <Page title="Sign Up">
-              <SignUpPage />
-            </Page>
-          </>
+          <UnauthRoute title="Sign Up">
+            <SignUpPage />
+          </UnauthRoute>
         }
       />
 
@@ -100,12 +83,10 @@ function Routes() {
         exact
         path="/avatars"
         element={
-          <>
+          <AuthRoute title="Avatar Customization">
             <Navbar />
-            <Page title="Avatar Customization">
-              <AvatarPage />
-            </Page>
-          </>
+            <AvatarPage />
+          </AuthRoute>
         }
       />
 
@@ -114,12 +95,10 @@ function Routes() {
         exact
         path="/manage-classroom"
         element={
-          <>
+          <AuthRoute title="Classroom Management">
             <Navbar />
-            <Page title="Classroom Management">
-              <ClassroomListPage currentUser={currentUser} />
-            </Page>
-          </>
+            <ClassroomListPage currentUser={currentUser} />
+          </AuthRoute>
         }
       />
 
@@ -128,11 +107,9 @@ function Routes() {
         exact
         path="/classroom"
         element={
-          <>
-            <Page title="Welcome to the Classroom">
-              <ClassroomPage />
-            </Page>
-          </>
+          <AuthRoute title="Welcome to the Classroom">
+            <ClassroomPage />
+          </AuthRoute>
         }
       />
 

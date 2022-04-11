@@ -4,7 +4,7 @@
 .avatars.--container {
   display: flex;
   justify-content: space-between;
-  
+
   width: 60%;
   height: 550px;
 
@@ -69,6 +69,7 @@
 
       &.non-edit {
         margin: 30px 0 0;
+
         .sub-header {
           margin: 5px 0 0;
         }
@@ -143,6 +144,7 @@
       padding: 0 30px;
 
       display: none;
+
       &.active-selection {
         display: flex;
       }

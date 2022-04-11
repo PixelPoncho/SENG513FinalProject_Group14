@@ -1,3 +1,4 @@
+ /* eslint-disable */
 // Importing Components from node_modules
 import React, {useState, useEffect, useCallback, useMemo} from 'react'
 
@@ -32,10 +33,10 @@ function ClassroomPage(props) {
             console.log("error connecting to classroom");
         }
     }), []);
-  
+
   const avatarMsg = "To edit your avatar, you must return to the dashboard. You will be disconnected from the classroom."
   const exitMsg = "You will be disconnected from the space and taken back to the Manage Classrooms page."
-  
+
   const [gameState, setGameState] = useState({ users: [] });
   const [chatMessages, setChatMessages] = useState([]);
 
@@ -114,21 +115,21 @@ function ClassroomPage(props) {
   return (
     <div className='classroom-container'>
 
-      {isChatHistoryOpen && 
-        <ChatHistory 
+      {isChatHistoryOpen &&
+        <ChatHistory
           handleChatHistoryClick={handleChatHistoryClick}
         />
       }
 
       {isAvatarModalOpen &&
-        <ExitModal 
+        <ExitModal
           handleModalClick={handleAvatarModalClick}
           message={avatarMsg}
         />
       }
 
       {isExitModalOpen &&
-        <ExitModal 
+        <ExitModal
           handleModalClick={handleExitModalClick}
           message={exitMsg}
         />

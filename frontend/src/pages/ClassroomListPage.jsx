@@ -4,15 +4,15 @@
 // TODO: Add menu for each class card and finalize styling of it
 
 // Importing Components from node_modules
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
 // Importing icons
-import { MdStarRate } from 'react-icons/md'
+import { MdStarRate } from 'react-icons/md';
 
 
 // Importing styling
 import '../styles/ClassroomListPage.scss';
-import {NavLink} from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function ExistingClassrooms(props) {
   return (
@@ -49,31 +49,31 @@ function ExistingClassrooms(props) {
         <div className="horizontal-divider short" />
       </div>
       <div className='your-classes'>
-          {props.currentUser.ownedClassRooms.map(classroom =>
-              <div className='class-card' key={classroom._id} >
-                  <NavLink to={"/classroom?id="+classroom._id} >
-                  <h4 className='header'>{classroom.name}</h4>
-                  <div className="sub-header yours">
-                      <MdStarRate />
-                      Your classroom
-                  </div>
-                  {classroom.active &&
-                      <div className="status active">ONLINE</div>
-                  }
-                  {!classroom.active &&
-                      <div className="status inactive">OFFLINE</div>
-                  }
-                  {/* Include kebab menu and edit options */}
-                  </NavLink>
+        {props.currentUser.ownedClassRooms.map(classroom =>
+          <div className='class-card' key={classroom._id} >
+            <NavLink to={"/classroom?id=" + classroom._id} >
+              <h4 className='header'>{classroom.name}</h4>
+              <div className="sub-header yours">
+                <MdStarRate />
+                Your classroom
               </div>
-          )}
+              {classroom.active &&
+                <div className="status active">ONLINE</div>
+              }
+              {!classroom.active &&
+                <div className="status inactive">OFFLINE</div>
+              }
+              {/* Include kebab menu and edit options */}
+            </NavLink>
+          </div>,
+        )}
         {/* Setup for a card. Need to use .map to create cards for every instance the user has. */}
       </div>
       <button className='--btn yellow solid'>
         Start Your Class
       </button>
     </div>
-  )
+  );
 }
 
 function NewClassroom() {
@@ -100,7 +100,7 @@ function NewClassroom() {
       </div>
 
       <h5 className='sub-header'>Select Your Classroom Layout</h5>
-      
+
       <div className='classroom-layout'>
         PLACE TO PICK CLASSROOM LAYOUT?
         {/* Insert classroom options that the user can select from. Or are we only doing one? */}
@@ -109,13 +109,13 @@ function NewClassroom() {
       <button
         className='--btn yellow solid'
         onClick={() => {
-          //Create classroom and go live
+          // Create classroom and go live
         }}
       >
         Create Classroom
       </button>
     </div>
-  )
+  );
 }
 
 
@@ -142,7 +142,7 @@ function ClassroomListPage(props) {
         <h1
           className={`sub-header ` + (activeSubView === 'new' ? 'active' : '')}
           onClick={() => {
-            console.log("here")
+            console.log("here");
             if (activeSubView === 'new') {
               return;
             } else {
@@ -165,7 +165,7 @@ function ClassroomListPage(props) {
       }
 
     </div >
-  )
+  );
 }
 
-export default ClassroomListPage
+export default ClassroomListPage;

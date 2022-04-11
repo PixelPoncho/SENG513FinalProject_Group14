@@ -1,28 +1,27 @@
 .exit-modal {
-    /* centering on page */
-    position: absolute;
-    width: 500px;
-    background-color: white;
-    z-index: 12;
-    border: solid 2px black;
-    box-shadow: 0 0px  100px 200px hsla(0, 0%, 0%, 70%);
-    border-radius: 20px;
-    padding: 16px;
+  /* centering on page */
+  position: absolute;
+  width: 500px;
+  background-color: white;
+  z-index: 12;
+  border: solid 2px black;
+  box-shadow: 0 0px 100px 200px hsla(0, 0%, 0%, 70%);
+  border-radius: 20px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  .message-container {
+    flex-grow: 1;
+    max-height: 100%;
+    margin: 0px 32px;
+  }
+
+  .btn-container {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    margin-top: auto;
     gap: 20px;
-  
-    .message-container {
-      flex-grow: 1;
-      max-height: 100%;
-      margin: 0px 32px;
-    }
-
-    .btn-container {
-      display: flex;
-      justify-content: center;
-      margin-top: auto;
-      gap: 20px;
-    }
-
+  }
 }

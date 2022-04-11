@@ -1,56 +1,41 @@
-// TODO: Implement this in the Routes.jsx file without the multiple sets of errors appearing
-
 // Importing Components from node_modules
-import React from 'react';
-import { Route, Navigate } from "react-router-dom";
+import React, {useEffect} from 'react';
+import { Navigate } from "react-router-dom";
+
+/*
+ * Function used to update each page's <title> tag. This tag is
+ * typically found in the public folder (index.html), and would
+ * otherwise be static
+ */
+const Page = (props) => {
+  useEffect(() => {
+    document.title = props.title || '';
+  }, [props.title]);
+  return props.children;
+};
 
 // Routes that require authentication to access
-export const AuthRoute = ({
-  component: Component,
-  ...rest
-}) => {
+export const AuthRoute = ({ children, title }) => {
   const authSession = sessionStorage.getItem('auth');
 
   return (
-    <Route
-      {...rest}
-      element={props => {
-        if (authSession) {
-          return <Component {...props} />;
-        } else {
-          return (<Navigate to="/login" />);
-        }
-      }}
-    />
+    authSession ? (<Page title={title}>{children}title</Page>) : (<Navigate to="/login" />)
   );
 };
 
 // Routes that authenticated users should not be able to access
-export const UnauthRoute = ({
-  component: Component,
-  ...rest
-}) => {
+export const UnauthRoute = ({ children, title }) => {
   const authSession = sessionStorage.getItem('auth');
 
   return (
-    <Route
-      {...rest}
-      element={props => {
-        if (!authSession) {
-          return <Component {...props} />;
-        } else {
-          return (<Navigate to="/avatar" />);
-        }
-      }}
-    />
+    authSession === null ? (<Page title={title}>{children}title</Page>) : (<Navigate to="/avatars" />)
   );
 };
-
 
 function ProtectedRoutes() {
   return (
     <div>ProtectedRoutes</div>
-  )
+  );
 }
 
-export default ProtectedRoutes
+export default ProtectedRoutes;

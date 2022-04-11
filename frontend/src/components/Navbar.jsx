@@ -1,7 +1,7 @@
 // TODO: Create the navbar for mobile views (ie. dropdown)
 
 // Importing Components from node_modules
-import React from 'react';
+import React, {useCallback} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Nav, Navbar as ReactNavbar } from 'react-bootstrap';
 import axios from "axios";
@@ -9,16 +9,14 @@ import axios from "axios";
 // Importing styles
 import '../styles/Navbar.scss';
 
-/*
-  Passing in the className allows the styling of the Navbar to be customized based on what page we are on
-*/
 const Navbar = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const logout = async () => {
-        await axios.post("/users/logout");
-        navigate("/login");
-    };
+  const logout = useCallback(() => {
+    axios.post("/users/logout");
+    sessionStorage.removeItem('auth');
+    navigate("/login");
+  }, []);
 
   return (
     <>
@@ -45,8 +43,7 @@ const Navbar = () => {
               onClick={(e) => {
                 // Used to prevent navigation to the page you're already on, cuz it doesnt make sense.
                 if (window.location.pathname === "/avatars") {
-                  console.log("here")
-                  e.preventDefault()
+                  e.preventDefault();
                 }
               }}
             >
@@ -58,8 +55,7 @@ const Navbar = () => {
               href="/manage-classroom"
               onClick={(e) => {
                 if (window.location.pathname === "/manage-classroom") {
-                  console.log("here")
-                  e.preventDefault()
+                  e.preventDefault();
                 }
               }}
             >
@@ -67,17 +63,17 @@ const Navbar = () => {
             </Nav.Link>
 
             {/* Logout "button" */}
-              <button
-                  className="--btn outline red"
-                  onClick={logout}
-              >
-                  Logout
-              </button>
+            <button
+              className="--btn outline red"
+              onClick={() => logout()}
+            >
+              Logout
+            </button>
           </Nav>
         </ReactNavbar.Collapse>
       </ReactNavbar>
     </>
-  )
+  );
 };
 
 export default Navbar;
