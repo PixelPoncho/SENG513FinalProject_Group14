@@ -17,5 +17,64 @@
         padding: 2px 12px;
         border-radius: 15px;
     }
+
+    .arrow-container {
+        background-color: rgba(0, 0, 0, 0.5);
+        border-radius: 50px;
+        height: 125px;
+        width: 125px;
+        position: absolute;
+        bottom: 34px;
+        right: 34px;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
+        padding: 4px;
+
+        & div {
+            height: 100%;
+            width: 100%;
+            padding: 4px;
+            display: flex;
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            color: white;
+
+            svg {
+                height: 100%;
+                width: 100%;
+            }
+        }
+
+        .up {
+            grid-column-start: 2;
+            grid-column-end: 3;
+            grid-row-start: 1;
+            grid-row-end: 2;
+        }
+
+        .left {
+            grid-column-start: 1;
+            grid-column-end: 2;
+            grid-row-start: 2;
+            grid-row-end: 3;
+        }
+
+        .right {
+            grid-column-start: 3;
+            grid-column-end: 4;
+            grid-row-start: 2;
+            grid-row-end: 3;
+        }
+
+        .down {
+            grid-column-start: 2;
+            grid-column-end: 2;
+            grid-row-start: 3;
+            grid-row-end: 4;
+        }
+
+    }
 }
 
