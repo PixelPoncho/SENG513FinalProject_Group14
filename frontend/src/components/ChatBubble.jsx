@@ -2,8 +2,6 @@ import React, {useEffect, useState} from 'react'
 
 import '../styles/ChatBubble.scss';
 
-// TODO: chat bubble length (CSS) is not on a per-message basis
-
 const ChatBubble = props => {
     const {
         username,
