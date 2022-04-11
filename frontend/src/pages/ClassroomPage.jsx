@@ -39,6 +39,7 @@ function ClassroomPage(props) {
   
   const [gameState, setGameState] = useState({ users: [] });
   const [chatMessages, setChatMessages] = useState([]);
+  const [chatBubbles, setChatBubbles] = useState([]);
   const [message, setMessage] = useState("");
 
   const [isChatHistoryOpen, setIsChatHistoryOpen] = useState(false);
@@ -83,7 +84,7 @@ function ClassroomPage(props) {
                 });
             });
 
-            console.log("users from server", users);
+            // console.log("users from server", users);
 
             setGameState({
               ...gameState,
@@ -93,16 +94,20 @@ function ClassroomPage(props) {
 
         room.onMessage("chat", (msg) => {
           setChatMessages(oldChatMessages => [...oldChatMessages, msg]);
+          console.log("this is msg", msg)
+          setChatBubbles(oldChatMessages => [...oldChatMessages, <ChatBubble username={msg.username} message={msg.content} colour={msg.chatColour} />]);
         });
       })();
   }, []);
 
+  // TODO: only keep most recent 5 messages of chat bubbles, push oldest out
+  useEffect(() => {
+    console.log("thsi is chat bubbles", chatBubbles)
+  }, [chatBubbles])
+
   // TODO: empty chat message on page load
   useEffect(() => {
-    // console.log("sending chat message")
-    // if(message !== null || message !== "") {
-      sendAction("chat", message );
-    // }
+    sendAction("chat", message );
   }, [message])
 
     useEffect(() => {
@@ -139,9 +144,10 @@ function ClassroomPage(props) {
     //     sendAction("chat", "message");
     // };
     
-    // window.printChatMessages = () => {
-    //     console.dir(chatMessages);
-    // }
+    window.printChatMessages = () => {
+        console.dir(chatMessages);
+        console.dir(chatBubbles);
+    }
 
     // useEffect(() => {
     //   console.log("this is chat messages", chatMessages)
@@ -152,11 +158,7 @@ function ClassroomPage(props) {
 
       {/* TODO: Handle logic for incoming messages */}
       <div className='incoming-container'>
-        <ChatBubble />
-        <ChatBubble />
-        <ChatBubble />
-        <ChatBubble />
-        <ChatBubble />
+        {chatBubbles}
       </div>
       
       {isChatHistoryOpen && 
