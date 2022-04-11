@@ -284,7 +284,7 @@ function Login() {
             You can now access the full extent of the features available for Educators in the virtual classroom, so why not explore right now!
           </p>
 
-          <NavLink to="/login">
+          <NavLink to="/manage-classroom">
             <button className="--btn yellow solid">
               Visit a classroom
             </button>
