@@ -5,6 +5,7 @@
 
 // Importing Components from node_modules
 import React, { useState } from 'react'
+import {Link, useNavigate} from 'react-router-dom';
 
 // Importing icons
 import { MdStarRate } from 'react-icons/md'
@@ -15,6 +16,7 @@ import '../styles/ClassroomListPage.scss';
 import {NavLink} from "react-router-dom";
 
 function ExistingClassrooms(props) {
+    const navigate = useNavigate();
   return (
     <div className="existing-container">
       <p className="descriptive-text">
@@ -32,15 +34,16 @@ function ExistingClassrooms(props) {
             placeholder="XXXX-XXXX"
           />
         </label>
-
         <button
-          className='--btn yellow solid'
-          onClick={() => {
-            // Do something to open up the classroom whose invite code this belongs to. Check that it is in fact active/valid code/code has been entered. Probably inform user if invalid.
-          }}
+            className='--btn yellow solid'
+            onClick={() => {
+                console.dir("here?");
+                navigate(`/classroom?id=${document.querySelector("#inviteCode").value}`)
+            }}
         >
-          Visit Classroom
+            Visit Classroom
         </button>
+
       </div>
 
       <div className='section-divider'>

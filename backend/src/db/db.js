@@ -21,15 +21,23 @@ exports.loginUser = async (loginData) => {
 };
 
 exports.createUser = async (userData) => {
+    const defaultAvatar = {
+        skin: "Tanned",
+        topType: "LongHairStraight",
+        hairColour: "Auburn",
+        clothingType: "BlazerShirt",
+        clothingColour: "#1ABC9C",
+    };
+    userData = { ...userData, avatar: defaultAvatar, chatColour: "black" };
     const user = new UserData(userData);
     let otherUser = await UserData.findOne({ email: userData.email });
     if(otherUser) {
         return { error: "email exists" };
     }
-    otherUser = await UserData.findOne({ username: userData.username });
-    if(otherUser) {
-        return { error: "username exists" };
-    }
+    // otherUser = await UserData.findOne({ username: userData.username });
+    // if(otherUser) {
+    //     return { error: "username exists" };
+    // }
     await user.save();
     return { user: user };
 };
