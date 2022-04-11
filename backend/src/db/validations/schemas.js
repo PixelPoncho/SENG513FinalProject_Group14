@@ -26,7 +26,7 @@ module.exports.userUpdateSchema = Joi.object({
 			topType: Joi.string(),
 			hairColour: Joi.string(),
 			clothingType: Joi.string(),
-			clothingColour: Joi.string()
+			clothingColour: Joi.string(),
 		}),
 	}).required(),
 });

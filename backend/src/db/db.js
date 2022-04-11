@@ -21,6 +21,14 @@ exports.loginUser = async (loginData) => {
 };
 
 exports.createUser = async (userData) => {
+    const defaultAvatar = {
+        skin: "Tanned",
+        topType: "LongHairStraight",
+        hairColour: "Auburn",
+        clothingType: "BlazerShirt",
+        clothingColour: "#1ABC9C",
+    };
+    userData = { ...userData, avatar: defaultAvatar };
     const user = new UserData(userData);
     let otherUser = await UserData.findOne({ email: userData.email });
     if(otherUser) {
