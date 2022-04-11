@@ -98,6 +98,7 @@ function ClassroomPage(props) {
           setChatBubbles(oldChatMessages => {
             const last4Bubbles = oldChatMessages.slice(-4);
             const newChatBubble = <ChatBubble
+                key={msg.userId + msg.sentAt}
                 username={msg.username}
                 message={msg.content}
                 colour={msg.chatColour}
