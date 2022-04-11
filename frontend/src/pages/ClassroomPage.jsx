@@ -97,6 +97,14 @@ function ClassroomPage(props) {
       })();
   }, []);
 
+  // TODO: empty chat message on page load
+  useEffect(() => {
+    // console.log("sending chat message")
+    // if(message !== null || message !== "") {
+      sendAction("chat", message );
+    // }
+  }, [message])
+
     useEffect(() => {
         return async () => {
             const room = await roomP;
@@ -131,9 +139,9 @@ function ClassroomPage(props) {
     //     sendAction("chat", "message");
     // };
     
-    window.printChatMessages = () => {
-        console.dir(chatMessages);
-    }
+    // window.printChatMessages = () => {
+    //     console.dir(chatMessages);
+    // }
 
     // useEffect(() => {
     //   console.log("this is chat messages", chatMessages)
