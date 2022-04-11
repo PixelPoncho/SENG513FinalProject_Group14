@@ -156,7 +156,6 @@ function ClassroomPage(props) {
   return (
     <div className='classroom-container'>
 
-      {/* TODO: Handle logic for incoming messages */}
       <div className='incoming-container'>
         {chatBubbles}
       </div>
