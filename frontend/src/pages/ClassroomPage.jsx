@@ -7,6 +7,7 @@ import ChatDrawer from '../components/ChatDrawer'
 import MenuDrawer from '../components/MenuDrawer'
 import ChatHistory from '../components/ChatHistory';
 import ExitModal from '../components/ExitModal'
+import ChatBubble from '../components/ChatBubble';
 
 // Importing icons
 import { AiOutlineMenu } from 'react-icons/ai';
@@ -88,6 +89,7 @@ function ClassroomPage(props) {
         });
 
         room.onMessage("chat", (msg) => {
+          // TODO: adds an empty message on loading page
           setChatMessages(oldChatMessages => [...oldChatMessages, msg]);
         });
       })();
@@ -135,6 +137,15 @@ function ClassroomPage(props) {
   return (
     <div className='classroom-container'>
 
+      {/* TODO: Handle logic for incoming messages */}
+      <div className='incoming-container'>
+        <ChatBubble />
+        <ChatBubble />
+        <ChatBubble />
+        <ChatBubble />
+        <ChatBubble />
+      </div>
+      
       {isChatHistoryOpen && 
         <ChatHistory 
           history={chatMessages}
