@@ -71,6 +71,7 @@ function ClassroomPage(props) {
                   y: u.y,
                     userId: u.userId,
                     username: u.username,
+                    chatColour: u.chatColour,
                     email: u.email,
                     avatar: {
                         skin: u.avatar.skin,
