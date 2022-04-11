@@ -29,7 +29,13 @@ class User extends Schema {
         this.userId = userId;
         this.username = username;
         this.email = email;
-        this.avatar = avatar;
+        this.avatar = new Avatar(
+            avatar.skin,
+            avatar.topType,
+            avatar.hairColour,
+            avatar.clothingType,
+            avatar.clothingColour
+        );
     }
 }
 
@@ -126,20 +132,14 @@ class ClassRoom extends Room {
             console.log(JSON.stringify(user));
             // make sure the user isint banned from this room
             if(user.bannedClassRooms.includes(this.classId)) reject({ error: "User banned from this room" });
-            const avatar = new Avatar(
-                user.avatar.skin,
-                user.avatar.topType,
-                user.avatar.hairColour,
-                user.avatar.clothingType,
-                user.avatar.clothingColour
-            )
-            resolve({ userId: user._id, username: user.username, email: user.email, avatar: avatar });
+            resolve({ userId: user._id, username: user.username, email: user.email, avatar: user.avatar });
         });
     }
 
     onJoin(client, options, auth) {
         console.log(client.sessionId + ' is joining ' + this.classId + ' with options ' + JSON.stringify(options) + ' auth ' + JSON.stringify(auth) );
         const { userId, username, email, avatar } = auth;
+        // is this not already a string? mongodb holds these as strings I beleive
         const userIdStr = userId.toString();
         //const isOwner = userId === this.metadata.owner;
         // assign userful information to the client
@@ -147,7 +147,6 @@ class ClassRoom extends Room {
         //client.userData = { userId, name, isOwner }
         const sessionId = client.sessionId;
         const user = { userId: userIdStr, username, email, avatar };
-
         this.state.addUser(sessionId, user);
     }
 
