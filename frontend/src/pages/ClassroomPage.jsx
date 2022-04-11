@@ -89,17 +89,17 @@ function ClassroomPage(props) {
 
         room.onMessage("chat", (msg) => {
           console.log("this is msg", msg        )
-          setChatMessages([...chatMessages, msg]);
+          setChatMessages(oldChatMessages => [...oldChatMessages, msg]);
           console.log("this is chatMessages", chatMessages)
         });
       })();
   }, []);
 
   // Send message to server when message changes
-  useEffect(() => {
-    console.log("this is message from ChatDrawer", message)
-    sendAction("chat", message );
-  }, [message])
+  // useEffect(() => {
+  //   console.log("this is message from ChatDrawer", message)
+  //   sendAction("chat", message );
+  // }, [message])
 
   // Print out game state, a useful debugging function
   // useEffect(() => {
@@ -118,6 +118,18 @@ function ClassroomPage(props) {
         room.send(actionType, actionValue);
     });
   };
+
+    // setTimeout(() => {
+    //     sendAction("chat", "message");
+    // }, 4000);
+
+    // window.sendChatMessageToMe = () => {
+    //     sendAction("chat", "message");
+    // };
+    //
+    // window.printChatMessages = () => {
+    //     console.dir(chatMessages);
+    // }
 
   return (
     <div className='classroom-container'>

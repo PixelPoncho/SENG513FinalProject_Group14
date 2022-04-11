@@ -99,7 +99,13 @@ class ClassRoom extends Room {
         this.setState(new State(this.gridSize));
         this.onMessage("chat", (client, message) => {
             console.log(`chat from ${client.sessionId} saying ${message}`);
-            this.broadcast("chat", client.name, message);
+            const user = this.state.users.get(client.sessionId);
+            this.broadcast("chat", {
+                userId: user.userId,
+                chatColour: user?.chatColour ?? "black", //A fallback chat colour
+                content: message,
+                sentAt: new Date()
+            });
         });
         this.onMessage("move", (client, message) => {
             const { deltaX, deltaY } = message;
