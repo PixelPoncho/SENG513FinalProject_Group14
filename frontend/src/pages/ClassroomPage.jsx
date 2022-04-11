@@ -94,6 +94,14 @@ function ClassroomPage(props) {
       })();
   }, []);
 
+  // TODO: empty chat message on page load
+  useEffect(() => {
+    // console.log("sending chat message")
+    // if(message !== null || message !== "") {
+      sendAction("chat", message );
+    // }
+  }, [message])
+
   // Print out game state, a useful debugging function
   // useEffect(() => {
   //   console.log("gameState: ", gameState);

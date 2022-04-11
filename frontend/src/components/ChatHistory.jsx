@@ -27,13 +27,14 @@ const ChatHistory = props => {
     // TEMP: Example showing how it would function
     useEffect(function() {
         for(let i = 0; i < history.length; i++) {
+            console.log("this is color", history[i])
             setTimeout(function() {
                 const message = {
                     id: history[i].userId,
                     content: history[i].content,
                     user: {
-                        name: `a name3f 3f  ${i}`,
-                        colour: "#F43434"
+                        name: history[i].username,
+                        colour: history[i].chatColour,
                     }
                 };
                 addMessage(message)
