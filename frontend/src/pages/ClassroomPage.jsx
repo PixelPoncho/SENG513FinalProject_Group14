@@ -80,6 +80,8 @@ function ClassroomPage(props) {
                 });
             });
 
+            console.log("users from server", users);
+
             setGameState({
               ...gameState,
               users: users
@@ -91,6 +93,13 @@ function ClassroomPage(props) {
         });
       })();
   }, []);
+
+    useEffect(() => {
+        return async () => {
+            const room = await roomP;
+            room.leave();
+        }
+    }, [])
 
 
   // Print out game state, a useful debugging function
