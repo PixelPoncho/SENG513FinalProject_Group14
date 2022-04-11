@@ -23,6 +23,7 @@ defineTypes(Avatar, {
 class User extends Schema {
     constructor(properties, x = 0, y = 0) {
         super();
+        console.log(JSON.stringify(properties));
         const { userId, username, email, avatar } = properties;
         this.x = x;
         this.y = y;
@@ -103,6 +104,7 @@ class ClassRoom extends Room {
         }
         //this.setMetadata({ classId, className: classRoom.name, owner: classRoom.owner._id });
         this.setState(new State(this.gridSize));
+        console.log("state " + this.state);
         this.onMessage("chat", (client, message) => {
             console.log(`chat from ${client.sessionId} saying ${message}`);
             this.broadcast("chat", client.name, message);
@@ -121,7 +123,6 @@ class ClassRoom extends Room {
         // use a promise so that we can have custom rejections letting the user know why they failed to join
         return await new Promise(async (resolve, reject) => {
             const { classId } = options;
-
             if(!classId) reject({ error: "Room not running" });
             // make sure routing works and users are going to the correct rooms
             if(classId !== this.classId) reject({ error: "Request room doesnt match this room id" });
@@ -147,6 +148,7 @@ class ClassRoom extends Room {
         //client.userData = { userId, name, isOwner }
         const sessionId = client.sessionId;
         const user = { userId: userIdStr, username, email, avatar };
+        console.log(this.state);
         this.state.addUser(sessionId, user);
     }
 
