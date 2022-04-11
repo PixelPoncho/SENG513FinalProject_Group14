@@ -89,16 +89,10 @@ function ClassroomPage(props) {
         });
 
         room.onMessage("chat", (msg) => {
-          // TODO: adds an empty message on loading page
           setChatMessages(oldChatMessages => [...oldChatMessages, msg]);
         });
       })();
   }, []);
-
-  // Send message to server when message changes
-  useEffect(() => {
-    sendAction("chat", message );
-  }, [message])
 
   // Print out game state, a useful debugging function
   // useEffect(() => {
