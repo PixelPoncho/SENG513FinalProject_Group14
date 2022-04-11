@@ -95,12 +95,19 @@ function ClassroomPage(props) {
         room.onMessage("chat", (msg) => {
           setChatMessages(oldChatMessages => [...oldChatMessages, msg]);
           console.log("this is msg", msg)
-          setChatBubbles(oldChatMessages => [...oldChatMessages, <ChatBubble username={msg.username} message={msg.content} colour={msg.chatColour} />]);
+          setChatBubbles(oldChatMessages => {
+            const last4Bubbles = oldChatMessages.slice(-4);
+            const newChatBubble = <ChatBubble
+                username={msg.username}
+                message={msg.content}
+                colour={msg.chatColour}
+            />
+            return [...last4Bubbles, newChatBubble]
+          });
         });
       })();
   }, []);
 
-  // TODO: only keep most recent 5 messages of chat bubbles, push oldest out
   useEffect(() => {
     console.log("thsi is chat bubbles", chatBubbles)
   }, [chatBubbles])
@@ -141,8 +148,8 @@ function ClassroomPage(props) {
     //     sendAction("chat", "message");
     // }, 4000);
 
-    window.sendChatMessageToMe = () => {
-        sendAction("chat", "message");
+    window.sendChatMessageToMe = msg => {
+        sendAction("chat", msg);
     };
     
     window.printChatMessages = () => {
