@@ -62,14 +62,14 @@ const rooms = [
         owner: "joe@test.com",
     },
     {
-        name: "Joe's Room",
+        name: "Bob's Room",
         active: false,
-        owner: "joe@test.com",
+        owner: "bob@test.com",
     },
     {
-        name: "Joe's Room",
+        name: "Tim's Room",
         active: false,
-        owner: "joe@test.com",
+        owner: "tim@test.com",
     }
 ];
 
@@ -84,7 +84,7 @@ const seedDB = async () => {
     }
     for(let room in rooms) {
         console.log(rooms[room]);
-        let tempUser = UserData.findOne({ username: rooms[room].owner });
+        let tempUser = await UserData.findOne({ email: rooms[room].owner });
         if(!tempUser) {
             console.log('Failed to create room');
             continue;
@@ -93,6 +93,7 @@ const seedDB = async () => {
         let tempRoom = new ClassRoomData(rooms[room]);
         await tempRoom.save();
         tempUser.ownedClassRooms.push(tempRoom);
+        await tempUser.save();
     }
 };
 
