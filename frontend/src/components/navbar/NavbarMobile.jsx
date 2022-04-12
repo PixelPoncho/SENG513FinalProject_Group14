@@ -29,6 +29,7 @@ const NavbarMobile = () => {
       <NavDropdown title="Classrooms" id="basic-nav-dropdown">
         <Nav.Link
           href="/manage-classroom"
+          className='sub-nav'
           onClick={(e) => {
             if (window.location.pathname === "/manage-classroom") {
               e.preventDefault();
@@ -39,6 +40,7 @@ const NavbarMobile = () => {
         </Nav.Link>
         <Nav.Link
           href="/create-classroom"
+          className='sub-nav last'
           onClick={(e) => {
             if (window.location.pathname === "/create-classroom") {
               e.preventDefault();

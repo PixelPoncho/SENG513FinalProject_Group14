@@ -1,5 +1,5 @@
 // Importing Components from node_modules
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { Navbar as BootstrapNavbar } from 'react-bootstrap';
 
 // Import Local Components
@@ -10,11 +10,24 @@ import NavbarMobile from './NavbarMobile';
 import '../../styles/Navbar.scss';
 
 const Navbar = () => {
+    // Defining state to determine window size and determine if resize pop-up is visible
+    const [width, setWidth] = useState(window.innerWidth);
+
+    /*
+      The following is used to ensure that the resize pop-up is only visible within a certain range of window width (i.e. avoids it remaining it open, when window fits desktop)
+    */
+    const handleResize = () => { setWidth(window.innerWidth); };
+
+    useEffect(() => {
+      window.addEventListener('resize', handleResize, false);
+    }, [width]);
+
   return (
     <>
       <BootstrapNavbar
         expand="lg"
         variant="dark"
+        className={`${width > 992 ? 'desktop-nav' : 'mobile-nav'}`}
       >
 
         {/* Logo on nav */}
@@ -27,10 +40,8 @@ const Navbar = () => {
         />
 
         <BootstrapNavbar.Collapse id="basic-navbar-nav">
-          {/*
-          <NavbarDesktop />
-          */}
-          <NavbarMobile />
+          {(width <= 992) && (<NavbarMobile />)}
+          {(width > 992) && (<NavbarDesktop />)}
         </BootstrapNavbar.Collapse>
       </BootstrapNavbar>
     </>

@@ -14,7 +14,7 @@ const NavbarDesktop = () => {
   }, []);
 
   return (
-    <Nav activeKey={window.location.pathname} className="ml-auto">
+    <Nav activeKey={window.location.pathname} className="ml-auto desktop-nav">
       <Nav.Link
         className="first-link"
         href="/avatars"
