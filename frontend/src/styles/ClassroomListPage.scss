@@ -3,7 +3,8 @@
   min-height: 550px;
 
   top: calc(50% + 35px);
-  padding: 60px 75px;
+  padding: 60px;
+  margin: 0;
 
   .horizontal-divider {
     background-color: var(--dark-blue);
@@ -90,12 +91,15 @@
     }
   }
 
+  .btn-container .--btn {
+    margin: 0 10px 15px;
+  }
+
   .yours {
     display: flex;
     justify-content: center;
     align-items: center;
   }
-
 
   .status {
     display: flex;
@@ -164,9 +168,23 @@
   }
 }
 
-
-@media (max-height: 740px) {
+@media (max-width: 1024px) {
   .classroom-management.--container {
-    margin: 50px 0 0;
+    top: 60%;
+    transform: translate(-50%, -45%);
+  }
+}
+
+@media (max-height: 741px) and (max-width: 550px) {
+  .classroom-management.--container {
+    top: 65%;
+    transform: translate(-50%, -45%);
+  }
+}
+
+@media (max-width: 550px) and (min-height: 741px) {
+  .classroom-management.--container {
+    top: 55%;
+    transform: translate(-50%, -45%);
   }
 }

@@ -13,7 +13,7 @@
   --dark-blue: #023047;
   --light-blue: #8ECAE6;
   --turquoise: #17A2BC;
-  --off-turquoise: ;
+  --off-turquoise: #217d8e;
 
   --yellow: #FFB703;
   --off-yellow: #DFA534;
@@ -169,6 +169,21 @@ input:focus-visible {
 
     &:disabled {
       background-color: var(--off-red);
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+  }
+
+  &.blue {
+    background-color: var(--turquoise);
+
+    &:hover {
+      cursor: pointer;
+      background-color: var(--off-turquoise);
+    }
+
+    &:disabled {
+      background-color: var(--off-turquoise);
       box-shadow: none;
       cursor: not-allowed;
     }

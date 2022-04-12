@@ -54,6 +54,7 @@ function ClassroomListPage() {
         if (typeof data.data.user !== 'undefined') {
           let temp = data.data.user;
 
+          // REMOVE
           if (data.data.user.ownedClassRooms.length === 0) {
             temp.ownedClassRooms.push({ name: "Joe's Room", active: false, owner: 'joe@test.com' });
             temp.ownedClassRooms.push({ name: "My Room", active: false, owner: 'joe@test.com' });
@@ -66,24 +67,6 @@ function ClassroomListPage() {
         console.log(err);
       });
   }, []);
-
-
-  // useEffect(function () {
-  //   (async () => {
-  //     const response = await
-  //     const user = response.data.user;
-
-  //     if (typeof user !== 'undefined') {
-  //       // Map the api response to our currentUser format
-  //       const updatedCurUser = user;
-  //       updatedCurUser.id = updatedCurUser._id;
-  //       delete updatedCurUser._id;
-  //       delete updatedCurUser.__v;
-
-  //       setCurrentUser(updatedCurUser);
-  //     }
-  //   });
-  // }, []);
 
   return (
     <div className="classroom-management --container">
@@ -141,9 +124,14 @@ function ClassroomListPage() {
         )}
         {/* Setup for a card. Need to use .map to create cards for every instance the user has. */}
       </div>
-      <button className='--btn yellow solid'>
-        Start Your Class
-      </button>
+      <div className='btn-container'>
+      <button className='--btn blue solid'>
+          Add New Class
+        </button>
+        <button className='--btn yellow solid'>
+          Start Your Class
+        </button>
+      </div>
     </div >
   );
 }
