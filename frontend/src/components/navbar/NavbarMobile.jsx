@@ -1,8 +1,11 @@
 // Importing Components from node_modules
-import React, {useCallback} from 'react';
+import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Nav, NavDropdown } from 'react-bootstrap';
 import axios from "axios";
+
+// Importing icons
+import { FiLogOut } from 'react-icons/fi';
 
 const NavbarMobile = () => {
   const navigate = useNavigate();
@@ -55,6 +58,9 @@ const NavbarMobile = () => {
         onClick={() => logout()}
       >
         Logout
+        <FiLogOut
+        style={{margin: "-6px 0 0 5px"}}
+        />
       </Nav.Link>
     </Nav>
   );

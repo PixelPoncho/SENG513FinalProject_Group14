@@ -43,19 +43,14 @@ const Player = (props) => {
   );
 };
 
-const Grid = props => {
-  const {
-    gridWidth,
-    sendAction,
-    gameState,
-  } = props;
-
+const Grid = ({
+  gridWidth,
+  sendAction,
+  gameState
+}) => {
   const [users, setUsers] = useState([]);
 
-  useEffect(() => {
-    setUsers(gameState.users);
-  }, [gameState]);
-
+  useEffect(() => {setUsers(gameState.users);}, [gameState]);
 
   const move = (deltaX, deltaY) => {
     sendAction("move", { deltaX, deltaY });
@@ -96,13 +91,13 @@ const Grid = props => {
       className="grid-box"
       style={{ "width": gridWidth * 34, "height": gridWidth * 34 }}
     >
-      {users.map(user => <Player key={user.username} user={user} /> )}
-        <div className="arrow-container">
-            <div className="left" onClick={() => move(-1,0)}><FaLongArrowAltLeft /></div>
-            <div className="right" onClick={() => move(1,0)}><FaLongArrowAltRight /></div>
-            <div className="up" onClick={() => move(0,-1)}><FaLongArrowAltUp /></div>
-            <div className="down" onClick={() => move(0,1)}><FaLongArrowAltDown /></div>
-        </div>
+      {users.map(user => <Player key={user.username} user={user} />)}
+      <div className="arrow-container">
+        <div className="left" onClick={() => move(-1, 0)}><FaLongArrowAltLeft /></div>
+        <div className="right" onClick={() => move(1, 0)}><FaLongArrowAltRight /></div>
+        <div className="up" onClick={() => move(0, -1)}><FaLongArrowAltUp /></div>
+        <div className="down" onClick={() => move(0, 1)}><FaLongArrowAltDown /></div>
+      </div>
     </div>
   );
 };

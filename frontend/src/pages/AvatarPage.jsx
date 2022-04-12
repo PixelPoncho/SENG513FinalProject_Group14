@@ -34,7 +34,7 @@ import '../styles/AvatarPage.scss';
 
 function AvatarPage({savedAvatar, savedName, savedColour}) {
   // Used to display edit mode content (ie. buttons) By default should be false, but for development purposes could be set to true
-  const [isEditMode, setIsEditMode] = useState(true);
+  const [isEditMode, setIsEditMode] = useState(false);
   const [isEditColour, setIsEditColour] = useState(false);
 
   // Used to update "section" of customization user is in
@@ -62,6 +62,7 @@ function AvatarPage({savedAvatar, savedName, savedColour}) {
   useEffect(() => {
     loadUser().then((data) => {
       if (data) {
+        console.log(data)
         user => {
           if (user?.avatar !== undefined) {
             savedAvatar.chatColour = savedColour;
@@ -91,7 +92,6 @@ function AvatarPage({savedAvatar, savedName, savedColour}) {
     const dataPromise = axios.post("/users/getUser")
       .then((resp) => resp.data)
       .catch((err) => setError(err));
-
     return dataPromise;
   }, []);
 
@@ -185,12 +185,12 @@ function AvatarPage({savedAvatar, savedName, savedColour}) {
               style={{ width: '100%', height: '100%' }}
               avatarStyle='Transparent'
               topType={currentAvatar.topType}
-              accessoriesType='Prescription02'
+              accessoriesType='Blank'
               hairColor={currentAvatar.hairColour}
               facialHairType='Blank'
               clotheType={currentAvatar.clothingType}
               clotheColor='PastelBlue'
-              eyeType='Happy'
+              eyeType='Default'
               eyebrowType='Default'
               mouthType='Smile'
               skinColor={currentAvatar.skin}
