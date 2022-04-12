@@ -92,6 +92,7 @@ const seedDB = async () => {
         rooms[room].owner = tempUser._id;
         let tempRoom = new ClassRoomData(rooms[room]);
         await tempRoom.save();
+        tempUser.ownedClassRooms.push(tempRoom);
     }
 };
 
