@@ -192,9 +192,9 @@
 
     p {
       line-height: 100%;
-      line-break: anywhere;
 
       &:not(.sub-header) {
+        line-break: anywhere;
         margin-left: 10px;
 
         &:hover {
