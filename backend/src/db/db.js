@@ -48,13 +48,19 @@ exports.getUserById = getUserById;
 
 exports.updateUser = async (userId, userData) => {
     const user = await getUserById(userId);
-    for(const prop in userData) {
-        user[prop] = userData[prop];
+    if(!user) return { error: "No user found" };
+    if(userData.name) user.name = userData.name;
+    if(userData.chatColour) user.chatColour = userData.chatColour;
+    if(userData.avatar) {
+        for(const [key, value] of Object.entries(userData.avatar)) {
+            if(value) {
+                user.avatar[key] = value;
+            }
+        }
     }
 
-    //TODO: How exactly do arrays get updated?
-
-    return user.save();
+    await user.save();
+    return { user };
 };
 
 // create a delete user that goes through and deletes all the owned classrooms that user has 

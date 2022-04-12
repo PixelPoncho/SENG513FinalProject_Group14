@@ -91,8 +91,14 @@ class ClassRoom extends Room {
     // if they just make up a classId then disconnect up front
     async onCreate(options) {
         console.log("Starting ClassRoom with options ", options);
+        this.isRunning = false;
         // get the classId from the user set options
         const { classId } = options;
+        if(!classId) {
+            console.log("no class id was provided to on create in options");
+            this.disconnect();
+            return;
+        }
         this.classId = classId;
         // get the classroom the user wants to start
         // if it is a real classroom and not active start it
@@ -114,6 +120,7 @@ class ClassRoom extends Room {
             this.state.moveUser(client.sessionId, deltaX, deltaY);
         });
         console.log("ClassRoom created successfully ");
+        this.isRunning = true;
     }
 
     // consider making this async and just throw new error
@@ -123,15 +130,19 @@ class ClassRoom extends Room {
         // use a promise so that we can have custom rejections letting the user know why they failed to join
         return await new Promise(async (resolve, reject) => {
             const { classId } = options;
-            if(!classId) reject({ error: "Room not running" });
+            if(!classId) reject({ error: "No room provided in user options" });
+            if(!this.classId) reject({ error: "Room not initialized properly, has not room ID" });
+            if(!this.isRunning) reject({ error: "Room is not running" });
             // make sure routing works and users are going to the correct rooms
             if(classId !== this.classId) reject({ error: "Request room doesnt match this room id" });
             // find the user
+            if(!req.session) reject({ error: "The use request does not have a session attatched" });
             if(!req.session.isLoggedIn || !req.session.userId) reject({ error: "Not logged in" });
             const user = await getUserById(req.session.userId);
             if(!user) reject({ errror: "Invalid user" });
             console.log(JSON.stringify(user));
             // make sure the user isint banned from this room
+            if(!user.bannedClassRooms) reject({ error: "User was found but banned class rooms was null" });
             if(user.bannedClassRooms.includes(this.classId)) reject({ error: "User banned from this room" });
             resolve({ userId: user._id, username: user.username, email: user.email, avatar: user.avatar });
         });
@@ -159,6 +170,7 @@ class ClassRoom extends Room {
 
     async onDispose() {
         console.log(`shutting down room ${this.classId}`);
+        this.isRunning = false;
         const { error, classRoom } = await deactivateClassRoom(this.classId);
         if(error) console.log(`${this.classId} - ${error}`);
     }
