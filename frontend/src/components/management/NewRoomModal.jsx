@@ -19,6 +19,10 @@ const NewRoomModal = ({
 
   const addClassroomToDB = useCallback((newName) => {
     let dataPromise = axios.post("/rooms/createRoom", { classRoom: { name: newName } })
+      .then(() => {
+        setRefresh(!refresh);
+        setViewNewModal(false);
+      })
       .catch((err) => {
         setError("Classroom already exists, please provide a different name");
         console.log(err);
@@ -31,13 +35,7 @@ const NewRoomModal = ({
     if (newName === '') {
       setError('Please provide a name for the classroom.');
     } else {
-      addClassroomToDB(newName)
-        .then(() => {
-          if (error === '') {
-            setRefresh(!refresh);
-            setViewNewModal(false);
-          }
-        });
+      addClassroomToDB(newName);
     }
   };
 
@@ -59,7 +57,7 @@ const NewRoomModal = ({
       <div className="popup new-class --container">
         <MdClose
           className="btn-close"
-          onClick={() => {handleClose();}}
+          onClick={() => { handleClose(); }}
           onMouseOver={({ target }) => {
             target.style.cursor = "pointer";
           }}
@@ -92,7 +90,7 @@ const NewRoomModal = ({
           </button>
           <button
             className="--btn blue outline"
-            onClick={() => {handleClose();}}
+            onClick={() => { handleClose(); }}
           >
             Cancel
           </button>
