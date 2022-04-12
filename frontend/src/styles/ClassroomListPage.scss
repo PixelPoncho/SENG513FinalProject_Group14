@@ -192,6 +192,8 @@
 
     p {
       line-height: 100%;
+      line-break: anywhere;
+
       &:not(.sub-header) {
         margin-left: 10px;
 
