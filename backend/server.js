@@ -99,7 +99,7 @@ app.post(
 
 app.post(
 	"/users/logout",
-	validateUserLogin,
+	// validateUserLogin,
 	(req, res) => {
 		req.session.isLoggedIn = false;
 		req.session.userId = null;
@@ -147,7 +147,9 @@ app.post(
 	validateUserUpdate,
 	catchAsync(async (req, res) => {
 		console.log("in /users/updateUser");
+		console.log(req.body.user);
 		const user = await updateUser(req.session.userId, req.body.user);
+		console.log(JSON.stringify(user));
 		res.json({user});
 	})
 );
