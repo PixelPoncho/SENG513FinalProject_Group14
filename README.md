@@ -46,7 +46,7 @@ It uses a few different react libraries to be able to provide it's full function
 - `axios`: to be able to make requests using HTTP methods
 - `react-router`: to allow our application to be more than a SPA
 
-## Starting the frontend
+## Starting the Front-End
 Similar to the backend you must navigate to the `src/frontend/` directory, where we ask you run the following commands:
 - `npm install` to install all the required dependencies
 - `npm start` to start the application and makes it available locally at `localhost:3000` in your browser
