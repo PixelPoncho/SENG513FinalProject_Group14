@@ -174,6 +174,10 @@
   width: 60%;
   max-width: 500px;
 
+  @media (max-width: 450px) {
+    width: 75%;
+  }
+
   .delete {
     color: var(--red);
     font-weight: bold;
@@ -192,9 +196,9 @@
 
     p {
       line-height: 100%;
-      line-break: anywhere;
 
       &:not(.sub-header) {
+        line-break: anywhere;
         margin-left: 10px;
 
         &:hover {

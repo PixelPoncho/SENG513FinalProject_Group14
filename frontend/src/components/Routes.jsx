@@ -1,5 +1,5 @@
 // Importing Components from node_modules
-import React from "react";
+import React, { useState } from "react";
 import { Routes as Switches, Route, Navigate } from 'react-router-dom';
 
 // Importing the page components for routing
@@ -14,6 +14,9 @@ import { AuthRoute, UnauthRoute } from './ProtectedRoutes';
 import Navbar from "./navbar/Navbar";
 
 function Routes() {
+  // Used to display edit mode content (ie. buttons) By default should be false, but for development purposes could be set to true
+  const [isEditMode, setIsEditMode] = useState(false);
+
   return (
     <Switches>
       {/* Route to Login Page */}
@@ -44,8 +47,13 @@ function Routes() {
         path="/avatars"
         element={
           <AuthRoute title="Avatar Customization">
-            <Navbar />
-            <AvatarPage />
+            {!isEditMode && (
+              <Navbar />
+            )}
+            <AvatarPage
+              isEditMode={isEditMode}
+              setIsEditMode={setIsEditMode}
+            />
           </AuthRoute>
         }
       />

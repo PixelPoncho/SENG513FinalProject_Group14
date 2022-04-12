@@ -1,5 +1,3 @@
-// TODO: Disable user from being able to move pages in edit mode
-
 // Importing Components from node_modules
 import React from 'react';
 // Importing the Avatar react library
@@ -150,7 +148,6 @@ const MobileAvatar = ({
 
           <div className="horizontal-divider bottom" />
 
-          {/* TODO: Update this section!! add the arrows just in case one section has more than one page associated with it */}
           <div className={"customization-options-container " + (activeSection === 'skin' ? 'active-selection' : '')}>
             {SkinOptions.map((skinOpt, index) =>
               <div

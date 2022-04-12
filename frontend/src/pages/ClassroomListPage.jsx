@@ -1,7 +1,3 @@
-// TODO: Highlight actively selected classroom and allow users to click a card to update the actively selected classroom. Track the invite code of said classroom in case the user wants to enter it.
-// TODO: Extract the invite code to visit classroom
-// TODO: Add menu for each class card and finalize styling of it
-
 // Importing Components from node_modules
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
