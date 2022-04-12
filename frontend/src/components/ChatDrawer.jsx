@@ -47,7 +47,12 @@ const ChatDrawer = props => {
                     />
 
                 <form id="form" onSubmit={handleSubmit}>
-                    <input id="input" placeholder="Start typing..." onChange={handleInput}></input>
+                    <input
+                        id="input"
+                        placeholder="Start typing..."
+                        autoComplete="off"
+                        onChange={handleInput}
+                    />
                     <button>
                       <IoMdSend className='send-icon' />
                     </button>
