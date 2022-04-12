@@ -9,6 +9,11 @@
     background-color: var(--off-white);
     box-shadow: var(--card-shadow);
 
+    &.fade-out {
+        opacity: 0;
+        transition: opacity 1s;
+    }
+
     .content {
         display: flex;
         gap: 10px;
