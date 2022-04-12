@@ -41,7 +41,20 @@ MongoDB is used for persistent storage for our application. This includes things
 
 Colyseus is a tool to design real time multiplayer games in NodeJS, it allows for synchronization of game states as well as easy socketed communication between different clients in a given room.
 
-## Available Scripts
+
+## Available backend scripts
+
+### `npm run seed`
+
+Seeds the database with some test users and test classroom, helpful for both development and testing purposes.
+
+### `npm run db`
+
+Displays the contents of the database, helpful for both development and testing purposes.
+
+### `npm start`
+
+## Available frontend scripts
 
 ### `npm run seed`
 
