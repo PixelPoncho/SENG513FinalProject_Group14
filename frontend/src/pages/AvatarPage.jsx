@@ -13,10 +13,11 @@ import {
 import DesktopAvatar from '../components/avatar/DesktopAvatar';
 import MobileAvatar from '../components/avatar/MobileAvatar';
 
-function AvatarPage() {
+function AvatarPage({
+  isEditMode,
+  setIsEditMode,
+}) {
   const [tempColour, setTempColour] = useState("");
-  // Used to display edit mode content (ie. buttons) By default should be false, but for development purposes could be set to true
-  const [isEditMode, setIsEditMode] = useState(false);
   // Used to update "section" of customization user is in
   const [activeSection, setActiveSection] = useState('skin');
   // Used to determine which modal is active
