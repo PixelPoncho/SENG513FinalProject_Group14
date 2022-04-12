@@ -99,6 +99,7 @@ app.post(
 
 app.post(
 	"/users/logout",
+	validateUserLogin,
 	(req, res) => {
 		req.session.isLoggedIn = false;
 		req.session.userId = null;
@@ -112,11 +113,14 @@ app.post(
 	validateUserCreate,
 	catchAsync(async (req, res) => {
 		console.log("in /users/createUser");
+		console.log(req.body.user);
 		const { error, user } = await createUser(req.body.user);
 		if(error) {
+			console.log(error);
 			res.status(400).json({ error });
 		}
 		else {
+			console.log(user);
 			res.json({ user });
 		}
 	})

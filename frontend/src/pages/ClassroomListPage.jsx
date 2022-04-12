@@ -4,17 +4,19 @@
 // TODO: Add menu for each class card and finalize styling of it
 
 // Importing Components from node_modules
-import React, { useState } from 'react';
+import React, { useState } from 'react'
+import {Link, useNavigate} from 'react-router-dom';
 
 // Importing icons
-import { MdStarRate } from 'react-icons/md';
+import { MdStarRate } from 'react-icons/md'
 
 
 // Importing styling
 import '../styles/ClassroomListPage.scss';
-import { NavLink } from "react-router-dom";
+import {NavLink} from "react-router-dom";
 
 function ExistingClassrooms(props) {
+    const navigate = useNavigate();
   return (
     <div className="existing-container">
       <p className="descriptive-text">
@@ -32,15 +34,16 @@ function ExistingClassrooms(props) {
             placeholder="XXXX-XXXX"
           />
         </label>
-
         <button
-          className='--btn yellow solid'
-          onClick={() => {
-            // Do something to open up the classroom whose invite code this belongs to. Check that it is in fact active/valid code/code has been entered. Probably inform user if invalid.
-          }}
+            className='--btn yellow solid'
+            onClick={() => {
+                console.dir("here?");
+                navigate(`/classroom?id=${document.querySelector("#inviteCode").value}`)
+            }}
         >
-          Visit Classroom
+            Visit Classroom
         </button>
+
       </div>
 
       <div className='section-divider'>
@@ -49,31 +52,31 @@ function ExistingClassrooms(props) {
         <div className="horizontal-divider short" />
       </div>
       <div className='your-classes'>
-        {props.currentUser.ownedClassRooms.map(classroom =>
-          <div className='class-card' key={classroom._id} >
-            <NavLink to={"/classroom?id=" + classroom._id} >
-              <h4 className='header'>{classroom.name}</h4>
-              <div className="sub-header yours">
-                <MdStarRate />
-                Your classroom
+          {props.currentUser.ownedClassRooms.map(classroom =>
+              <div className='class-card' key={classroom._id} >
+                  <NavLink to={"/classroom?id="+classroom._id} >
+                  <h4 className='header'>{classroom.name}</h4>
+                  <div className="sub-header yours">
+                      <MdStarRate />
+                      Your classroom
+                  </div>
+                  {classroom.active &&
+                      <div className="status active">ONLINE</div>
+                  }
+                  {!classroom.active &&
+                      <div className="status inactive">OFFLINE</div>
+                  }
+                  {/* Include kebab menu and edit options */}
+                  </NavLink>
               </div>
-              {classroom.active &&
-                <div className="status active">ONLINE</div>
-              }
-              {!classroom.active &&
-                <div className="status inactive">OFFLINE</div>
-              }
-              {/* Include kebab menu and edit options */}
-            </NavLink>
-          </div>,
-        )}
+          )}
         {/* Setup for a card. Need to use .map to create cards for every instance the user has. */}
       </div>
       <button className='--btn yellow solid'>
         Start Your Class
       </button>
     </div>
-  );
+  )
 }
 
 function NewClassroom() {
@@ -109,13 +112,13 @@ function NewClassroom() {
       <button
         className='--btn yellow solid'
         onClick={() => {
-          // Create classroom and go live
+          //Create classroom and go live
         }}
       >
         Create Classroom
       </button>
     </div>
-  );
+  )
 }
 
 
@@ -142,7 +145,7 @@ function ClassroomListPage(props) {
         <h1
           className={`sub-header ` + (activeSubView === 'new' ? 'active' : '')}
           onClick={() => {
-            console.log("here");
+            console.log("here")
             if (activeSubView === 'new') {
               return;
             } else {
@@ -165,7 +168,7 @@ function ClassroomListPage(props) {
       }
 
     </div >
-  );
+  )
 }
 
-export default ClassroomListPage;
+export default ClassroomListPage
