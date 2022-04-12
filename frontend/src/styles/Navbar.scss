@@ -136,11 +136,9 @@ button.navbar-toggler:not(.collapsed) {
     color: var(--white);
     opacity: 0.8;
     letter-spacing: 1px;
+    border-bottom: 1px solid var(--white);
 
     padding: 1rem 1.75rem;
-    // padding: 0;
-
-    border-bottom: 1px solid var(--white);
 
     &.logout {
       padding-bottom: 1.5rem;
