@@ -1,0 +1,17 @@
+.chat-bubble {
+    display: flex;
+    flex-direction: row;
+    height: 45px;
+    max-width: 100%;
+    padding: 10px;
+    text-align: center;
+    border-radius: 20px;
+    background-color: var(--off-white);
+    box-shadow: var(--card-shadow);
+
+    .content {
+        display: flex;
+        gap: 10px;
+        margin: 0px 20px;
+    }
+}

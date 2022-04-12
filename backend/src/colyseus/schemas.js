@@ -23,12 +23,12 @@ defineTypes(Avatar, {
 class User extends Schema {
     constructor(properties, x = 0, y = 0) {
         super();
-        console.log(JSON.stringify(properties));
-        const { userId, username, email, avatar } = properties;
+        const { userId, username, email, avatar, chatColour } = properties;
         this.x = x;
         this.y = y;
         this.userId = userId;
         this.username = username;
+        this.chatColour = chatColour;
         this.email = email;
         this.avatar = new Avatar(
             avatar.skin,
@@ -45,6 +45,7 @@ defineTypes(User, {
     y: "number",
     userId: "string",
     username: "string",
+    chatColour: "string",
     email: "string",
     avatar: Avatar
 });
@@ -113,7 +114,14 @@ class ClassRoom extends Room {
         console.log("state " + this.state);
         this.onMessage("chat", (client, message) => {
             console.log(`chat from ${client.sessionId} saying ${message}`);
-            this.broadcast("chat", client.name, message);
+            const user = this.state.users.get(client.sessionId);
+            this.broadcast("chat", {
+                userId: user.userId,
+                username: user.username,
+                chatColour : user?.chatColour ?? "black", //A fallback chat colour
+                content: message,
+                sentAt: new Date()
+            });
         });
         this.onMessage("move", (client, message) => {
             const { deltaX, deltaY } = message;
@@ -144,13 +152,19 @@ class ClassRoom extends Room {
             // make sure the user isint banned from this room
             if(!user.bannedClassRooms) reject({ error: "User was found but banned class rooms was null" });
             if(user.bannedClassRooms.includes(this.classId)) reject({ error: "User banned from this room" });
-            resolve({ userId: user._id, username: user.username, email: user.email, avatar: user.avatar });
+            resolve({
+                userId: user._id,
+                username: user.username,
+                chatColour: user.chatColour,
+                email: user.email,
+                avatar: user.avatar
+            });
         });
     }
 
     onJoin(client, options, auth) {
         console.log(client.sessionId + ' is joining ' + this.classId + ' with options ' + JSON.stringify(options) + ' auth ' + JSON.stringify(auth) );
-        const { userId, username, email, avatar } = auth;
+        const { userId, username, email, avatar, chatColour } = auth;
         // is this not already a string? mongodb holds these as strings I beleive
         const userIdStr = userId.toString();
         //const isOwner = userId === this.metadata.owner;
@@ -158,7 +172,7 @@ class ClassRoom extends Room {
         // we carry the name, id and if they are the owner of the room
         //client.userData = { userId, name, isOwner }
         const sessionId = client.sessionId;
-        const user = { userId: userIdStr, username, email, avatar };
+        const user = { userId: userIdStr, username, email, chatColour, avatar };
         console.log(this.state);
         this.state.addUser(sessionId, user);
     }
