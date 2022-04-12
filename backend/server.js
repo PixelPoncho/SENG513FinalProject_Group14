@@ -150,7 +150,7 @@ app.post(
 		console.log(req.body.user);
 		const user = await updateUser(req.session.userId, req.body.user);
 		console.log(JSON.stringify(user));
-		res.json({user});
+		res.json(user);
 	})
 );
 
