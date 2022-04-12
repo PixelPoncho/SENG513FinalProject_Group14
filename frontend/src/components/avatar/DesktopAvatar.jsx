@@ -1,5 +1,3 @@
-// TODO: Disable user from being able to move pages in edit mode
-
 // Importing Components from node_modules
 import React from 'react';
 // Importing the Avatar react library
