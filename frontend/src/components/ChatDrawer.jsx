@@ -29,6 +29,10 @@ const ChatDrawer = props => {
     e.target.reset();
   }
 
+  const handleChatClick = () => {
+    setIsChatOpen(!isChatOpen)
+  }
+
   return (
     <div className='chat-drawer'>
         <div className='bottom-align'></div>
@@ -41,11 +45,16 @@ const ChatDrawer = props => {
                         className='drawer-icon'
                         onClick={() => setIsChatOpen(!isChatOpen)}
                     />
-                <IoMdSend
-                    className='send-icon'
-                />
                 <form id="form" onSubmit={handleSubmit}>
-                    <input id="input" placeholder="Start typing..." onChange={handleInput}></input>
+                    <input
+                        id="input"
+                        placeholder="Start typing..."
+                        autoComplete="off"
+                        onChange={handleInput}
+                    />
+                    <button>
+                      <IoMdSend className='send-icon' />
+                    </button>
                 </form>
 
             </div>

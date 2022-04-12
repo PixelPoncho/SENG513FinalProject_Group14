@@ -9,6 +9,7 @@ import MenuDrawer from '../components/MenuDrawer'
 import ChatHistory from '../components/ChatHistory';
 import ExitModal from '../components/ExitModal'
 import ChatBubble from '../components/ChatBubble';
+import ClassMembers from '../components/ClassMembers';
 
 // Importing icons
 import { AiOutlineMenu } from 'react-icons/ai';
@@ -46,6 +47,7 @@ function ClassroomPage(props) {
   const [isChatHistoryOpen, setIsChatHistoryOpen] = useState(false);
   const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
   const [isExitModalOpen, setIsExitModalOpen] = useState(false);
+  const [isClassMembersOpen, setIsClassMembersOpen] = useState(false);
 
   const handleChatHistoryClick = () => {
     setIsChatHistoryOpen(!isChatHistoryOpen)
@@ -57,6 +59,10 @@ function ClassroomPage(props) {
 
   const handleExitModalClick = () => {
     setIsExitModalOpen(!isExitModalOpen)
+  }
+
+  const handleClassMembersClick = () => {
+    setIsClassMembersOpen(!isClassMembersOpen)
   }
 
   // Put remote room state changes into gameState and chatMessages
@@ -191,6 +197,13 @@ function ClassroomPage(props) {
         />
       }
 
+      {isClassMembersOpen &&
+        <ClassMembers
+          handleModalClick={handleClassMembersClick}
+          users={gameState.users}
+        />
+      }
+
       <div className='classroom-grid'>
         <Grid gridWidth={14} sendAction={sendAction} gameState={gameState} />
       </div>
@@ -200,6 +213,7 @@ function ClassroomPage(props) {
           handleChatHistoryClick={handleChatHistoryClick}
           handleAvatarModalClick={handleAvatarModalClick}
           handleExitModalClick={handleExitModalClick}
+          handleClassMembersClick={handleClassMembersClick}
         />
         <ChatDrawer
           setMessage={setMessage}

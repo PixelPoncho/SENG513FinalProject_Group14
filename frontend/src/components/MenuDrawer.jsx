@@ -6,9 +6,17 @@ import '../styles/MenuDrawer.scss';
 // Import react-icons
 import { AiOutlineMenu } from 'react-icons/ai';
 import { FaTshirt, FaChalkboardTeacher } from 'react-icons/fa';
-import { RiTeamFill } from 'react-icons/ri';
-import { MdHistory } from 'react-icons/md';
-import { BiExit, BiArrowBack } from 'react-icons/bi';
+import { RiTeamFill } from 'react-icons/ri'
+import { MdHistory } from 'react-icons/md'
+import { BiExit, BiArrowBack } from 'react-icons/bi'
+
+const MenuDrawer = props => {
+  const {
+    handleChatHistoryClick,
+    handleAvatarModalClick,
+    handleExitModalClick,
+    handleClassMembersClick
+  } = props;
 
 const MenuDrawer = ({
   handleChatHistoryClick,
@@ -34,9 +42,10 @@ const MenuDrawer = ({
             onClick={handleAvatarModalClick}
           />
 
-          <RiTeamFill
-            className='menu-icon'
-          />
+                <RiTeamFill
+                    className='menu-icon'
+                    onClick={handleClassMembersClick}
+                />
 
           <MdHistory
             className='menu-icon'

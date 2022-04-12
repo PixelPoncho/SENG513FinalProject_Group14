@@ -1,0 +1,64 @@
+.class-members {
+    /* centering on page */
+    position: absolute;
+    width: 500px;
+    background-color: white;
+    z-index: 12;
+    border: solid 2px black;
+    box-shadow: 0 0px  100px 200px hsla(0, 0%, 0%, 70%);
+    border-radius: 20px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  
+    .student-list {
+      flex-grow: 1;
+      max-height: 100%;
+      margin: 0px 32px;
+      padding-top: 10px;
+    }
+
+    .copy-alert {
+        color: var(--red);
+    }
+
+    .invite-code-container {
+        display: flex;
+        gap: 10px;
+        margin: 0px 20px;
+        justify-content: center;
+        
+        .ic-header {
+            color: var(--turquoise);
+            font-family: "Oswald";
+            font-weight: 500;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .ic-id {
+            font-weight: 400;
+        }
+
+
+        .ic-copy {
+            width: 20px;
+            height: 30px;
+            color: var(--dark-blue);
+            border-radius: 5px;
+    
+            &:hover {
+                background-color: var(--yellow);
+            }
+        }
+    }
+
+    .btn-container {
+      display: flex;
+      justify-content: center;
+      margin-top: auto;
+      gap: 20px;
+    }
+
+}
