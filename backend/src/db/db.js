@@ -49,7 +49,7 @@ exports.getUserById = getUserById;
 exports.updateUser = async (userId, userData) => {
     const user = await getUserById(userId);
     if(!user) return { error: "No user found" };
-    if(userData.name) user.name = userData.name;
+    if(userData.username) user.username = userData.username;
     if(userData.chatColour) user.chatColour = userData.chatColour;
     if(userData.avatar) {
         for(const [key, value] of Object.entries(userData.avatar)) {
