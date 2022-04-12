@@ -178,53 +178,11 @@
   }
 }
 
-
-.colour-popup-background,
-.discard-popup-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background-color: var(--partially-transparent);
-  z-index: 11;
-
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-
-  &.show {
-    display: block;
-  }
-}
-
-.discard-popup-background .popup.--container {
+.discard.popup-background .popup.--container {
   width: 500px;
 }
 
 .popup.--container {
-  box-shadow: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  padding: 1.5em;
-
-  .btn-container * {
-    margin: 1em;
-  }
-
-  .btn-close {
-    align-self: end;
-  }
-
-  p.descriptive-text {
-    line-height: 105%;
-
-    width: 60%;
-    margin: 0 auto 15px;
-  }
-
   .color-square {
     border-radius: 5px;
   }

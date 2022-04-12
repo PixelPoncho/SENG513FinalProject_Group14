@@ -68,6 +68,7 @@ const MobileAvatar = ({
               <input
                 className="textbox"
                 placeholder={savedAvatar.username}
+                maxLength="32"
                 onChange={(e) => {
                   if (e.target.value === '') {
                     setCurrentAvatar({
@@ -258,7 +259,7 @@ const MobileAvatar = ({
           >
             Save Changes
           </button>
-          <br/>
+          <br />
           <button
             className="--btn blue outline"
             onClick={() => { setViewConfirmModal(true); }}
@@ -270,7 +271,7 @@ const MobileAvatar = ({
 
       {/* Discard Modal */}
       <div
-        className={"discard-popup-background mobile " + (viewConfirmModal ? "show" : "")}
+        className={"discard popup-background mobile " + (viewConfirmModal ? "show" : "")}
         onClick={(e) => {
           // If the popup background is clicked directly then execute the cancel
           if (e.target.classList.contains("discard-popup-background")) {
@@ -278,11 +279,19 @@ const MobileAvatar = ({
           }
         }}
       >
-        <div className="popup mobile --container">
-          <MdClose
-            className="btn-close"
-            onClick={() => { setViewConfirmModal(false); }}
-          />
+        <div className="popup discard mobile --container">
+          <div className='close-btn'>
+            <MdClose
+              className="btn-close"
+              onClick={() => { setViewConfirmModal(false); }}
+              onMouseOver={({ target }) => {
+                target.style.cursor = "pointer";
+              }}
+              onMouseOut={({ target }) => {
+                target.style.cursor = "default";
+              }}
+            />
+          </div>
           <h1 className="header">Discard Unsaved Changes?</h1>
           <p className="descriptive-text">Any unsaved changes will be lost. Are you sure you want to discard them?</p>
           <div className="btn-container">
@@ -308,19 +317,27 @@ const MobileAvatar = ({
 
       {/* Color Modal */}
       <div
-        className={"colour-popup-background mobile " + (viewColourModal ? "show" : "")}
+        className={"colour popup-background mobile " + (viewColourModal ? "show" : "")}
         onClick={e => {
           // If the popup background is clicked directly then execute the cancel
-          if (e.target.classList.contains("colour-popup-background")) {
+          if (e.target.classList.contains("colour popup-background")) {
             onColorModalCancel();
           }
         }}
       >
-        <div className="popup mobile --container">
-          <MdClose
-            className="btn-close"
-            onClick={() => onColorModalCancel()}
-          />
+        <div className="popup colour mobile --container">
+          <div className='close-btn'>
+            <MdClose
+              className="btn-close"
+              onClick={() => onColorModalCancel()}
+              onMouseOver={({ target }) => {
+                target.style.cursor = "pointer";
+              }}
+              onMouseOut={({ target }) => {
+                target.style.cursor = "default";
+              }}
+            />
+          </div>
           <h1 className="header">Select Colour</h1>
           <p className="descriptive-text">This will be the colour used to denote your messages in the classroom</p>
           <div

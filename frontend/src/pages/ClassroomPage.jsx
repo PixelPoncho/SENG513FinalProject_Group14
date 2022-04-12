@@ -1,3 +1,4 @@
+/* eslint-disable */
 // Importing Components from node_modules
 import React, {useState, useEffect, useCallback, useMemo} from 'react'
 

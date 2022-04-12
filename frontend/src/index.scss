@@ -285,3 +285,46 @@ input.textbox {
   margin-right: -50%;
   transform: translate(-50%, -50%);
 }
+
+// Styling for modals
+.popup-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: var(--partially-transparent);
+  z-index: 11;
+
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+
+  &.show {
+    display: block;
+  }
+}
+
+.popup.--container {
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 1.5em;
+
+  .btn-container * {
+    margin: 1em;
+  }
+
+  .btn-close {
+    align-self: end;
+  }
+
+  p.descriptive-text {
+    line-height: 105%;
+
+    width: 60%;
+    margin: 0 auto 15px;
+  }
+}
