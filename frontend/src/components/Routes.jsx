@@ -1,7 +1,6 @@
 // Importing Components from node_modules
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Routes as Switches, Route, Navigate } from 'react-router-dom';
-import axios from "axios";
 
 // Importing the page components for routing
 import AvatarPage from '../pages/AvatarPage';
@@ -15,42 +14,6 @@ import { AuthRoute, UnauthRoute } from './ProtectedRoutes';
 import Navbar from "./navbar/Navbar";
 
 function Routes() {
-  const [currentUser, setCurrentUser] = useState({
-    id: "",
-    username: "",
-    email: "",
-    password: "",
-    chatColour: "",
-    avatar: {
-      type: {},
-      skin: "",
-      topType: "",
-      hairColour: "",
-      clothingType: "",
-      clothingColour: "",
-    },
-    ownedClassRooms: [],
-    visitedClassRooms: [],
-    bannedClassRooms: [],
-  });
-
-  useEffect(function() {
-    (async() => {
-      const response = await axios.post("/users/getUser");
-      const user = response.data.user;
-
-      if (typeof user !== 'undefined') {
-        // Map the api response to our currentUser format
-        const updatedCurUser = user;
-        updatedCurUser.id = updatedCurUser._id;
-        delete updatedCurUser._id;
-        delete updatedCurUser.__v;
-
-        setCurrentUser(updatedCurUser);
-      }
-    })();
-  }, []);
-
   return (
     <Switches>
       {/* Route to Login Page */}
@@ -82,11 +45,7 @@ function Routes() {
         element={
           <AuthRoute title="Avatar Customization">
             <Navbar />
-            <AvatarPage
-              savedAvatar={currentUser.avatar}
-              savedName={currentUser.username}
-              savedColour={currentUser.chatColour}
-            />
+            <AvatarPage />
           </AuthRoute>
         }
       />
@@ -98,7 +57,7 @@ function Routes() {
         element={
           <AuthRoute title="Classroom Management">
             <Navbar />
-            <ClassroomListPage currentUser={currentUser} />
+            <ClassroomListPage />
           </AuthRoute>
         }
       />
