@@ -99,7 +99,7 @@ app.post(
 
 app.post(
 	"/users/logout",
-	validateUserLogin,
+	// validateUserLogin,
 	(req, res) => {
 		req.session.isLoggedIn = false;
 		req.session.userId = null;
