@@ -4,6 +4,10 @@ This project was creted using NodeJS, Express, MongoDB, and Colyseus.
 
 To run this project first start the mongod.exe on your local machine, then proceed to run any of the availible scripts.
 
+To run our application you will need mongodb installed on your machine. you can install it from this link here [MongoDB Download](https://www.mongodb.com/try/download/community) and download the comunity server version of the database.
+
+Next you will need to navigate to the MongoDB installation, go to bin, and run mongod.exe, this will start the MongoDB server listening. Ensure the port that it is listening on aligns with the port specified in the database path in the application. This should not be an issue as the default port that MongoDB listens on is the one that the server will try and access the local MongoDB server from.
+
 ## Design Overview
 
 ### Express
