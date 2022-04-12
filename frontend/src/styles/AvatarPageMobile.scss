@@ -1,13 +1,18 @@
-.avatars.desktop.--container {
-  display: flex;
-  justify-content: space-between;
+.avatars.mobile.--container {
+  width: 90%;
+  max-width: 700px;
+  // height: 100%;
+  // max-height: 650px;
+  padding: 20px 20px 50px;
 
-  width: 60%;
-  height: 75%;
-  max-height: 650px;
+  top: 165px;
+  transform: translate(-50%, -80px);
 
-  top: calc(50% + 35px);
-  padding: 60px 75px;
+  // Adjust height when navbar changes
+  @media (min-width: 992px) {
+  top: 50%;
+    transform: translate(-50%, -50%);
+  }
 
   .vertical-divider,
   .horizontal-divider {
@@ -16,95 +21,78 @@
     border-radius: 10px;
   }
 
-  .vertical-divider {
-    min-width: 3px;
-  }
-
   .horizontal-divider {
     min-height: 3px;
 
+    margin: 0 auto;
+    max-width: 500px;
+
     &.bottom {
-      margin: 0 0 25px;
+      margin: 0 auto 25px;
     }
   }
 
   // Styling for the container on the left side (ie. where users see their most up to date avatar)
-  .left-container {
-    width: 35%;
+  .sub-header {
+    text-align: left;
+    font-size: 30px;
+  }
 
-    .sub-header {
-      text-align: left;
-      font-size: 30px;
-    }
+  .top.chat-options {
+    display: flex;
+    justify-content: center;
 
-    .top.chat-options {
-      display: flex;
-      justify-content: center;
+    .edit-icon {
+      color: var(--yellow);
 
-      .edit-icon {
-        color: var(--yellow);
+      width: 30px;
+      height: 30px;
 
-        width: 30px;
-        height: 30px;
+      margin: 5px 0 0 5px;
 
-        margin: 5px 0 0 5px;
-
-        &:hover {
-          cursor: pointer;
-          color: var(--off-yellow);
-        }
-      }
-
-      .users-color {
-        min-width: 30px;
-        max-width: 30px;
-        min-height: 30px;
-        max-height: 30px;
-
-        border-radius: 30px;
-        margin: 5px 0 0 10px;
-      }
-
-      &.non-edit {
-        margin: 30px 0 0;
-
-        .sub-header {
-          margin: 5px 0 0;
-        }
-      }
-
-      &.edit .users-color:hover {
+      &:hover {
         cursor: pointer;
-        border: var(--hover-selection);
+        color: var(--off-yellow);
       }
     }
 
-    .avatar-container {
-      background-color: var(--white);
-      border-radius: 20px;
+    .users-color {
+      min-width: 30px;
+      max-width: 30px;
+      min-height: 30px;
+      max-height: 30px;
 
-      width: 250px;
-      height: 250px;
-
-      margin: 20px auto 25px;
+      border-radius: 30px;
+      margin: 5px 0 0 10px;
     }
 
-    .btn-container {
-      text-align: center;
-      max-width: 200px;
+    &.non-edit {
+      margin: 15px 0 0;
 
-      margin: 0 auto;
-
-      .--btn {
-        margin: 0 0 15px;
+      .sub-header {
+        margin: 5px 0 0;
       }
+    }
+
+    &.edit .users-color:hover {
+      cursor: pointer;
+      border: var(--hover-selection);
     }
   }
 
-  // Styling for the container on the right side (ie. the area where users select their customization choices)
-  .right-container {
-    width: 45%;
+  .avatar-container {
+    background-color: var(--white);
+    border-radius: 20px;
 
+    width: 250px;
+    height: 250px;
+
+    margin: 20px auto 25px;
+
+  }
+
+  // Styling for the container on the right side (ie. the area where users select their customization choices)
+  .bottom-container {
     .sub-header.hair {
       text-align: left;
       font-size: 15px;
@@ -120,13 +108,16 @@
       display: flex;
       justify-content: space-between;
 
-      width: 275px;
+      width: 75%;
+      max-width: 350px;
       padding: 10px 0;
       margin: 0 auto;
 
       svg {
         width: 50px;
         height: 50px;
+
+        margin: 0 10px;
 
         filter: invert(13%) sepia(40%) saturate(2260%) hue-rotate(172deg) brightness(94%) contrast(98%);
 
@@ -146,7 +137,9 @@
       flex-flow: row wrap;
       justify-content: space-around;
 
-      padding: 0 30px;
+      max-width: 550px;
+      padding: 0 10px;
+      margin: 0 auto;
 
       display: none;
 
@@ -178,9 +171,32 @@
   }
 }
 
+.btn-container.edit {
+  z-index: 10;
+  text-align: center;
+  background-color: var(--dark-blue);
+  box-shadow: var(--fixed-shadow);
 
-.colour-popup-background,
-.discard-popup-background {
+  position: fixed;
+  bottom: -5px;
+  height: 120px;
+  width: 100%;
+
+  margin: 0 auto;
+padding: 15px 0 0;
+
+  .--btn {
+    margin: 0 0 10px;
+
+    &.outline {
+      font-weight: 500;
+      background-color: var(--dark-blue);
+    }
+  }
+}
+
+.colour-popup-background.mobile,
+.discard-popup-background.mobile {
   position: absolute;
   top: 0;
   left: 0;
@@ -198,20 +214,28 @@
   }
 }
 
-.discard-popup-background .popup.--container {
-  width: 500px;
-}
-
-.popup.--container {
+.popup.mobile.--container {
   box-shadow: none;
   display: flex;
   flex-direction: column;
   align-items: center;
 
+  width: 85%;
+  max-width: 400px;
   padding: 1.5em;
 
-  .btn-container * {
-    margin: 1em;
+  .btn-container {
+    @media (max-width: 400px) {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    * {
+      margin: 1em;
+      @media (max-width: 400px) {
+        margin: .5em 1em;
+      }
+    }
   }
 
   .btn-close {
@@ -221,7 +245,7 @@
   p.descriptive-text {
     line-height: 105%;
 
-    width: 60%;
+    width: 85%;
     margin: 0 auto 15px;
   }
 
@@ -238,7 +262,8 @@
   .custom-colors-container {
     display: flex;
     flex-wrap: wrap;
-    width: 320px;
+    justify-content: center;
+    width: 90%;
   }
 
   .color-option {

@@ -28,14 +28,14 @@ const HairColourOptions = [
 ];
 
 const ClothingOptions = [
-  // "BlazerShirt",
+  "BlazerShirt",
   "BlazerSweater",
   "CollarSweater",
-  // "GraphicShirt",
+  "GraphicShirt",
   "Hoodie",
   "Overall",
   "ShirtCrewNeck",
-  // "ShirtScoopNeck",
+  "ShirtScoopNeck",
   "ShirtVNeck",
 ];
 
