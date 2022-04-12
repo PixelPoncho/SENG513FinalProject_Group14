@@ -1,101 +1,99 @@
-# Getting Started with Create React App
+# Welcome to the Virtual Classroom Space
+This is an application designed to create a virtual environment for users to join and interact with one another.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+For this application to run correctly, you are required to setup both the back- and front-end. In order to learn how to do that, just keep reading!
 
-## Available Scripts
+## About the Back-End
+This section of the codebase was created using NodeJS, Express, MongoDB, and Colyseus.
 
-In the project directory, you can run:
+First things first, make sure to have the listed technologies about installed! 
+#### **`NodeJS`**
+Most people have this installed by default. However, if you don't head over to the NodeJs [site](https://nodejs.org/en/). This project ran using Version 16 of NodeJS, so we suggest you install the same just in case of compatibility issues. `NPM` should also be available once you install NodeJS.
+#### **`MongoDB`** 
+If you don't already have MongoDB installed, you may find it at this site: [MongoDB Download](https://www.mongodb.com/try/download/community) and download the community server version of the database.
 
-### `npm start`
+Now to get MongoDB running. The version you just installed, should include a program called "_MongoDB Compass_". This program can be used to connect to the database. 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Open up `Compass` and try connecting to the default database `mongodb://localhost:27017`. 
+- If it did not work, navigate to the MongoDB installation site, go to `bin`, and run `mongod.exe`. This will start the MongoDB server listening. 
+- **Ensure the port that it is listening on aligns with the port specified in the database path in the application** (27017)! However, this shouldn't be an issue as the default port that MongoDB listens on is the one that the application's server will try and access the local MongoDB server from.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Starting the Backend
+Now as we mentioned, this program requires both the back-end and front-end to be running simultaneously. So 
+To start the backend you will need to navigate to `src/backend/`. Once in the location run the following comand:
+- `npm install` to install the dependencies
+- [Optional] `npm run seed` to seed the database with test data.
+- `npm start` will start the server on local port `3001` 
 
-### `npm test`
+### All Available Back-End Scripts
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#### `npm run seed`
+Seeds the database with some test users and test classroom, helpful for both development and testing purposes.
 
-### `npm run build`
+#### `npm run db`
+Displays the contents of the database, helpful for both development and testing purposes.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### `npm start`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+<hr />
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# Getting Started with the Front-End
+This application was bootstrapped from the "Create React App" repository. You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-### `npm run eject`
+It uses a few different react libraries to be able to provide it's full functionality, such as: 
+- `react-icons`: for svgs used throughout the application
+- `react-bootstrap`: for some default components (ie. navbar) and styling
+- `axios`: to be able to make requests using HTTP methods
+- `react-router`: to allow our application to be more than a SPA
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Starting the frontend
+Similar to the backend you must navigate to the `src/frontend/` directory, where we ask you run the following commands:
+- `npm install` to install all the required dependencies
+- `npm start` to start the application and makes it available locally at `localhost:3000` in your browser
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Available Front-End Scripts
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- `start` starts the application and makes it available locally at `localhost:3000` in your browser. The page will reload if you make edits. You will also see any lint errors in the console.
+- `test` launches the test runner in the interactive watch mode (more info [here](https://facebook.github.io/create-react-app/docs/running-tests))
+- `build` runs build sequence to create a package of the application in the `build` folder
+- `lint` runs ESLint against every .js & .jsx file found in the `src` folder and outputs a report of lint error & warnings to the user if any are found.
+- `lint:fix` functions like `lint` except it automatically resolves a majority of inconsistencies.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+#### `npm start`
 
-## Learn More
+Starts the application and makes it available locally at `localhost:3000` in your browser. The page will reload if you make edits. You will also see any lint errors in the console.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#### `npm run test`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Launches the test runner in the interactive watch mode (more info [here](https://facebook.github.io/create-react-app/docs/running-tests))
 
-### Code Splitting
+#### `npm run build`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Runs build sequence to create a package of the application in the `build` folder, typically used for hosting your application at some external domain.
 
-### Analyzing the Bundle Size
+#### `npm run lint`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Runs ESLint against every .js & .jsx file found in the `src` folder and outputs a report of lint error & warnings to the user if any are found.
 
-### Making a Progressive Web App
+#### `npm run lint:fix`
+Functions like `lint` except it automatically resolves a majority of inconsistencies.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+<hr />
 
-### Advanced Configuration
+## Design Overview
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### Express
 
-### Deployment
+Express is used to setup a simple web server that the client facing front end can make requests to. This allows us to easily encapsulate different functionality into routes for the front end to make requests to. Express was also used to handle sessions, and to ensure that users were logged in when attempting to make certain requests.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### MongoDB
 
-### `npm run build` fails to minify
+MongoDB is used for persistent storage for our application. This includes things such as user information, user settings, and classroom information. This allows a user to persist certain information between sessions.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Colyseus
 
-# Interacting with the SQLite database
+Colyseus is a tool to design real time multiplayer games in NodeJS, it allows for synchronization of game states as well as easy socketed communication between different clients in a given room.
 
-The primary way of interacting with the SQLite database is currently through the ORM "TypeORM". TypeORM models are defined within the `models/` directory. They are currently implemented as javascript modules which is why they have the `.mjs` extension. The file `db.mjs` is the main module you should use to interact with the ORM, it sets up the connection and configuration of the ORM as well as provides simplified access to the repositories for each model which you use to create/search/query the models. Here is some sample code demonstrating the basic usage of TypeORM in our project.
+### React
 
-```
-import User from "./models/User.mjs";
-import Classroom from "./models/Classroom.mjs";
-import {UserRepoPromise, ClassroomRepoPromise} from "./db.mjs";
-
-(async function() {
-    const UserRepo = await UserRepoPromise;
-    const ClassroomRepo = await ClassroomRepoPromise;
-
-    const user = {
-        name: "bob",
-        email: "bob@example.net",
-        password: "password"
-    };
-    await UserRepo.save(user);
-
-    const classroom = {
-        name: "seng 513",
-        teacher: user.id
-    }
-
-    await ClassroomRepo.save(classroom);
-    console.log(classroom);
-})();
-
-```
+React is a Javascript library that is used for front-end development, as you can build UIs based on various components. 
