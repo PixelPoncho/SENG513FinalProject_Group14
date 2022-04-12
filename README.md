@@ -1,101 +1,59 @@
-# Getting Started with Create React App
+# Getting started with the back end
+
+This project was created using NodeJS, Express, MongoDB, and Colyseus.
+
+To run this project first start the mongod.exe on your local machine, then proceed to run any of the available scripts.
+
+To run our application you will need mongodb installed on your machine. you can install it from this link here [MongoDB Download](https://www.mongodb.com/try/download/community) and download the community server version of the database.
+
+Next you will need to ensure mongoDB is running. The version of MongoDB that you just installed includes a program called "MongoDB Compass" that can be used to connect to the database. Open up Compass and try connecting to the default database `mongodb://localhost:27017`. If that works you will not have to manually run MongoDB, if it does not navigate to the MongoDB installation, go to bin, and run mongod.exe, this will start the MongoDB server listening. Ensure the port that it is listening on aligns with the port specified in the database path in the application (27017) This should not be an issue as the default port that MongoDB listens on is the one that the server will try and access the local MongoDB server from.
+
+You will also need to have Node.JS and NPM installed, for Node.JS we used version 16, and whichever version of NPM came with that.
+
+# Running this application
+
+To run this application you will need to start both the backend and then the frontend
+
+## Starting the backend
+
+To start the backend you will need to navigate to `src\backend\`. The first time you run the application you will need to run `npm install` to install the dependencies. To start the application run `npm start`. This will start the backend server on localhost port 3001.
+
+# Getting started with the front end
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Starting the frontend
+
+To start the frontend you will need to navigate to `src\frontend\`. The first time you run the application you will need to run `npm install` to install the dependencies. To start the application run `npm start`. This will start the frontend server on localhost port 3000.
+
+
+## Design Overview
+
+### Express
+
+Express is used to setup a simple web server that the client facing front end can make requests to. This allows us to easily encapsulate different functionality into routes for the front end to make requests to. Express was also used to handle sessions, and to ensure that users were logged in when attempting to make certain requests.
+
+### MongoDB
+
+MongoDB is used for persistent storage for our application. This includes things such as user information, user settings, and classroom information. This allows a user to persist certain information between sessions.
+
+### Colyseus
+
+Colyseus is a tool to design real time multiplayer games in NodeJS, it allows for synchronization of game states as well as easy socketed communication between different clients in a given room.
+
 ## Available Scripts
 
-In the project directory, you can run:
+### `npm run seed`
+
+Seeds the database with some test users and test classroom, helpful for both development and testing purposes.
+
+### `npm run db`
+
+Displays the contents of the database, helpful for both development and testing purposes.
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Starts the server on [http://localhost:3001](http://localhost:3001)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The server had no web view of its own, but interacts with the front end through a combination of requests.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-
-# Interacting with the SQLite database
-
-The primary way of interacting with the SQLite database is currently through the ORM "TypeORM". TypeORM models are defined within the `models/` directory. They are currently implemented as javascript modules which is why they have the `.mjs` extension. The file `db.mjs` is the main module you should use to interact with the ORM, it sets up the connection and configuration of the ORM as well as provides simplified access to the repositories for each model which you use to create/search/query the models. Here is some sample code demonstrating the basic usage of TypeORM in our project.
-
-```
-import User from "./models/User.mjs";
-import Classroom from "./models/Classroom.mjs";
-import {UserRepoPromise, ClassroomRepoPromise} from "./db.mjs";
-
-(async function() {
-    const UserRepo = await UserRepoPromise;
-    const ClassroomRepo = await ClassroomRepoPromise;
-
-    const user = {
-        name: "bob",
-        email: "bob@example.net",
-        password: "password"
-    };
-    await UserRepo.save(user);
-
-    const classroom = {
-        name: "seng 513",
-        teacher: user.id
-    }
-
-    await ClassroomRepo.save(classroom);
-    console.log(classroom);
-})();
-
-```
