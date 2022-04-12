@@ -45,11 +45,12 @@ const ChatDrawer = props => {
                         className='drawer-icon'
                         onClick={() => setIsChatOpen(!isChatOpen)}
                     />
-                <IoMdSend 
-                    className='send-icon'
-                />
+
                 <form id="form" onSubmit={handleSubmit}>
                     <input id="input" placeholder="Start typing..." onChange={handleInput}></input>
+                    <button>
+                      <IoMdSend className='send-icon' />
+                    </button>
                 </form>
                 
             </div>
