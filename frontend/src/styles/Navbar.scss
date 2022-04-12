@@ -30,7 +30,8 @@ button.navbar-toggler:not(.collapsed) {
 
 .navbar.desktop-nav {
   z-index: 10;
-  position: absolute;
+  position: fixed;
+  top:0;
 
   font-size: 25px;
   font-family: 'Oswald';
@@ -109,7 +110,8 @@ button.navbar-toggler:not(.collapsed) {
 // Mobile styling
 .navbar.mobile-nav {
   z-index: 10;
-  position: absolute;
+  position: fixed;
+  top:0;
 
   font-size: 25px;
   font-family: 'Oswald';

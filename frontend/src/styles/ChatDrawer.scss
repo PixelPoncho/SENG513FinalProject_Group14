@@ -20,30 +20,21 @@
     box-shadow: var(--nav-shadow);
   }
 
-<<<<<<< HEAD
-  .chat-input {
-    width: 600px;
-    height: 40px;
-    border-radius: 20px;
-    background-color: white;
-  }
-=======
-    #form { 
+    #form {
         display: flex;
         justify-content: center;
         width: 100%;
         margin-left: 15px;
     }
 
-    #input { 
+    #input {
         border-width:0px;
         border-radius: 20px;
-        background-color: white; 
+        background-color: white;
         width: 90%;
         padding: 1em 1em;
         height: 30px;
     }
->>>>>>> 5874ff27c1aa04ccd69d80d8d857091587112f81
 
   #input {
     border-width: 0px;

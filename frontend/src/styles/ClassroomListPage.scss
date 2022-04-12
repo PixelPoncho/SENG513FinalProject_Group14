@@ -3,9 +3,7 @@
   max-width: 700px;
   min-height: 550px;
 
-  top: calc(50% + 60px);
   padding: 60px;
-  margin: 0;
 
   .horizontal-divider {
     background-color: var(--dark-blue);
@@ -138,14 +136,7 @@
   max-width: 500px;
 
   .form-error {
-    color: var(--red);
     font-size: 12px;
-    font-weight: bold;
-    text-align: left;
-
-    max-width: 100%;
-
-    margin: 5px 0 0;
   }
 
   @media (max-width: 700px) {
@@ -214,12 +205,5 @@
         }
       }
     }
-  }
-}
-
-@media (max-width: 1024px) {
-  .classroom-management.--container {
-    top: 50%;
-    transform: translate(-50%, -45%);
   }
 }
