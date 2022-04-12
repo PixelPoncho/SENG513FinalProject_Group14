@@ -107,7 +107,7 @@ exports.createClassRoom = async (userId, classRoomData) => {
 
 exports.deleteClassRoom = async (userId, roomId) => {
     const user = await UserData.findById(userId).populate("ownedClassRooms");
-    const room = user.ownedClassRooms.find(el => el._id === roomId);
+    const room = user.ownedClassRooms.find(el => el._id.toString() === roomId);
     if(!room) return { error: "Invalid room" };
     await UserData.updateMany({}, {
         $pull: { ownedClassRooms: roomId, visitedClassRooms: roomId , bannedClassRooms: roomId }
