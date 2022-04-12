@@ -1,9 +1,6 @@
-// TODO: Convert paths to custom Unauth and Auth Routes
-
 // Importing Components from node_modules
-import React, {useEffect, useState} from "react";
+import React, { useState } from "react";
 import { Routes as Switches, Route, Navigate } from 'react-router-dom';
-import axios from "axios";
 
 // Importing the page components for routing
 import AvatarPage from '../pages/AvatarPage';
@@ -14,58 +11,11 @@ import SignUpPage from "../pages/SignUpPage";
 
 // Importing other project-defined components
 import { AuthRoute, UnauthRoute } from './ProtectedRoutes';
-import Navbar from "./Navbar";
-
-/*
- * Function used to update each page's <title> tag. This tag is
- * typically found in the public folder (index.html), and would
- * otherwise be static
- */
-const Page = (props) => {
-  useEffect(() => {
-    document.title = props.title || '';
-  }, [props.title]);
-  return props.children;
-};
+import Navbar from "./navbar/Navbar";
 
 function Routes() {
-    const [currentUser, setCurrentUser] = useState({
-        id: "",
-        username: "",
-        email: "",
-        password: "",
-        chatColour: "",
-        avatar: {
-            type: {},
-            skin: "",
-            topType: "",
-            hairColour: "",
-            clothingType: "",
-            clothingColour: "",
-        },
-        ownedClassRooms: [],
-        visitedClassRooms: [],
-        bannedClassRooms: [],
-    });
-
-    useEffect(function() {
-
-        (async () => {
-            const response = await axios.post("/users/getUser");
-            const user = response.data.user;
-
-            if(user !== undefined) {
-                // Map the api response to our currentUser format
-                const updatedCurUser = user;
-                updatedCurUser.id = updatedCurUser._id;
-                delete updatedCurUser._id;
-                delete updatedCurUser.__v;
-
-                setCurrentUser(updatedCurUser);
-            }
-        })();
-
-    }, []);
+  // Used to display edit mode content (ie. buttons) By default should be false, but for development purposes could be set to true
+  const [isEditMode, setIsEditMode] = useState(false);
 
   return (
     <Switches>
@@ -74,11 +24,9 @@ function Routes() {
         exact
         path="/login"
         element={
-          <>
-            <Page title="Sign In">
-              <SignInPage />
-            </Page>
-          </>
+          <UnauthRoute title="Sign In">
+            <SignInPage />
+          </UnauthRoute>
         }
       />
 
@@ -87,11 +35,9 @@ function Routes() {
         exact
         path="/signup"
         element={
-          <>
-            <Page title="Sign Up">
-              <SignUpPage />
-            </Page>
-          </>
+          <UnauthRoute title="Sign Up">
+            <SignUpPage />
+          </UnauthRoute>
         }
       />
 
@@ -100,12 +46,15 @@ function Routes() {
         exact
         path="/avatars"
         element={
-          <>
-            <Navbar />
-            <Page title="Avatar Customization">
-              <AvatarPage />
-            </Page>
-          </>
+          <AuthRoute title="Avatar Customization">
+            {!isEditMode && (
+              <Navbar />
+            )}
+            <AvatarPage
+              isEditMode={isEditMode}
+              setIsEditMode={setIsEditMode}
+            />
+          </AuthRoute>
         }
       />
 
@@ -114,12 +63,10 @@ function Routes() {
         exact
         path="/manage-classroom"
         element={
-          <>
+          <AuthRoute title="Classroom Management">
             <Navbar />
-            <Page title="Classroom Management">
-              <ClassroomListPage currentUser={currentUser} />
-            </Page>
-          </>
+            <ClassroomListPage />
+          </AuthRoute>
         }
       />
 
@@ -128,11 +75,9 @@ function Routes() {
         exact
         path="/classroom"
         element={
-          <>
-            <Page title="Welcome to the Classroom">
-              <ClassroomPage />
-            </Page>
-          </>
+          <AuthRoute title="Welcome to the Classroom">
+            <ClassroomPage />
+          </AuthRoute>
         }
       />
 

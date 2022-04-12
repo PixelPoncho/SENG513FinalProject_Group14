@@ -1,8 +1,15 @@
 .classroom-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 150px;
+
+  .classroom-grid {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-right: 150px;
+    height: 100vh;
+  }
 
     .incoming-container {
         display: flex;
@@ -22,7 +29,7 @@
         align-items: center;
         height: 100vh;
     }
-    
+
     .classroom-sidenav {
         display: flex;
         flex-direction: column;
@@ -37,4 +44,3 @@
         box-shadow: var(--nav-shadow);
     }
 }
-

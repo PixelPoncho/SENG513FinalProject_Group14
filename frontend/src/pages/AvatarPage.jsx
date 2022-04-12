@@ -1,508 +1,154 @@
-// TODO: Disable user from being able to move pages in edit mode
-// TODO: On change, set it to edit mode
-// TODO: Color picker
-// TODO: Add interactivity of avatar customization (ie. see different "sub-page")
-
 // Importing Components from node_modules
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import React, { useState, useEffect, useCallback } from 'react';
+import axios from 'axios';
 
 // Import Local Components
-import FormError from "../components/FormError";
+import {
+  SkinOptions,
+  HairOptions,
+  HairColourOptions,
+  ClothingOptions,
+  ChatColourOptions,
+} from '../components/avatar/AvatarOptions';
+import DesktopAvatar from '../components/avatar/DesktopAvatar';
+import MobileAvatar from '../components/avatar/MobileAvatar';
 
-// Importing icons
-import { MdEdit, MdClose, MdCheck } from 'react-icons/md'
-
-// Importing Assets
-import { ReactComponent as ClothesIcon } from '../assets/clothes.svg'
-import { ReactComponent as SkinIcon } from '../assets/skin.svg'
-import { ReactComponent as HairIcon } from '../assets/hair.svg'
-
-// Importing the Avatar react library
-import Avatar from 'avataaars'
-import {Piece} from "avataaars";
-
-// Importing styling
-import '../styles/AvatarPage.scss';
-import {useForm} from "react-hook-form";
-
-// Customization Options available for the user to interact with. 
-// Assumed the API has a large number of options, but we're limiting what users can pick
-
-
-const SkinOptions = [
-    ['Tanned', '#FD9841'],
-    ['Yellow', '#F8D25C'],
-    ['Pale', '#FFDBB4'],
-    ['Light', '#EDB98A'],
-    ['Brown', '#D08B5B'],
-    ['DarkBrown', '#AE5D29'],
-    ['Black', '#614335']
-];
-
-const HairOptions = [
-    'LongHairStraight',
-    'ShortHairFrizzle',
-    'Turban'
-];
-
-const HairColourOptions = [
-    ['Auburn', '#A55728'],
-    ['Black', '#2C1B18'],
-    ['Blonde', '#B58143'],
-    ['BlondeGolden', '#D6B370'],
-    ['Brown', '#724133'],
-    ['BrownDark', '#4A312C'],
-    ['PastelPink', '#F59797'],
-    ['Blue', '#000fdb']
-];
-
-const ClothingOptions = [
-    "BlazerShirt",
-    "BlazerSweater",
-    "CollarSweater",
-    "GraphicShirt",
-    "Hoodie",
-    "Overall",
-    "ShirtCrewNeck",
-    "ShirtScoopNeck",
-    "ShirtVNeck",
-];
-
-const ChatColorOptions = [
-    "#1ABC9C",
-    "#2ECC71",
-    "#3498DB",
-    "#9B59B6",
-    "#E91E63",
-    "#F1C40F",
-    "#E67E22",
-    "#E74C3C",
-    "#11806A",
-    "#1F8B4C",
-    "#206694",
-    "#71368A",
-    "#AD1457",
-    "#C27C0E",
-    "#A84300",
-    "#992D22",
-];
-
-// Create a promise and get the current user info on load
-const loadUser = new Promise(async resolve => {
-    const resp = await axios.post("/users/getUser");
-    const user = resp.data.user;
-    resolve(user);
-});
-
-function AvatarPage() {
-  // Used to display edit mode content (ie. buttons) By default should be false, but for development purposes could be set to true
-  const [isEditMode, setIsEditMode] = useState(true);
-
-  const [isEditColour, setIsEditColour] = useState(false);
-
+function AvatarPage({
+  isEditMode,
+  setIsEditMode,
+}) {
+  const [tempColour, setTempColour] = useState("");
   // Used to update "section" of customization user is in
   const [activeSection, setActiveSection] = useState('skin');
-  // Used to track overall page of customization the user is in.
-  let page = 1;
+  // Used to determine which modal is active
+  const [viewColourModal, setViewColourModal] = useState(false);
+  const [viewConfirmModal, setViewConfirmModal] = useState(false);
 
   // Saved state of the user to compare when changes have been made/restore to. This can be retrieved through other methods. (ie. maybe saved in session state on login or one time request to server on page access?)
-  let savedAvatar = {
-      username: "55555555",
-      chatColour: "#555555",
-      skin: "",
-      topType: "",
-      hairColour: "",
-      clothingType: "",
-      clothingColour: ""
-  };
+  const [savedAvatar, setSavedAvatar] = useState({});
+  const [currentAvatar, setCurrentAvatar] = useState({});
 
-  let [currentAvatar, setCurrentAvatar] = useState({
-      //TODO: These values are displayed initially, should we have better defaults?
-      username: "666666",
-      chatColour: "#666666",
-      skin: SkinOptions[0][0],
-      topType: HairOptions[0],
-      hairColour: HairColourOptions[0][0],
-      clothingType: ClothingOptions[0],
-      clothingColour: "PastelBlue" // Hardcode for now
-  });
+  // Defining state to determine window size and determine if resize pop-up is visible
+  const [width, setWidth] = useState(window.innerWidth);
 
-  // Perform an initial loading of the user's existing avatar preferences/
-  // Note: I don't understand how this works but using useEffect with empty dependencies
-  // prevents this from generating an infinite render loop (because setCurrentAvatar triggers a re-render)
+  /*
+    The following is used to ensure that the resize pop-up is only visible within a certain range of window width (i.e. avoids it remaining it open, when window fits desktop)
+  */
+  const handleResize = () => { setWidth(window.innerWidth); };
+
   useEffect(() => {
-      loadUser.then(user => {
-          if(user?.avatar !== undefined) {
-              savedAvatar.chatColour = user.chatColour;
-              savedAvatar.username = user.username;
-              savedAvatar.skin = user.avatar.skin;
-              savedAvatar.topType = user.avatar.topType;
-              savedAvatar.hairColour = user.avatar.hairColour;
-              savedAvatar.clothingType = user.avatar.clothingType;
-              savedAvatar.clothingColour = user.avatar.clothingColour;
+    window.addEventListener('resize', handleResize, false);
+  }, [width]);
 
 
-              const newObj = {
-                  chatColour: savedAvatar.chatColour,
-                  username: savedAvatar.username,
-                  skin: savedAvatar.skin,
-                  topType: savedAvatar.topType,
-                  hairColour: savedAvatar.hairColour,
-                  clothingType: savedAvatar.clothingType,
-                  clothingColour: savedAvatar.clothingColour
-              }
-              setCurrentAvatar(newObj);
-          }
+  // Create a promise and get the current user info on load
+  const loadUser = useCallback(() => {
+    return axios.post("/users/getUser");
+  }, []);
+
+  // Perform an initial loading of the user's existing avatar preferences
+  useEffect(() => {
+    loadUser()
+      .then((data) => {
+        let temp = {
+          chatColour: data.data.user.chatColour ?? ChatColourOptions[0],
+          username: data.data.user.username ?? "Display Name",
+          skin: data.data.user.avatar.skin ?? SkinOptions[0][0],
+          topType: data.data.user.avatar.topType ?? HairOptions[0][0], // topType is actually hair style not shirts
+          hairColour: data.data.user.avatar.hairColour ?? HairColourOptions[0][0],
+          clothingType: data.data.user.avatar.clothingType ?? ClothingOptions[0][0],
+          clothingColour: data.data.user.avatar.clothingColour ?? ClothingOptions[0][0],
+        };
+        setSavedAvatar(temp);
       });
   }, []);
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
-        reValidateMode: 'onSubmit',
+  useEffect(() => {
+    setTempColour(savedAvatar.chatColour);
+    setCurrentAvatar(savedAvatar);
+  }, [savedAvatar]);
+
+  // Following used when the user "saves"
+  const updateUserAvatar = useCallback((data) => {
+    return axios.post("/users/updateUser", data);
+  }, []);
+
+  const saveChanges = () => {
+    setIsEditMode(false);
+
+    const data = {
+      user: {
+        username: currentAvatar.username,
+        chatColour: currentAvatar.chatColour,
+        avatar: {
+          skin: currentAvatar.skin,
+          topType: currentAvatar.topType,
+          hairColour: currentAvatar.hairColour,
+          clothingType: currentAvatar.clothingType,
+          clothingColour: currentAvatar.clothingColour,
+        },
+      },
+    };
+
+    updateUserAvatar(data)
+      .then(() => {
+        setSavedAvatar(currentAvatar);
+      })
+      .catch((err) => { });
+  };
+
+  // Used to revert state when a user presses cancel on modals
+  const onColorModalCancel = () => {
+    setViewColourModal(false);
+
+    // Reset the current chat colour to the last saved one
+    setCurrentAvatar({
+      ...currentAvatar,
+      chatColour: savedAvatar.chatColour,
     });
-
-    const onSave = async e => {
-        setIsEditMode(false);
-
-        const data = {
-            user: {
-                username: currentAvatar.username,
-                chatColour: currentAvatar.chatColour,
-                avatar: {
-                    skin: currentAvatar.skin,
-                    topType: currentAvatar.topType,
-                    hairColour: currentAvatar.hairColour,
-                    clothingType: currentAvatar.clothingType,
-                    clothingColour: currentAvatar.clothingColour
-                }
-            }
-        };
-
-        try {
-            await axios.post("/users/updateUser", data);
-        }
-        catch(error) {
-            // No error handling needed currently.
-        }
-    };
-
-    const onColorModalCancel = () => {
-        setIsEditColour(false);
-
-        // Reset the current chat colour to the last saved one
-        setCurrentAvatar({
-            ...currentAvatar,
-            chatColour: savedAvatar.chatColour
-        });
-    };
+  };
 
   return (
-      <>
-    <form className="avatars --container" onSubmit={handleSubmit(onSave)}>
+    <>
+      {(width <= 1400) && (<MobileAvatar
+        tempColour={tempColour}
+        setTempColour={setTempColour}
+        isEditMode={isEditMode}
+        setIsEditMode={setIsEditMode}
+        activeSection={activeSection}
+        setActiveSection={setActiveSection}
+        viewColourModal={viewColourModal}
+        setViewColourModal={setViewColourModal}
+        viewConfirmModal={viewConfirmModal}
+        setViewConfirmModal={setViewConfirmModal}
+        savedAvatar={savedAvatar}
+        currentAvatar={currentAvatar}
+        setCurrentAvatar={setCurrentAvatar}
+        saveChanges={saveChanges}
+        onColorModalCancel={onColorModalCancel}
+      />)}
 
-      {/* Containing the avatar */}
-      <div className="left-container">
-
-        {!isEditMode &&
-          <div className="top chat-options non-edit">
-            <h1 className="sub-header">{currentAvatar.username}</h1>
-            <div
-              className='users-color'
-              style={{ backgroundColor: `${currentAvatar.chatColour}` }}
-              onClick={() => {
-                  setIsEditMode(true);
-                  setIsEditColour(true);
-              }}
-            />
-            {/* Edit icon */}
-            <MdEdit
-              className="edit-icon"
-              onClick={() => setIsEditMode(true)}
-            />
-          </div>
-        }
-
-        {isEditMode &&
-          <div className="top chat-options edit">
-            <label>
-                <input
-                    className="textbox"
-                    value={currentAvatar.username}
-                    {...register("username", {required: true})}
-                    onChange={(e) => {
-                        setCurrentAvatar({
-                            ...currentAvatar,
-                            username: e.target.value
-                        });
-                    }}
-                />
-                {errors.username && (<FormError errorMsg="A username is required"/>)}
-            </label>
-
-            <div
-              className='users-color'
-              style={{ backgroundColor: `${currentAvatar.chatColour}` }}
-              onClick={() => setIsEditColour(true)}
-            />
-          </div>
-        }
-
-        <div className="avatar-container">
-            <Avatar
-                style={{width: '100%', height: '100%'}}
-                avatarStyle='Transparent'
-                topType={currentAvatar.topType}
-                accessoriesType='Prescription02'
-                hairColor={currentAvatar.hairColour}
-                facialHairType='Blank'
-                clotheType={currentAvatar.clothingType}
-                clotheColor='PastelBlue'
-                eyeType='Happy'
-                eyebrowType='Default'
-                mouthType='Smile'
-                skinColor={currentAvatar.skin}
-            />
-        </div>
-
-        {isEditMode &&
-          <div className="btn-container">
-            <button
-              className="--btn yellow solid"
-              {...register("save-changes")}
-            >
-              Save Changes
-            </button>
-            <button
-              className="--btn blue outline"
-              onClick={() => {
-                // TODO: Open modal that asks user if they want to lose their progress
-              }}
-            >
-              Cancel
-            </button>
-          </div>
-        }
-
-      </div>
-      <div className='vertical-divider' />
-
-      {/* Container for all avatar customization options*/}
-      <div className="right-container">
-        <h1 className='avatar header'>Your Avatar</h1>
-
-        {/* Jump to specific customization choices */}
-        <div className="horizontal-divider top" />
-
-        <div className="customization-section">
-          <SkinIcon
-            className={`customization-section-icon ` + (activeSection === 'skin' ? 'active' : '')}
-            onClick={() => {
-              if (activeSection === 'skin') {
-                return;
-              } else {
-                setActiveSection('skin');
-                // TODO: Take additional action to make sure customization options jump to the relevant category
-                page = 1;
-              }
-            }}
-          />
-          <HairIcon
-            className={`customization-section-icon ` + (activeSection === 'hair' ? 'active' : '')}
-            onClick={() => {
-              if (activeSection === 'hair') {
-                return;
-              } else {
-                setActiveSection('hair');
-                // TODO: Take additional action to make sure customization options jump to the relevant category
-
-                page = 2;
-              }
-            }}
-          />
-          <ClothesIcon
-            className={`customization-section-icon ` + (activeSection === 'clothes' ? 'active' : '')}
-            onClick={() => {
-              if (activeSection === 'clothes') {
-                return;
-              } else {
-                setActiveSection('clothes');
-                // TODO: Take additional action to make sure customization options jump to the relevant category
-
-                page = 3;
-              }
-            }}
-          />
-        </div>
-
-        <div className="horizontal-divider bottom" />
-
-        {/* TODO: Update this section!! add the arrows just in case one section has more than one page associated with it */}
-        <div className={"customization-options-container " + (activeSection === 'skin' ? 'active-selection' : '')}>
-            {SkinOptions.map((skinOpt, index) =>
-                <div
-                    key={skinOpt[1]}
-                    className={"customization-option " + (currentAvatar.skin === skinOpt[0] ? "active-selection" : "") }
-                    style={{ backgroundColor: `${SkinOptions[index][1]}` }}
-                    onClick={() => {
-                        setCurrentAvatar({
-                            ...currentAvatar,
-                            skin: skinOpt[0]
-                        });
-
-                        // If something is selected then turn on edit mode and update currentAvatar with the most recent selection
-                        // If the current selection is the saved on, then don't turn on edit mode
-                        if(currentAvatar.skin !== savedAvatar.skin) {
-                            setIsEditMode(true);
-                        }
-
-                        //TODO: (STEVEN) What is the purpose of this?
-                        if (page === 1) {
-                            currentAvatar.skin = ''
-                        } else if (page === 2) {
-                            currentAvatar.hair = ''
-                        } else if (page === 3) {
-                            currentAvatar.clothing = ''
-                        }
-                    }}
-                />
-            )}
-        </div>
-
-        <div className={"customization-options-container " + (activeSection === 'hair' ? 'active-selection' : '')}>
-            {/* Hack to force new line in flex layout */}
-            <div className="sub-header" style={{flexBasis: "100%"}}>Hair Style</div>
-            {HairOptions.map(hair =>
-                <div
-                    key={hair}
-                    className={"customization-option " + (currentAvatar.topType === hair ? "active-selection" : "") }
-                    style={{ backgroundColor: "white" }} // Hack?
-                    onClick={() => {
-                        if(currentAvatar.topType !== savedAvatar.topType) {
-                            setIsEditMode(true);
-                        }
-
-                        setCurrentAvatar({
-                            ...currentAvatar,
-                            topType: hair
-                        });
-                    }}
-                >
-                    <Piece
-                        pieceSize='error' // Forced to pick a pixel size and I don't want to.
-                        pieceType='top'
-                        topType={hair}
-                        hairColor={currentAvatar.hairColour}
-                    />
-                </div>
-            )}
-
-            {/* Hack to force new line in flex layout */}
-            <div className="sub-header" style={{flexBasis: "100%"}}>Hair Colour</div>
-
-            {HairColourOptions.map(hairColour =>
-                <div
-                    key={hairColour[0]}
-                    className={"customization-option  " + (currentAvatar.hairColour === hairColour[0] ? "active-selection" : "")}
-                    style={{ backgroundColor: `${hairColour[1]}` }}
-                    onClick={() => {
-                        if(currentAvatar.hairColour !== savedAvatar.hairColour) {
-                            setIsEditMode(true);
-                        }
-
-                        setCurrentAvatar({
-                            ...currentAvatar,
-                            hairColour: hairColour[0]
-                        });
-                    }}
-                />
-            )}
-        </div>
-        <div className={"customization-options-container " + (activeSection === 'clothes' ? 'active-selection' : '')}>
-            {ClothingOptions.map(clothing =>
-                <div
-                    key={clothing}
-                    className={"customization-option  " + (currentAvatar.clothingType === clothing ? "active-selection" : "")}
-                    style={{ backgroundColor: "white" }} // Hack?
-                    onClick={() => {
-                        if(currentAvatar.clothingType !== savedAvatar.clothingType) {
-                            setIsEditMode(true);
-                        }
-
-                        setCurrentAvatar({
-                            ...currentAvatar,
-                            clothingType: clothing
-                        });
-                    }}
-                >
-                    <Piece
-                        pieceType="clothe"
-                        pieceSize="50"
-                        clotheType={clothing}
-                        clotheColor={currentAvatar.clothingColour}
-                    />
-                </div>
-            )}
-        </div>
-      </div>
-    </form>
-      <div
-          className={"popup-background " + (isEditColour ? "show" : "")}
-          onClick={e => {
-              // If the popup background is clicked directly then execute the cancel
-              if(e.target.classList.contains("popup-background")) {
-                  onColorModalCancel();
-              }
-          }}
-      >
-          <div className="popup --container">
-              <MdClose
-                  className="btn-close"
-                  onClick={onColorModalCancel}
-              />
-              <h1 className="header">Select Colour</h1>
-              <p className="descriptive-text">This will be the colour used to denote your messages in the classroom</p>
-              <div
-                  className='users-color color-square'
-                  style={{ backgroundColor: `${currentAvatar.chatColour}` }}
-              />
-              <div className="custom-colors-container">
-                  {ChatColorOptions.map(color =>
-                      <div
-                          key={color}
-                          className="color-square color-option"
-                          style={{ backgroundColor: color }}
-                          onClick={e => {
-                              setCurrentAvatar({
-                                  ...currentAvatar,
-                                  chatColour: color
-                              });
-                          }}
-                      >
-                          {currentAvatar.chatColour === color && <MdCheck color="white" fontSize="30px" />}
-                      </div>
-                  )}
-              </div>
-              <div className="btn-container">
-                  <button
-                      className="--btn yellow solid"
-                      onClick={async () => {
-                          await onSave();
-                          setIsEditColour(false);
-                      }}
-                  >
-                      Save
-                  </button>
-                  <button
-                      className="--btn blue outline"
-                      onClick={onColorModalCancel}
-                  >
-                      Cancel
-                  </button>
-              </div>
-          </div>
-      </div>
+      {(width > 1400) && (
+        <DesktopAvatar
+          tempColour={tempColour}
+          setTempColour={setTempColour}
+          isEditMode={isEditMode}
+          setIsEditMode={setIsEditMode}
+          activeSection={activeSection}
+          setActiveSection={setActiveSection}
+          viewColourModal={viewColourModal}
+          setViewColourModal={setViewColourModal}
+          viewConfirmModal={viewConfirmModal}
+          setViewConfirmModal={setViewConfirmModal}
+          savedAvatar={savedAvatar}
+          currentAvatar={currentAvatar}
+          setCurrentAvatar={setCurrentAvatar}
+          saveChanges={saveChanges}
+          onColorModalCancel={onColorModalCancel}
+        />
+      )}
     </>
-  )
+  );
 }
 
-export default AvatarPage
+export default AvatarPage;

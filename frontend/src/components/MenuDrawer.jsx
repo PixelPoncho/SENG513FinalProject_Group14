@@ -1,7 +1,7 @@
-import React, {useState, useEffect, useCallback } from 'react'
+import React, { useState } from 'react';
 
 // Import styling
-import '../styles/MenuDrawer.scss'
+import '../styles/MenuDrawer.scss';
 
 // Import react-icons
 import { AiOutlineMenu } from 'react-icons/ai';
@@ -21,51 +21,52 @@ const MenuDrawer = props => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleMenuClick = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   return (
     <div className='menu-drawer'>
-        {isMenuOpen ? (
-            <div className='menu-container'>
-                <BiArrowBack
-                    className='menu-icon'
-                    onClick={handleMenuClick}
-                />
-                <FaTshirt
-                    className='menu-icon'
-                    onClick={handleAvatarModalClick}
-                />
+      {isMenuOpen ? (
+        <div className='menu-container'>
+          <BiArrowBack
+            className='menu-icon'
+            onClick={handleMenuClick}
+          />
+          <FaTshirt
+            className='menu-icon'
+            onClick={handleAvatarModalClick}
+          />
 
-                <RiTeamFill
-                    className='menu-icon'
-                    onClick={handleClassMembersClick}
-                />
+          <RiTeamFill
+            className='menu-icon'
+            onClick={handleClassMembersClick}
+          />
 
-                <MdHistory
-                    className='menu-icon'
-                    onClick={handleChatHistoryClick}
-                />
+          <MdHistory
+            className='menu-icon'
+            onClick={handleChatHistoryClick}
+          />
 
-                <FaChalkboardTeacher
-                    className='menu-icon disabled'
-                />
+          <FaChalkboardTeacher
+            className='menu-icon disabled'
+          />
 
-                <div className='exit-button'>
-                    <BiExit
-                        className='menu-icon exit'
-                        onClick={handleExitModalClick}
-                    />
-                </div>
-            </div>
-        ) : (
-            <AiOutlineMenu
-                className='menu-icon main'
-                onClick={handleMenuClick}
+          <div className='exit-button'>
+            <BiExit
+              className='menu-icon exit'
+              onClick={handleExitModalClick}
             />
-        )}
+          </div>
+        </div>
+      ) : (
+        <AiOutlineMenu
+          className='menu-icon main'
+          onClick={handleMenuClick}
+        />
+      )}
     </div>
   );
-}
+};
 
-export default MenuDrawer
+
+export default MenuDrawer;

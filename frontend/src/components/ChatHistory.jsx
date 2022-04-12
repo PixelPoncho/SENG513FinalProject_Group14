@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react';
 
 import '../styles/ChatHistory.scss';
 
@@ -8,13 +8,13 @@ const ChatHistory = props => {
         handleChatHistoryClick
     } = props;
 
-    const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([]);
 
-    const addMessage = message => {
-        setMessages(oldMessages => {
-            return [...oldMessages, message]
-        });
-    };
+  const addMessage = message => {
+    setMessages(oldMessages => {
+      return [...oldMessages, message];
+    });
+  };
 
     // Scroll the most recent message into view
     useEffect(() => {
@@ -42,28 +42,28 @@ const ChatHistory = props => {
         }
     }, []);
 
-    return (
-        <div className="history">
-            <h1 className="header">Chat History</h1>
-            <div className="messages-container-outer">
-                <div className="messages-container">
-                    {messages.map( message =>
-                        <div key={message.id} className="message">
-                            <div className="name" style={{color: message.user.colour}}>
-                                {message.user.name}:
-                            </div>
-                            <div>
-                                {message.content}
-                            </div>
-                        </div>
-                    )}
-                </div>
-            </div>
-            <div className="btn-container">
-                <button className="--btn yellow solid" onClick={handleChatHistoryClick}>Ok</button>
-            </div>
+  return (
+    <div className="history">
+      <h1 className="header">Chat History</h1>
+      <div className="messages-container-outer">
+        <div className="messages-container">
+          {messages.map(message =>
+            <div key={message.id} className="message">
+              <div className="name" style={{ color: message.user.colour }}>
+                {message.user.name}:
+              </div>
+              <div>
+                {message.content}
+              </div>
+            </div>,
+          )}
         </div>
-    );
-}
+      </div>
+      <div className="btn-container">
+        <button className="--btn yellow solid" onClick={handleChatHistoryClick}>Ok</button>
+      </div>
+    </div>
+  );
+};
 
 export default ChatHistory;

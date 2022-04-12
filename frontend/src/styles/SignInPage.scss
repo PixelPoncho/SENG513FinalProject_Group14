@@ -1,8 +1,7 @@
-// TODO: Dynamic sizing so that it is legible on all screens
-
 .signin.--container {
+  width: 350px;
   min-width: 250px;
-  padding: 60px 85px 50px;
+  padding: 60px 65px 50px;
 
   .header {
     margin: 0 0 20px;
@@ -12,10 +11,10 @@
     text-align: center;
     margin: 0 0 15px;
   }
-  
-  .form-group{
+
+  .form-group {
     margin: 0 0 15px;
-    
+
     input.textbox {
       width: 100%;
     }
@@ -25,7 +24,7 @@
     font-size: 0.6em;
     font-weight: 300;
     text-align: center;
-  
+
     a {
       color: var(--yellow);
       font-weight: 700;
@@ -45,5 +44,15 @@
   font-weight: bold;
   text-align: left;
 
+  max-width: 100%;
+
   margin: 5px 0 0;
+}
+
+// Mobile styling
+@media (max-width: 600px) {
+  .signin.--container {
+    max-width: 90%;
+    padding: 50px 45px 40px;
+  }
 }

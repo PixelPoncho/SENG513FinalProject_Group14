@@ -1,3 +1,4 @@
+/* eslint-disable */
 // Importing Components from node_modules
 import React, {useState, useEffect, useCallback, useMemo} from 'react'
 
@@ -34,10 +35,10 @@ function ClassroomPage(props) {
             console.log("error connecting to classroom");
         }
     }), []);
-  
+
   const avatarMsg = "To edit your avatar, you must return to the dashboard. You will be disconnected from the classroom."
   const exitMsg = "You will be disconnected from the space and taken back to the Manage Classrooms page."
-  
+
   const [gameState, setGameState] = useState({ users: [] });
   const [chatMessages, setChatMessages] = useState([]);
   const [chatBubbles, setChatBubbles] = useState([]);
@@ -158,7 +159,7 @@ function ClassroomPage(props) {
     window.sendChatMessageToMe = msg => {
         sendAction("chat", msg);
     };
-    
+
     window.printChatMessages = () => {
         console.dir(chatMessages);
         console.dir(chatBubbles);
@@ -174,30 +175,30 @@ function ClassroomPage(props) {
       <div className='incoming-container'>
         {chatBubbles}
       </div>
-      
-      {isChatHistoryOpen && 
-        <ChatHistory 
+
+      {isChatHistoryOpen &&
+        <ChatHistory
           history={chatMessages}
           handleChatHistoryClick={handleChatHistoryClick}
         />
       }
 
       {isAvatarModalOpen &&
-        <ExitModal 
+        <ExitModal
           handleModalClick={handleAvatarModalClick}
           message={avatarMsg}
         />
       }
 
       {isExitModalOpen &&
-        <ExitModal 
+        <ExitModal
           handleModalClick={handleExitModalClick}
           message={exitMsg}
         />
       }
 
       {isClassMembersOpen &&
-        <ClassMembers 
+        <ClassMembers
           handleModalClick={handleClassMembersClick}
           users={gameState.users}
         />
@@ -214,7 +215,7 @@ function ClassroomPage(props) {
           handleExitModalClick={handleExitModalClick}
           handleClassMembersClick={handleClassMembersClick}
         />
-        <ChatDrawer 
+        <ChatDrawer
           setMessage={setMessage}
         />
       </div>

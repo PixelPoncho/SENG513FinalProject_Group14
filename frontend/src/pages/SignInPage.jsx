@@ -1,5 +1,5 @@
 // Importing Components from node_modules
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -7,15 +7,12 @@ import axios from 'axios';
 // Import Local Components
 import FormError from "../components/FormError";
 
-// Importing icons
-import { FiAlertTriangle } from 'react-icons/fi';
-
 // importing styling
 import '../styles/SignInPage.scss';
 
 function SignInPage() {
   const [errorInfo, setErrorInfo] = useState("");
-  const [credentials, setCredentials] = useState({})
+  const [credentials, setCredentials] = useState({});
   // Used to update button to inform user that their process is being processed;
   const [isLoading, setIsLoading] = useState(false);
   // Used to change the content currently displayed on the screen
@@ -42,40 +39,32 @@ function SignInPage() {
     setCredentials(tempCredentials);
   };
 
-  useEffect(async () => {
-    if (credentials?.email === undefined) {
-      return;
-    }
+  const checkCredentials = useCallback((data) => {
+    return axios.post('/users/login', {user: data});
+  }, []);
 
-    try {
-      const response = await axios.post("/users/login", {
-        user: credentials
-      });
+  useEffect(() => {
+    if (typeof credentials?.email === 'undefined') { return; }
 
-      setIsLoading(false);
-
-      if(response.data?.user !== undefined) {
+    checkCredentials(credentials)
+      .then(() => {
+        sessionStorage.setItem('auth', true);
         setIsSuccessful(true);
-      }
-    }
-    catch(e) {
-      setIsLoading(false);
-      setErrorInfo(e.response.data.error);
-    }
-  }, [credentials])
+      })
+      .catch((err) => {
+        setErrorInfo(err.response.status);
+      });
+    setIsLoading(false);
+
+    // console.log("Send data to server ", credentials);
+    setCredentials({});
+  }, [credentials]);
 
   // The server should return either a success or error message to then present to the user to help them identify the status of their request. Once again tho, not sure how it will be recieved from the front-end
   useEffect(() => {
     setIsLoading(false);
-
-    if (isSuccessful) {
-      navigate("/avatars"); //TODO: Decide where the user should be taken on login and update this
-    } else {
-      // No handling is needed here because if there is an error
-      // response from the server it will be caught in the
-      // try-catch in and setErrorInfo as necessary
-    }
-  }, [isSuccessful])
+    if (isSuccessful) {navigate("/avatars");}
+  }, [isSuccessful]);
 
   // Change the type of button on display based on if the user has submitted a request to login or not.
   let button;
@@ -146,8 +135,6 @@ function SignInPage() {
             </div>
           </div>
 
-
-
           <div className='btn-container'>
             {button}
           </div>
@@ -158,7 +145,7 @@ function SignInPage() {
         </form>
       </div>
     </div>
-  )
+  );
 }
 
 export default SignInPage;

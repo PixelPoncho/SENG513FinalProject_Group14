@@ -1,10 +1,10 @@
-// TODO: Dynamic sizing so that it is legible on all screens
-
 // Styling for account creation prompt
 .signup.--container {
   width: 400px;
   min-width: 300px;
   padding: 60px 85px 50px;
+
+  margin-top: 30px;
 
   .header {
     margin: 0 0 20px;
@@ -12,11 +12,15 @@
 
   .btn-container {
     text-align: center;
-    margin: 0 0 15px;
+    margin: 20px 0 15px;
   }
 
   .form-group {
     margin: 0 0 15px;
+
+    &.last {
+      margin: 0;
+    }
 
     input.textbox {
       width: 100%;
@@ -44,6 +48,10 @@
   }
 }
 
+.signup.--container .account-creation--msg {
+  text-transform: uppercase;
+}
+
 .signup.--container .form-error {
   color: var(--red);
   font-size: 10px;
@@ -57,4 +65,12 @@
 .signup.--container.success {
   text-align: center;
   width: 500px;
+}
+
+// Mobile styling
+@media (max-width: 600px) {
+  .signup.--container {
+    max-width: 90%;
+    padding: 50px 50px 40px;
+  }
 }

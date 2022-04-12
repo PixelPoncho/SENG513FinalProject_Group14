@@ -1,7 +1,7 @@
-import React, {useState, useEffect, useCallback } from 'react'
+import React, { useState } from 'react';
 
 // Import styling
-import '../styles/ChatDrawer.scss'
+import '../styles/ChatDrawer.scss';
 
 // Import react-icons
 import { HiChatAlt } from 'react-icons/hi';
@@ -45,7 +45,6 @@ const ChatDrawer = props => {
                         className='drawer-icon'
                         onClick={() => setIsChatOpen(!isChatOpen)}
                     />
-
                 <form id="form" onSubmit={handleSubmit}>
                     <input
                         id="input"
@@ -57,7 +56,7 @@ const ChatDrawer = props => {
                       <IoMdSend className='send-icon' />
                     </button>
                 </form>
-                
+
             </div>
         ) : (
             <HiChatAlt
@@ -67,6 +66,6 @@ const ChatDrawer = props => {
         )}
     </div>
   );
-}
+};
 
-export default ChatDrawer
+export default ChatDrawer;

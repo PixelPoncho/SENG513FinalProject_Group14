@@ -1,7 +1,5 @@
-// TODO: Connect to server and update user with any responses returned by it
-
 // Importing Components from node_modules
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
 import axios from 'axios';
@@ -10,14 +8,12 @@ import axios from 'axios';
 import FormError from "../components/FormError";
 
 // Importing icons
-import { FiAlertTriangle } from 'react-icons/fi';
 import { BsFillArrowLeftCircleFill } from 'react-icons/bs';
 
 // importing styling
 import '../styles/SignUpPage.scss';
 
-
-function Login() {
+function SignUpPage() {
   const [errorInfo, setErrorInfo] = useState("");
   const [credentials, setCredentials] = useState({});
   // Used to update button to inform user that their process is being processed
@@ -42,65 +38,31 @@ function Login() {
     setCredentials(data);
   };
 
-  // Not 100% sure how this will connect to the server, but if there needs to be anything set up from the front end to prep it, put it in here.
-  useEffect(async () => {
-    if (credentials?.name === undefined) {
-      return;
-    }
+  const createUser = useCallback((data) => {
+    return axios.post('/users/createuser', data);
+  }, []);
 
-    const data = {
+  useEffect(() => {
+    if (typeof credentials?.name === 'undefined') { return; }
+
+    const accountData = {
       "user": {
         "username": credentials.name,
         "email": credentials.email,
         "password": credentials.password,
-      }
+      },
     };
 
-    try {
-      const response = await axios.post("/users/createUser", data);
-
-      if(response.data.user) {
-        setIsSuccessful(true);
-      }
-    }
-    catch(error) {
-      setErrorInfo(error.response.data.error);
-      setIsSuccessful(false);
-      setIsLoading(false); // Should this line be moved to the next use effect function?
-    }
-
-    console.log("Send data to server ", credentials)
-    // Do something with {credentials}
-  }, [credentials])
-
-  // The server should return either a success or error message to then present to the user to help them identify the status of their request. Once again tho, not sure how it will be recieved from the front-end
-  useEffect(async () => {
+    createUser(accountData)
+      .then(() => setIsSuccessful(true))
+      .catch((err) => {
+        setErrorInfo(err.response.status);
+      });
     setIsLoading(false);
 
-    if (isSuccessful) {
-
-      // Send a login request to log the user in automatically on sign up
-      const data = {
-        user: {
-          email: credentials.email,
-          password: credentials.password
-        }
-      };
-
-      try {
-        await axios.post("/users/login", data);
-        // Don't need to do anything with the response
-      }
-      catch(e) {
-        // There shouldn't be an error here since we're literally using the
-        // credentials we created the account with...
-        console.error(e);
-      }
-
-    } else {
-      // do something else?
-    }
-  }, [isSuccessful])
+    // console.log("Send data to server ", credentials);
+    setCredentials({});
+  }, [credentials]);
 
   // Change the type of button on display based on if the user has submitted a request to create an account or not.
   let button;
@@ -135,7 +97,7 @@ function Login() {
               height: "50px",
               color: "var(--yellow)",
               borderRadius: "50px",
-              boxShadow: "var(--card-shadow)"
+              boxShadow: "var(--card-shadow)",
             }}
             onMouseOver={({ target }) => {
               target.style.color = "var(--off-yellow)";
@@ -226,7 +188,7 @@ function Login() {
               </div>
 
               {/* FORM CHECK FOR RE-TYPED PASSWORD */}
-              <div className="form-group">
+              <div className="form-group last">
                 <label htmlFor="inputRetypePassword" className='signup sub-header'>
                   Re-Type Password *
                   <br />
@@ -241,25 +203,25 @@ function Login() {
                       required: "This field is required",
                       validate: (value) => {
                         return value === watch('password') || "The passwords do not match";
-                      }
+                      },
                     })}
                   />
                   {errors.password_repeat && (<FormError errorMsg={errors.password_repeat.message} />)}
                 </label>
+
+                {/* An error message that can appear if the server was unable to successfully create their account (ie. something broke server wise). May need other errors to let them know if an email is already in use */}
+                {(errorInfo) && (errorInfo === 400) && (
+                  <FormError
+                    className="account-creation--msg"
+                    errorMsg={"Unable to create the account. Email already in use."}
+                  // errorMsg='Unable to make the account. Please make sure all information is provided.'
+                  />)
+                }
               </div>
 
               <div className='btn-container'>
                 {button}
               </div>
-
-              {/* An error message that can appear if the servre was unable to successfully create their account (ie. something broke server wise). May need other errors to let them know if an email is already in use */}
-              {(errorInfo) && (
-                <FormError
-                  className="account-creation--msg"
-                  errorMsg={errorInfo}
-                  // errorMsg='Unable to make the account. Please make sure all information is provided.'
-                />)
-              }
 
               <p className='small-text'>
                 Already have an account? <NavLink to="/login">Sign In.</NavLink>
@@ -268,7 +230,6 @@ function Login() {
           </div>
         </div>
       }
-
 
       {/* Display when the user has successfully registered for an account */}
       {!isLoading && isSuccessful &&
@@ -284,15 +245,15 @@ function Login() {
             You can now access the full extent of the features available for Educators in the virtual classroom, so why not explore right now!
           </p>
 
-          <NavLink to="/manage-classroom">
+          <NavLink to="/login">
             <button className="--btn yellow solid">
-              Visit a classroom
+              Sign In
             </button>
           </NavLink>
         </div>
       }
     </>
-  )
+  );
 }
 
-export default Login
+export default SignUpPage;

@@ -11,7 +11,7 @@ const { ClassRoom } = require("./src/colyseus/schemas");
 const catchAsync = require("./src/utils/catchAsync");
 // database
 const { userCreateSchema, userLoginSchema, userUpdateSchema, classRoomCreateSchema } = require("./src/db/validations/schemas");
-const { createUser, getUserById, loginUser, createClassRoom, updateUser} = require("./src/db/db");
+const { createUser, getUserById, loginUser, createClassRoom, updateUser, deleteClassRoom} = require("./src/db/db");
 const UserData = require("./src/db/schemas/userSchema");
 
 const app = express();
@@ -173,9 +173,13 @@ app.post(
 	catchAsync(async (req, res) => {
 		console.log("in /rooms/deleteRoom/:roomId");
 		const { roomId } = req.params;
-		const { error, deletedRoom } = deletedRoom(req.session.userId, roomId);
-		if(error) res.status(400).json({ error });
-		res.json({ deletedRoom })
+		const { error, deletedRoom } = await deleteClassRoom(req.session.userId, roomId);
+		if(error) {
+			res.status(400).json({ error });
+		}
+		else {
+			res.json({ deletedRoom })
+		}
 	})
 );
 

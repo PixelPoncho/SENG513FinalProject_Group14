@@ -1,12 +1,9 @@
-// TODO: Dynamic sizing so that it is legible on all screens
-// TODO: Figure out how to add underline on active subsection
-
 .classroom-management.--container {
   width: 70%;
-  height: 550px;
+  max-width: 700px;
+  min-height: 550px;
 
-  top: calc(50% + 35px);
-  padding: 60px 75px;
+  padding: 60px;
 
   .horizontal-divider {
     background-color: var(--dark-blue);
@@ -18,45 +15,28 @@
 
     margin: 5px auto 20px;
   }
-
-  .subview-toggle-container {
-    display: flex;
-    justify-content: space-between;
-
-    width: 60%;
-    margin: 0 auto;
-
-    .sub-header {
-      font-size: 23px;
-      padding: 0 10px;
-
-      &:not(&.active) {
-        color: var(--dark-blue);
-
-        &:hover {
-          cursor: pointer;
-          opacity: 0.75;
-        }
-      }
-    }
-  }
 }
 
 // Styling for the existing classroom sub-section
-.classroom-management.--container .existing-container {
+.classroom-management.--container {
   text-align: center;
 
   p.descriptive-text {
     line-height: 105%;
 
-    width: 60%;
+    width: 55%;
     margin: 0 auto 25px;
+
+    @media (max-width: 992px) {
+      width: 85%;
+    }
   }
 
   .join-class {
     display: flex;
     justify-content: center;
-
+    flex-direction: row;
+    flex-wrap: wrap;
 
     label.sub-header {
       text-align: left;
@@ -70,7 +50,7 @@
 
     .--btn {
       height: 40px;
-      margin: 23px 0 0;
+      margin: 23px 15px 0;
     }
   }
 
@@ -90,30 +70,51 @@
   .your-classes {
     display: flex;
     justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
 
-    margin: 15px 0 35px;
+    margin: 15px 0 25px;
 
     .class-card {
       background-color: var(--white);
-      box-shadow: var(--card-shadow);
+      box-shadow: var(--inner-card-shadow);
       border-radius: 15px;
 
       min-width: 250px;
       padding: 20px 0;
-      margin: 0 20px;
+      margin: 0 20px 15px;
 
       a {
         text-decoration: none;
       }
+
+      &.active {
+        border: var(--active-selection)
+      }
+
+      &:not(.active):hover {
+        box-shadow: none;
+        cursor: pointer;
+      }
     }
+  }
+
+  .btn-container .--btn {
+    margin: 0 10px 15px;
   }
 
   .yours {
     display: flex;
     justify-content: center;
     align-items: center;
-  }
 
+    margin-bottom: 10px;
+
+    &:hover {
+      cursor: pointer;
+      color: var(--off-turquoise);
+    }
+  }
 
   .status {
     display: flex;
@@ -131,67 +132,125 @@
     align-self: center;
     margin-right: 8px;
   }
+
   .status.inactive::before {
-    background-color: red;
+    background-color: var(--red);
   }
 }
 
-// Styling for the create classroom sub-section
-.classroom-management.--container .new-container {
-  text-align: center;
+.new-class.popup-background .popup.--container {
+  width: 60%;
+  max-width: 500px;
 
-  p.descriptive-text {
-    line-height: 105%;
-
-    width: 60%;
-    margin: 0 auto 25px;
+  .form-error {
+    font-size: 12px;
   }
 
-  .set-name {
-    display: flex;
-    justify-content: center;
+  @media (max-width: 700px) {
+    width: 85%;
+  }
 
-    label.sub-header {
-      text-align: left;
-      margin: 0 15px 30px 0;
+  p.descriptive-text {
+    width: 90%;
+  }
 
-      #classroomName {
-        width: 350px;
-        margin: 5px 0 0;
+  .btn-container {
+    @media (max-width: 451px) {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    * {
+      margin: 1em;
+
+      @media (max-width: 451px) {
+        margin: .5em 1em;
       }
     }
   }
+}
 
-  .sub-header {
-    text-align: left;
+.more-info.popup-background .popup.--container {
+  width: 60%;
+  max-width: 500px;
+
+  @media (max-width: 450px) {
+    width: 75%;
   }
 
-  .classroom-layout {
-    background-color: var(--white);
+  .delete {
+    color: var(--red);
+    font-weight: bold;
+    text-transform: uppercase;
 
-    border-radius: 25px;
+    margin: 0 0 20px;
 
-    height: 100px;
-    margin: 0 0 25px;
+    &:hover {
+      cursor: pointer;
+      color: var(--off-red);
+    }
   }
 
-  .your-classes {
+  .invite-container {
     display: flex;
-    justify-content: center;
 
-    margin: 15px 0 35px;
+    p {
+      line-height: 100%;
 
-    .class-card {
-      background-color: var(--white);
-      box-shadow: var(--card-shadow);
-      border-radius: 15px;
+      &:not(.sub-header) {
+        line-break: anywhere;
+        margin-left: 10px;
 
-      min-width: 250px;
-      padding: 20px 0;
-      margin: 0 20px;
+        &:hover {
+          cursor: pointer;
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
 
+// Mobile styling
+@media (max-width: 700px) {
+  .classroom-management.--container {
+    width: 80%;
+    padding: 50px;
 
+    p.descriptive-text {
+      width: 100%;
     }
 
+    .horizontal-divider {
+      width: 80%;
+    }
+
+    .join-class {
+      label.sub-header {
+        margin: 0;
+      }
+
+      .--btn {
+        margin: 15px 5px 0;
+      }
+    }
+
+    .your-classes {
+      margin-bottom: 15px;
+    }
+  }
+}
+
+@media (max-width: 550px) {
+  .classroom-management.--container {
+    .join-class {
+      label.sub-header {
+        margin: 0;
+        width: 100%;
+
+        #inviteCode {
+          width: 100%;
+        }
+      }
+    }
   }
 }

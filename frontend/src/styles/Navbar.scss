@@ -1,30 +1,46 @@
-// TODO: Style the navbar for mobile
-// TODO: Fix the styling of the logout button
-
 // Overwritting styling for the default navbar
 .navbar-collapse.collapse,
 .navbar.navbar-expand-lg.navbar-dark {
-  height: 75px;
   justify-content: flex-end !important;
-
 }
 
-.navbar {
+button.navbar-toggler,
+button.navbar-toggler.collapsed {
+  background-color: var(--yellow);
+  border-radius: 30px;
+
+  margin: 0.5rem 1.5rem 0.5rem 0 !important;
+
+  &:focus {
+    color: var(--dark-blue);
+  }
+
+  &:hover {
+    background-color: var(--off-yellow);
+  }
+}
+
+button.navbar-toggler:not(.collapsed) {
+  margin: 0.5rem 1.5rem 1rem 0 !important;
+}
+
+
+.navbar.desktop-nav {
   z-index: 10;
-  position: absolute;
+  position: fixed;
+  top:0;
 
   font-size: 25px;
   font-family: 'Oswald';
   font-weight: 400;
   text-transform: uppercase;
-  
+
   background-color: var(--dark-blue);
   box-shadow: var(--nav-shadow);
 
   width: 100%;
-  height: 75px;
 
-  padding: 0.5rem 1.5rem;
+  padding: 1.5rem !important;
 
   // Following code is styles the right-side of navbar
   a.btn-navbar,
@@ -35,12 +51,11 @@
 
   a.nav-link {
     cursor: default;
-    color: var(--yellow) !important; 
+    color: var(--yellow) !important;
 
     height: 10px;
     margin: 1.5rem 1rem 0rem;
     padding: 0;
-
 
     &.last-link {
       margin-right: 2rem;
@@ -69,9 +84,13 @@
       text-decoration: underline;
     }
 
-    &:hover::after { width: 100%; }
+    &:hover::after {
+      width: 100%;
+    }
 
-    &:active { opacity: 0.75; }
+    &:active {
+      opacity: 0.75;
+    }
   }
 
   // Styling for the logout button.
@@ -85,21 +104,89 @@
   }
 }
 
-button.navbar-toggler,// Mobile styling
-button.navbar-toggler.collapsed {
-  background-color: var(--yellow);
-  border-radius: 30px;
-  
-  &:focus {
-    color: var(--dark-blue);
+// Mobile styling
+.navbar.mobile-nav {
+  z-index: 10;
+  position: fixed;
+  top:0;
+
+  font-size: 25px;
+  font-family: 'Oswald';
+  font-weight: 400;
+  text-transform: uppercase;
+
+  background-color: var(--dark-blue);
+  box-shadow: var(--nav-shadow);
+
+  width: 100%;
+
+  padding: 0;
+
+  .navbar-nav {
+    min-height: 100%;
+    background-color: var(--yellow);
+
+    border-radius: 0 0 25px 25px;
   }
 
-  &:hover {
-    background-color: var(--off-yellow);
+  // Following code is styles the right-side of navbar
+  a.nav-link {
+    cursor: default;
+    color: var(--white);
+    opacity: 0.8;
+    letter-spacing: 1px;
+    border-bottom: 1px solid var(--white);
+
+    padding: 1rem 1.75rem;
+
+    &.logout {
+      opacity: 1;
+      background-color: var(--red);
+
+      border-bottom: none;
+      border-radius: 0 0 25px 25px;
+
+      padding-bottom: 1.5rem;
+
+      &:hover {
+        background-color: var(--off-red);
+      }
+    }
+
+    &.active {
+      pointer-events: none;
+      font-weight: 700;
+      opacity: 1;
+    }
+
+    &:not(&.active):hover {
+      cursor: pointer;
+    }
+
+    &:hover {
+      opacity: 1;
+      color: var(--white) !important;
+    }
   }
 
+  .dropdown-menu.show {
+    background-color: var(--yellow);
+    padding: 0;
 
-  .navbar-collapse.collapse.show {
-    
+    border: none;
+
+    .sub-nav {
+      font-size: 25px;
+      font-weight: 400;
+
+      margin: 0;
+      padding: 1rem 3.5rem;
+
+      &.active {
+        pointer-events: none;
+        font-weight: 700;
+        background-color: var(--off-yellow);
+      }
+    }
   }
 }

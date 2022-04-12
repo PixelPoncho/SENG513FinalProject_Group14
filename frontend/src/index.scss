@@ -13,7 +13,7 @@
   --dark-blue: #023047;
   --light-blue: #8ECAE6;
   --turquoise: #17A2BC;
-  --off-turquoise: ;
+  --off-turquoise: #217d8e;
 
   --yellow: #FFB703;
   --off-yellow: #DFA534;
@@ -26,8 +26,10 @@
 
   // Border-shadow
   --nav-shadow: 0px 10px 10px rgba(0, 0, 0, 0.35);
+  --fixed-shadow: 0 -5px 15px rgba(0, 0, 0, 0.35);
   --button-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
   --card-shadow: 0px 10px 10px #031B27;
+  --inner-card-shadow: 0px 3px 15px rgba(0, 0, 0, 0.25);
   --textbox-shadow: 0px 0px 10px var(--light-blue);
 
   // Border Outline
@@ -45,18 +47,20 @@
 
 html,
 body {
-  height: 100%;
+  overflow-y: auto;
+  min-height: 100vh;
+  // height: 115%;
   background-color: var(--dark-blue) !important;
 }
 
 body {
   margin: 0;
+  // min-width: 450px;
   // font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
   //   'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
   //   sans-serif;
   // -webkit-font-smoothing: antialiased;
   // -moz-osx-font-smoothing: grayscale;
-
   background: url("./assets/background-decoration.svg") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -68,8 +72,14 @@ label {
   display: inline !important; // Need to bypass third-party styling
 }
 
-// Styling for fonts
+.flex-space {
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+}
 
+// Styling for fonts
 .user-title {
   font-family: 'Poppins';
   text-transform: uppercase;
@@ -168,13 +178,28 @@ input:focus-visible {
       cursor: not-allowed;
     }
   }
+
+  &.blue {
+    background-color: var(--turquoise);
+
+    &:hover {
+      cursor: pointer;
+      background-color: var(--off-turquoise);
+    }
+
+    &:disabled {
+      background-color: var(--off-turquoise);
+      box-shadow: none;
+      cursor: not-allowed;
+    }
+  }
 }
 
 .--btn.outline {
   font-weight: 400;
   font-family: 'Oswald';
   text-transform: uppercase;
-  
+
   border: 5px solid;
   border-radius: 5px;
   box-shadow: var(--button-shadow);
@@ -204,7 +229,7 @@ input:focus-visible {
     &:hover {
       cursor: pointer;
       color: var(--white);
-      background-color: var(--red);
+      background-color: var(--red) !important;
     }
 
     &:disabled {
@@ -220,7 +245,7 @@ input:focus-visible {
     &:hover {
       cursor: pointer;
       color: var(--white);
-      background-color: var(--turquoise);
+      background-color: var(--turquoise) !important;
     }
 
     &:disabled {
@@ -259,9 +284,62 @@ input.textbox {
   box-shadow: var(--card-shadow);
   border-radius: 15px;
 
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-right: -50%;
-  transform: translate(-50%, -50%);
+  margin: 125px auto 50px;
+
+  @media (max-width: 992px) {
+    margin-top: 100px;
+  }
+}
+
+// Styling for modals
+.popup-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: var(--partially-transparent);
+  z-index: 11;
+
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+
+  &.show {
+    display: block;
+  }
+}
+
+.popup.--container {
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 1.5em;
+
+  .btn-container * {
+    margin: 1em;
+  }
+
+  .btn-close {
+    align-self: end;
+  }
+
+  p.descriptive-text {
+    line-height: 105%;
+
+    width: 60%;
+    margin: 0 auto 15px;
+  }
+}
+
+// Error message
+.form-error {
+  color: var(--red);
+  font-size: 10px;
+  font-weight: bold;
+  text-align: left;
+
+  margin: 5px 0 0;
 }
