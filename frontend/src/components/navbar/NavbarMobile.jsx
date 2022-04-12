@@ -29,37 +29,24 @@ const NavbarMobile = () => {
       >
         Avatars
       </Nav.Link>
-      <NavDropdown title="Classrooms" id="basic-nav-dropdown">
-        <Nav.Link
-          href="/manage-classroom"
-          className='sub-nav'
-          onClick={(e) => {
-            if (window.location.pathname === "/manage-classroom") {
-              e.preventDefault();
-            }
-          }}
-        >
-          Existing Classrooms
-        </Nav.Link>
-        <Nav.Link
-          href="/create-classroom"
-          className='sub-nav last'
-          onClick={(e) => {
-            if (window.location.pathname === "/create-classroom") {
-              e.preventDefault();
-            }
-          }}
-        >
-          Create Classroom
-        </Nav.Link>
-      </NavDropdown>
+      <Nav.Link
+        href="/manage-classroom"
+        className='sub-nav'
+        onClick={(e) => {
+          if (window.location.pathname === "/manage-classroom") {
+            e.preventDefault();
+          }
+        }}
+      >
+        Manage Classrooms
+      </Nav.Link>
       <Nav.Link
         className="--btn logout"
         onClick={() => logout()}
       >
         Logout
         <FiLogOut
-        style={{margin: "-6px 0 0 5px"}}
+          style={{ margin: "-6px 0 0 5px" }}
         />
       </Nav.Link>
     </Nav>
