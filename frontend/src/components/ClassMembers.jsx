@@ -9,12 +9,23 @@ const ClassMembers = props => {
         handleModalClick,
         users
     } = props;
+    
+    const [copied, setCopied] = useState(false);
 
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const inviteCode = urlParams.get('id')
 
-    console.log("this is users", users)
+    const setTimer = (delay) => {
+        setTimeout(() => {
+            setCopied(false);
+        }, delay);
+    }
+    function copyToClipboard() {
+        navigator.clipboard.writeText(inviteCode);
+         setCopied(true);
+        setTimer(1000);
+    }
 
     return (
         <div className="class-members">
@@ -29,8 +40,11 @@ const ClassMembers = props => {
                     <p className="ic-id">{inviteCode}</p>
                     <FaRegCopy 
                         className='ic-copy'
+                        onClick={copyToClipboard}
                     />
                 </div>
+
+                {copied && <p className="header copy-alert">Copied!</p>}
 
                 <hr className="solid"></hr>
 
