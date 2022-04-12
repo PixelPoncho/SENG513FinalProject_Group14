@@ -199,6 +199,7 @@ function ClassroomPage(props) {
       {isClassMembersOpen &&
         <ClassMembers 
           handleModalClick={handleClassMembersClick}
+          users={gameState.users}
         />
       }
 

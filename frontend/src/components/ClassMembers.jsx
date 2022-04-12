@@ -1,24 +1,52 @@
 import React, {useEffect, useState} from 'react'
 
+import { FaRegCopy } from 'react-icons/fa'
+
 import '../styles/ClassMembers.scss';
 
 const ClassMembers = props => {
     const {
         handleModalClick,
+        users
     } = props;
 
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const inviteCode = urlParams.get('id')
+
+    console.log("this is users", users)
+
     return (
-        <div className="exit-modal">
-            <h1 className="header">Leaving Chill Zone</h1>
+        <div className="class-members">
+            <h1 className="header">Class Members</h1>
             <div className="message-container">
                 <p className="descriptive-text">
-                    hello
+                    Invite more people to your classroom by using the following invite code:
                 </p>
+
+                <div className="invite-code-container">
+                    <p className="ic-header">Invite Code:</p>
+                    <p className="ic-id">{inviteCode}</p>
+                    <FaRegCopy 
+                        className='ic-copy'
+                    />
+                </div>
+
+                <hr className="solid"></hr>
+
+                <div className="student-list">
+                    <div>
+                        {users.map((user) => {
+                            return(
+                                <p className="sub-header" style={{ color: `${user.chatColour}` }}>{user.username}</p>
+                            )
+                        })}
+                    </div>
+                </div>
             </div>
 
             <div className="btn-container">
-                <button className="--btn red solid" >Disconnect</button>
-                <button className="--btn outline blue" >Cancel</button>
+                <button className="--btn yellow solid" onClick={handleModalClick}>Ok</button>
             </div>
         </div>
     );

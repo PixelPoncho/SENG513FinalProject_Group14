@@ -1,4 +1,4 @@
-.exit-modal {
+.class-members {
     /* centering on page */
     position: absolute;
     width: 500px;
@@ -12,10 +12,42 @@
     flex-direction: column;
     gap: 20px;
   
-    .message-container {
+    .student-list {
       flex-grow: 1;
       max-height: 100%;
       margin: 0px 32px;
+      padding: 10px 0px;
+    }
+
+    .invite-code-container {
+        display: flex;
+        gap: 10px;
+        margin: 0px 20px;
+        justify-content: center;
+        
+        .ic-header {
+            color: var(--turquoise);
+            font-family: "Oswald";
+            font-weight: 500;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .ic-id {
+            font-weight: 400;
+        }
+
+
+        .ic-copy {
+            width: 20px;
+            height: 30px;
+            color: var(--dark-blue);
+            border-radius: 5px;
+    
+            &:hover {
+                background-color: var(--yellow);
+            }
+        }
     }
 
     .btn-container {
