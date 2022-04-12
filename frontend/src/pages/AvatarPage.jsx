@@ -32,7 +32,7 @@ import { ReactComponent as HairIcon } from '../assets/hair.svg';
 // Importing styling
 import '../styles/AvatarPage.scss';
 
-function AvatarPage() {
+function AvatarPage({savedAvatar, savedName, savedColour}) {
   // Used to display edit mode content (ie. buttons) By default should be false, but for development purposes could be set to true
   const [isEditMode, setIsEditMode] = useState(true);
   const [isEditColour, setIsEditColour] = useState(false);
@@ -47,25 +47,15 @@ function AvatarPage() {
   });
 
   // Saved state of the user to compare when changes have been made/restore to. This can be retrieved through other methods. (ie. maybe saved in session state on login or one time request to server on page access?)
-  let savedAvatar = {
-    username: "55555555",
-    chatColour: "#555555",
-    skin: "",
-    topType: "",
-    hairColour: "",
-    clothingType: "",
-    clothingColour: "",
-  };
+  let savedAvatarUpdated = savedAvatar;
 
   let [currentAvatar, setCurrentAvatar] = useState({
     // TODO: These values are displayed initially, should we have better defaults?
-    username: "666666",
-    chatColour: "#666666",
+    chatColour: "#000",
     skin: SkinOptions[0][0],
     topType: HairOptions[0],
     hairColour: HairColourOptions[0][0],
     clothingType: ClothingOptions[0],
-    clothingColour: "PastelBlue", // Hardcode for now
   });
 
   // Perform an initial loading of the user's existing avatar preferences/
@@ -74,13 +64,12 @@ function AvatarPage() {
       if (data) {
         user => {
           if (user?.avatar !== undefined) {
-            savedAvatar.chatColour = user.chatColour;
-            savedAvatar.username = user.username;
+            savedAvatar.chatColour = savedColour;
+            savedAvatar.username = savedName;
             savedAvatar.skin = user.avatar.skin;
             savedAvatar.topType = user.avatar.topType;
             savedAvatar.hairColour = user.avatar.hairColour;
             savedAvatar.clothingType = user.avatar.clothingType;
-            savedAvatar.clothingColour = user.avatar.clothingColour;
 
             const newObj = {
               chatColour: savedAvatar.chatColour,
@@ -89,7 +78,6 @@ function AvatarPage() {
               topType: savedAvatar.topType,
               hairColour: savedAvatar.hairColour,
               clothingType: savedAvatar.clothingType,
-              clothingColour: savedAvatar.clothingColour,
             };
             setCurrentAvatar(newObj);
           }

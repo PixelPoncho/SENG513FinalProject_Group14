@@ -19,7 +19,7 @@ export const AuthRoute = ({ children, title }) => {
   const authSession = sessionStorage.getItem('auth');
 
   return (
-    authSession ? (<Page title={title}>{children}title</Page>) : (<Navigate to="/login" />)
+    authSession ? (<Page title={title}>{children}</Page>) : (<Navigate to="/login" />)
   );
 };
 
@@ -28,7 +28,7 @@ export const UnauthRoute = ({ children, title }) => {
   const authSession = sessionStorage.getItem('auth');
 
   return (
-    authSession === null ? (<Page title={title}>{children}title</Page>) : (<Navigate to="/avatars" />)
+    authSession === null ? (<Page title={title}>{children}</Page>) : (<Navigate to="/avatars" />)
   );
 };
 

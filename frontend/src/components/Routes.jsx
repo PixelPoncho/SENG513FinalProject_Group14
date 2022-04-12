@@ -12,7 +12,7 @@ import SignUpPage from "../pages/SignUpPage";
 
 // Importing other project-defined components
 import { AuthRoute, UnauthRoute } from './ProtectedRoutes';
-import Navbar from "./Navbar";
+import Navbar from "./navbar/Navbar";
 
 function Routes() {
   const [currentUser, setCurrentUser] = useState({
@@ -34,9 +34,6 @@ function Routes() {
     bannedClassRooms: [],
   });
 
-
-
-  
   useEffect(function() {
     (async() => {
       const response = await axios.post("/users/getUser");
@@ -85,7 +82,11 @@ function Routes() {
         element={
           <AuthRoute title="Avatar Customization">
             <Navbar />
-            <AvatarPage />
+            <AvatarPage
+              savedAvatar={currentUser.avatar}
+              savedName={currentUser.username}
+              savedColour={currentUser.chatColour}
+            />
           </AuthRoute>
         }
       />

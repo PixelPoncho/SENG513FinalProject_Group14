@@ -4,11 +4,11 @@
 // TODO: Add menu for each class card and finalize styling of it
 
 // Importing Components from node_modules
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 
 // Importing icons
-import { MdStarRate } from 'react-icons/md'
+import { MdStarRate } from 'react-icons/md';
 
 
 // Importing styling
@@ -38,7 +38,7 @@ function ExistingClassrooms(props) {
             className='--btn yellow solid'
             onClick={() => {
                 console.dir("here?");
-                navigate(`/classroom?id=${document.querySelector("#inviteCode").value}`)
+                navigate(`/classroom?id=${document.querySelector("#inviteCode").value}`);
             }}
         >
             Visit Classroom
@@ -68,7 +68,7 @@ function ExistingClassrooms(props) {
                   }
                   {/* Include kebab menu and edit options */}
                   </NavLink>
-              </div>
+              </div>,
           )}
         {/* Setup for a card. Need to use .map to create cards for every instance the user has. */}
       </div>
@@ -76,7 +76,7 @@ function ExistingClassrooms(props) {
         Start Your Class
       </button>
     </div>
-  )
+  );
 }
 
 function NewClassroom() {
@@ -112,13 +112,13 @@ function NewClassroom() {
       <button
         className='--btn yellow solid'
         onClick={() => {
-          //Create classroom and go live
+          // Create classroom and go live
         }}
       >
         Create Classroom
       </button>
     </div>
-  )
+  );
 }
 
 
@@ -145,7 +145,7 @@ function ClassroomListPage(props) {
         <h1
           className={`sub-header ` + (activeSubView === 'new' ? 'active' : '')}
           onClick={() => {
-            console.log("here")
+            console.log("here");
             if (activeSubView === 'new') {
               return;
             } else {
@@ -168,7 +168,7 @@ function ClassroomListPage(props) {
       }
 
     </div >
-  )
+  );
 }
 
-export default ClassroomListPage
+export default ClassroomListPage;

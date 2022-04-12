@@ -13,7 +13,7 @@ import { BsFillArrowLeftCircleFill } from 'react-icons/bs';
 // importing styling
 import '../styles/SignUpPage.scss';
 
-function Login() {
+function SignUpPage() {
   const [errorInfo, setErrorInfo] = useState("");
   const [credentials, setCredentials] = useState({});
   // Used to update button to inform user that their process is being processed

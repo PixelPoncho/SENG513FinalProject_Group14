@@ -4,7 +4,7 @@
 // Overwritting styling for the default navbar
 .navbar-collapse.collapse,
 .navbar.navbar-expand-lg.navbar-dark {
-  height: 75px;
+  // height: 75px;
   justify-content: flex-end !important;
 }
 
@@ -21,9 +21,8 @@
   box-shadow: var(--nav-shadow);
 
   width: 100%;
-  height: 75px;
 
-  padding: 0.5rem 1.5rem;
+  padding: 1.5rem !important;
 
   // Following code is styles the right-side of navbar
   a.btn-navbar,
@@ -39,7 +38,6 @@
     height: 10px;
     margin: 1.5rem 1rem 0rem;
     padding: 0;
-
 
     &.last-link {
       margin-right: 2rem;
@@ -100,5 +98,12 @@ button.navbar-toggler.collapsed {
 
   &:hover {
     background-color: var(--off-yellow);
+  }
+}
+
+@media (max-width: 992px) {
+  .navbar {
+
+
   }
 }
