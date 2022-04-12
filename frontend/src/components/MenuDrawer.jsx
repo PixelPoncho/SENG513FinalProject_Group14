@@ -18,11 +18,6 @@ const MenuDrawer = props => {
     handleClassMembersClick
   } = props;
 
-const MenuDrawer = ({
-  handleChatHistoryClick,
-  handleAvatarModalClick,
-  handleExitModalClick,
-}) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleMenuClick = () => {
@@ -42,10 +37,10 @@ const MenuDrawer = ({
             onClick={handleAvatarModalClick}
           />
 
-                <RiTeamFill
-                    className='menu-icon'
-                    onClick={handleClassMembersClick}
-                />
+          <RiTeamFill
+            className='menu-icon'
+            onClick={handleClassMembersClick}
+          />
 
           <MdHistory
             className='menu-icon'
@@ -72,5 +67,6 @@ const MenuDrawer = ({
     </div>
   );
 };
+
 
 export default MenuDrawer;
