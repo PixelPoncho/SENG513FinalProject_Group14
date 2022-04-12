@@ -4,6 +4,7 @@ import '../styles/ChatHistory.scss';
 
 const ChatHistory = props => {
     const {
+        history,
         handleChatHistoryClick
     } = props;
 
@@ -18,7 +19,6 @@ const ChatHistory = props => {
     // Scroll the most recent message into view
     useEffect(() => {
         const lastMsgEl = document.querySelector(".message:last-of-type");
-
         if(lastMsgEl !== null) {
             lastMsgEl.scrollIntoView();
         }
@@ -26,14 +26,15 @@ const ChatHistory = props => {
 
     // TEMP: Example showing how it would function
     useEffect(function() {
-        for(let i = 0; i < 30; i++) {
+        for(let i = 0; i < history.length; i++) {
+            console.log("this is color", history[i])
             setTimeout(function() {
                 const message = {
-                    id: 10000+i,
-                    content: `Some content a${i}`,
+                    id: history[i].userId,
+                    content: history[i].content,
                     user: {
-                        name: `a name3f 3f  ${i}`,
-                        colour: "#F43434"
+                        name: history[i].username,
+                        colour: history[i].chatColour,
                     }
                 };
                 addMessage(message)

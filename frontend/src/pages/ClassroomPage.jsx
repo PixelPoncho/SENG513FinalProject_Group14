@@ -7,6 +7,7 @@ import ChatDrawer from '../components/ChatDrawer'
 import MenuDrawer from '../components/MenuDrawer'
 import ChatHistory from '../components/ChatHistory';
 import ExitModal from '../components/ExitModal'
+import ChatBubble from '../components/ChatBubble';
 
 // Importing icons
 import { AiOutlineMenu } from 'react-icons/ai';
@@ -38,6 +39,8 @@ function ClassroomPage(props) {
   
   const [gameState, setGameState] = useState({ users: [] });
   const [chatMessages, setChatMessages] = useState([]);
+  const [chatBubbles, setChatBubbles] = useState([]);
+  const [message, setMessage] = useState("");
 
   const [isChatHistoryOpen, setIsChatHistoryOpen] = useState(false);
   const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
@@ -69,6 +72,7 @@ function ClassroomPage(props) {
                   y: u.y,
                     userId: u.userId,
                     username: u.username,
+                    chatColour: u.chatColour,
                     email: u.email,
                     avatar: {
                         skin: u.avatar.skin,
@@ -80,7 +84,7 @@ function ClassroomPage(props) {
                 });
             });
 
-            console.log("users from server", users);
+            // console.log("users from server", users);
 
             setGameState({
               ...gameState,
@@ -89,10 +93,31 @@ function ClassroomPage(props) {
         });
 
         room.onMessage("chat", (msg) => {
-          setChatMessages([...chatMessages, msg]);
+          setChatMessages(oldChatMessages => [...oldChatMessages, msg]);
+          console.log("this is msg", msg)
+          setChatBubbles(oldChatMessages => {
+            const last4Bubbles = oldChatMessages.slice(-4);
+            const newChatBubble = <ChatBubble
+                key={msg.userId + msg.sentAt}
+                username={msg.username}
+                message={msg.content}
+                colour={msg.chatColour}
+            />
+            return [...last4Bubbles, newChatBubble]
+          });
         });
       })();
   }, []);
+
+  useEffect(() => {
+    console.log("thsi is chat bubbles", chatBubbles)
+  }, [chatBubbles])
+
+  useEffect(() => {
+      if(message !== "") {
+          sendAction("chat", message );
+      }
+  }, [message])
 
     useEffect(() => {
         return async () => {
@@ -120,11 +145,33 @@ function ClassroomPage(props) {
     });
   };
 
+    // setTimeout(() => {
+    //     sendAction("chat", "message");
+    // }, 4000);
+
+    window.sendChatMessageToMe = msg => {
+        sendAction("chat", msg);
+    };
+    
+    window.printChatMessages = () => {
+        console.dir(chatMessages);
+        console.dir(chatBubbles);
+    }
+
+    // useEffect(() => {
+    //   console.log("this is chat messages", chatMessages)
+    // }, [chatMessages])
+
   return (
     <div className='classroom-container'>
 
+      <div className='incoming-container'>
+        {chatBubbles}
+      </div>
+      
       {isChatHistoryOpen && 
         <ChatHistory 
+          history={chatMessages}
           handleChatHistoryClick={handleChatHistoryClick}
         />
       }
@@ -153,7 +200,9 @@ function ClassroomPage(props) {
           handleAvatarModalClick={handleAvatarModalClick}
           handleExitModalClick={handleExitModalClick}
         />
-        <ChatDrawer />
+        <ChatDrawer 
+          setMessage={setMessage}
+        />
       </div>
     </div>
   )

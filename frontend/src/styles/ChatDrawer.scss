@@ -27,11 +27,18 @@
         background-color: white;
     }
 
+    #form { 
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-left: 15px;
+    }
+
     #input { 
         border-width:0px;
         border-radius: 20px;
         background-color: white; 
-        width: 80%;
+        width: 90%;
         padding: 1em 1em;
         height: 30px;
     }

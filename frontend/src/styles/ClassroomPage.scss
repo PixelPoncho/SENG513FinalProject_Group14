@@ -4,6 +4,18 @@
     align-items: center;
     margin-right: 150px;
 
+    .incoming-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        padding: 10px;
+        z-index: 1;
+        align-items: flex-start;
+    }
+
     .classroom-grid {
         display: flex;
         justify-content: center;

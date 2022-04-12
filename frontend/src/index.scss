@@ -69,6 +69,13 @@ label {
 }
 
 // Styling for fonts
+
+.user-title {
+  font-family: 'Poppins';
+  text-transform: uppercase;
+  font-weight: 900;
+}
+
 .header {
   color: var(--dark-blue);
   font-family: 'Poppins';
