@@ -1,7 +1,7 @@
 // Importing Components from node_modules
 import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Nav, NavDropdown } from 'react-bootstrap';
+import { Nav } from 'react-bootstrap';
 import axios from "axios";
 
 // Importing icons

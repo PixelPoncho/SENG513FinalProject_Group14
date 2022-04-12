@@ -278,10 +278,10 @@ const DesktopAvatar = ({
 
       {/* Discard Modal */}
       <div
-        className={"discard popup-background " + (viewConfirmModal ? "show" : "")}
+        className={"discard discard-background popup-background " + (viewConfirmModal ? "show" : "")}
         onClick={(e) => {
           // If the popup background is clicked directly then execute the cancel
-          if (e.target.classList.contains("discard popup-background")) {
+          if (e.target.classList.contains("discard-background")) {
             setViewConfirmModal(false);
           }
         }}
@@ -324,10 +324,10 @@ const DesktopAvatar = ({
 
       {/* Color Modal */}
       <div
-        className={"colour popup-background " + (viewColourModal ? "show" : "")}
+        className={"colour colour-background popup-background " + (viewColourModal ? "show" : "")}
         onClick={e => {
           // If the popup background is clicked directly then execute the cancel
-          if (e.target.classList.contains("colour colour-popup-background")) {
+          if (e.target.classList.contains("colour-background")) {
             onColorModalCancel();
           }
         }}

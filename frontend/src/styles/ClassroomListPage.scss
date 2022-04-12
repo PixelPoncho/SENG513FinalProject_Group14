@@ -107,6 +107,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    margin-bottom: 10px;
+
+    &:hover {
+      cursor: pointer;
+      color: var(--off-turquoise);
+    }
   }
 
   .status {
@@ -158,6 +165,40 @@
 
       @media (max-width: 451px) {
         margin: .5em 1em;
+      }
+    }
+  }
+}
+
+.more-info.popup-background .popup.--container {
+  width: 60%;
+  max-width: 500px;
+
+  .delete {
+    color: var(--red);
+    font-weight: bold;
+    text-transform: uppercase;
+
+    margin: 0 0 20px;
+
+    &:hover {
+      cursor: pointer;
+      color: var(--off-red);
+    }
+  }
+
+  .invite-container {
+    display: flex;
+
+    p {
+      line-height: 100%;
+      &:not(.sub-header) {
+        margin-left: 10px;
+
+        &:hover {
+          cursor: pointer;
+          opacity: 1;
+        }
       }
     }
   }

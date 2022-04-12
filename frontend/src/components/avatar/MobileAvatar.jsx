@@ -46,7 +46,10 @@ const MobileAvatar = ({
 
   return (
     <>
-      <div className="avatars mobile --container">
+      <div
+      className="avatars mobile --container"
+      style={{marginBottom: `${isEditMode ? "150px" : "50px"}`}}
+      >
         {!isEditMode &&
           <div className="top chat-options non-edit">
             <h1 className="sub-header">{currentAvatar.username}</h1>
@@ -271,10 +274,10 @@ const MobileAvatar = ({
 
       {/* Discard Modal */}
       <div
-        className={"discard popup-background mobile " + (viewConfirmModal ? "show" : "")}
+        className={"discard discard-background popup-background mobile " + (viewConfirmModal ? "show" : "")}
         onClick={(e) => {
           // If the popup background is clicked directly then execute the cancel
-          if (e.target.classList.contains("discard-popup-background")) {
+          if (e.target.classList.contains("discard-background")) {
             setViewConfirmModal(false);
           }
         }}
@@ -317,10 +320,10 @@ const MobileAvatar = ({
 
       {/* Color Modal */}
       <div
-        className={"colour popup-background mobile " + (viewColourModal ? "show" : "")}
+        className={"colour colour-background popup-background mobile " + (viewColourModal ? "show" : "")}
         onClick={e => {
           // If the popup background is clicked directly then execute the cancel
-          if (e.target.classList.contains("colour popup-background")) {
+          if (e.target.classList.contains("colour-background")) {
             onColorModalCancel();
           }
         }}

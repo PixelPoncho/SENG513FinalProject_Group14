@@ -9,6 +9,8 @@ import axios from 'axios';
 
 // Import Local Components
 import NewRoomModal from '../components/management/NewRoomModal';
+import ViewMoreModal from '../components/management/ViewMoreModal';
+import FormError from "../components/FormError";
 
 // Importing styling
 import '../styles/ClassroomListPage.scss';
@@ -18,7 +20,13 @@ function ClassroomListPage() {
   const navigate = useNavigate();
   const [refresh, setRefresh] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState('');
+  const [inviteCode, setInviteCode] = useState('');
+  const [error, setError] = useState('');
+  // Modal toggles4
   const [viewNewModal, setViewNewModal] = useState(false);
+  const [viewMoreModal, setViewMoreModal] = useState(false);
+  const [viewMoreData, setViewMoreData] = useState('');
+
   const [currentUser, setCurrentUser] = useState({
     id: "",
     username: "",
@@ -45,6 +53,12 @@ function ClassroomListPage() {
       });
     return dataPromise;
   }, []);
+
+  function moreModalOpen(data) {
+    setViewMoreModal(true);
+    setViewMoreData(data);
+    console.log(data);
+  }
 
   useEffect(() => {
     retrieveUser()
@@ -76,14 +90,23 @@ function ClassroomListPage() {
               className="form-control textbox"
               type="text"
               placeholder="XXXX-XXXX"
+              onChange={(e) => {
+                setError('');
+                setInviteCode(e.target.value);
+              }}
               onClick={() => setSelectedRoom('')}
             />
+            {(error !== '') && (<FormError errorMsg={error} />)}
           </label>
+
           <button
             className='--btn yellow solid'
             onClick={() => {
-              console.dir("here?");
-              navigate(`/classroom?id=${document.querySelector("#inviteCode").value}`);
+              if (inviteCode === "") {
+                setError("Please enter a valid invite code");
+              } else {
+                navigate(`/classroom?id=${document.querySelector("#inviteCode").value}`);
+              }
             }}
           >
             Visit Classroom
@@ -102,10 +125,18 @@ function ClassroomListPage() {
               key={classroom._id}
               onClick={() => {
                 setSelectedRoom(classroom._id);
-                console.log('clicked', classroom._id);
               }}
             >
               <h4 className='header'>{classroom.name}</h4>
+              <div
+                className="sub-header yours"
+                onClick={() => {
+                  moreModalOpen(classroom);
+                }}
+              >
+                View More
+              </div>
+
               {classroom.active &&
                 <div className="status active">ONLINE</div>
               }
@@ -135,6 +166,14 @@ function ClassroomListPage() {
       <NewRoomModal
         viewNewModal={viewNewModal}
         setViewNewModal={setViewNewModal}
+        refresh={refresh}
+        setRefresh={setRefresh}
+      />
+
+      <ViewMoreModal
+        classInfo={viewMoreData}
+        viewMoreModal={viewMoreModal}
+        setViewMoreModal={setViewMoreModal}
         refresh={refresh}
         setRefresh={setRefresh}
       />

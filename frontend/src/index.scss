@@ -229,7 +229,7 @@ input:focus-visible {
     &:hover {
       cursor: pointer;
       color: var(--white);
-      background-color: var(--red);
+      background-color: var(--red) !important;
     }
 
     &:disabled {
@@ -245,7 +245,7 @@ input:focus-visible {
     &:hover {
       cursor: pointer;
       color: var(--white);
-      background-color: var(--turquoise);
+      background-color: var(--turquoise) !important;
     }
 
     &:disabled {
