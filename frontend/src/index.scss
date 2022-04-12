@@ -49,7 +49,7 @@ html,
 body {
   overflow-y: auto;
   min-height: 100vh;
-  height: 115%;
+  // height: 115%;
   background-color: var(--dark-blue) !important;
 }
 
@@ -61,7 +61,6 @@ body {
   //   sans-serif;
   // -webkit-font-smoothing: antialiased;
   // -moz-osx-font-smoothing: grayscale;
-
   background: url("./assets/background-decoration.svg") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -73,8 +72,14 @@ label {
   display: inline !important; // Need to bypass third-party styling
 }
 
-// Styling for fonts
+.flex-space {
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+}
 
+// Styling for fonts
 .user-title {
   font-family: 'Poppins';
   text-transform: uppercase;
@@ -279,11 +284,11 @@ input.textbox {
   box-shadow: var(--card-shadow);
   border-radius: 15px;
 
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin-right: -50%;
-  transform: translate(-50%, -50%);
+  margin: 125px auto 50px;
+
+  @media (max-width: 992px) {
+    margin-top: 100px;
+  }
 }
 
 // Styling for modals
@@ -327,4 +332,14 @@ input.textbox {
     width: 60%;
     margin: 0 auto 15px;
   }
+}
+
+// Error message
+.form-error {
+  color: var(--red);
+  font-size: 10px;
+  font-weight: bold;
+  text-align: left;
+
+  margin: 5px 0 0;
 }
