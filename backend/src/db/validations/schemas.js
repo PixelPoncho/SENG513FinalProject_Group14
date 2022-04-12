@@ -18,8 +18,6 @@ module.exports.userLoginSchema = Joi.object({
 module.exports.userUpdateSchema = Joi.object({
 	user: Joi.object({
 		name: Joi.string(),
-		username: Joi.string(),
-		password: Joi.string(),
 		chatColour: Joi.string(),
 		avatar: Joi.object({
 			skin: Joi.string(),
