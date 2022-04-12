@@ -15,6 +15,8 @@ const ViewMoreModal = ({
   setViewMoreModal,
   refresh,
   setRefresh,
+  selectedRoom,
+  setSelectedRoom,
 }) => {
   const [error, setError] = useState('');
 
@@ -26,9 +28,8 @@ const ViewMoreModal = ({
   };
 
   const deleteClassroomFromDB = useCallback((classInfo) => {
-    let dataPromise = axios.post(`/rooms/deleteRoom/${classInfo._id}` )
+    let dataPromise = axios.post(`/rooms/deleteRoom/${classInfo._id}`)
       .then(() => {
-        setRefresh(!refresh);
         setViewMoreModal(false);
       })
       .catch((err) => {
@@ -39,7 +40,13 @@ const ViewMoreModal = ({
   }, []);
 
   const deleteClassroom = () => {
-    deleteClassroomFromDB(classInfo);
+    deleteClassroomFromDB(classInfo, inviteCode)
+      .then(() => {
+        setRefresh(!refresh);
+        if (selectedRoom === classInfo._id) {
+          setSelectedRoom('');
+        }
+      });
   };
 
   return (
@@ -70,7 +77,7 @@ const ViewMoreModal = ({
           onClick={() => { deleteClassroom(); }}
         >
           Delete Class
-        {(error !== '') && (<FormError errorMsg={error} />)}
+          {(error !== '') && (<FormError errorMsg={error} />)}
         </h5>
 
         <div className='invite-container'>

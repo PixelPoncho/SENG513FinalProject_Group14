@@ -152,7 +152,10 @@ function ClassroomListPage() {
             Add New Class
           </button>
           <NavLink to={"/classroom?id=" + selectedRoom}>
-            <button className='--btn yellow solid'>
+            <button
+              className='--btn yellow solid'
+              disabled={selectedRoom === ''}
+            >
               Start Your Class
             </button>
           </NavLink>
@@ -172,6 +175,8 @@ function ClassroomListPage() {
         setViewMoreModal={setViewMoreModal}
         refresh={refresh}
         setRefresh={setRefresh}
+        selectedRoom={selectedRoom}
+        setSelectedRoom={setSelectedRoom}
       />
     </>
   );

@@ -20,7 +20,6 @@ const NewRoomModal = ({
   const addClassroomToDB = useCallback((newName) => {
     let dataPromise = axios.post("/rooms/createRoom", { classRoom: { name: newName } })
       .then(() => {
-        setRefresh(!refresh);
         setViewNewModal(false);
       })
       .catch((err) => {
@@ -35,7 +34,10 @@ const NewRoomModal = ({
     if (newName === '') {
       setError('Please provide a name for the classroom.');
     } else {
-      addClassroomToDB(newName);
+      addClassroomToDB(newName)
+      .then(() => {
+        setRefresh(!refresh);
+      });
     }
   };
 
