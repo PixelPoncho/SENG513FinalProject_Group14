@@ -5,13 +5,13 @@
     background-color: white;
     z-index: 12;
     border: solid 2px black;
-    box-shadow: 0 0px  100px 200px hsla(0, 0%, 0%, 70%);
+    box-shadow: 0 0px 1px 2000px rgba(0, 0, 0, 0.5);
     border-radius: 20px;
     padding: 16px;
     display: flex;
     flex-direction: column;
     gap: 20px;
-  
+
     .student-list {
       flex-grow: 1;
       max-height: 100%;
@@ -28,7 +28,7 @@
         gap: 10px;
         margin: 0px 20px;
         justify-content: center;
-        
+
         .ic-header {
             color: var(--turquoise);
             font-family: "Oswald";
@@ -47,7 +47,7 @@
             height: 30px;
             color: var(--dark-blue);
             border-radius: 5px;
-    
+
             &:hover {
                 background-color: var(--yellow);
             }
